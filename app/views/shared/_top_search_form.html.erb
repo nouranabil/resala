@@ -1,0 +1,34 @@
+<div class="search_box">
+  <% form_tag "/news/search", :method => 'get', :id=>"top_search_form" do |form| %>
+    <fieldset>
+      <div class="search_item">
+        <%= text_field_tag :keyword, params[:keyword], {:class=>"box_shadow"} %>
+        <%= submit_tag "", :class=>"search_btn" %>
+      </div>
+      <div>
+        <!-- <%= select_tag :type, options_for_select([["#.('1", "news"], ["B55 E$+1)", "stories"]]), :id=>"top_search_form_type" %> -->
+      </div> 
+    </fieldset>
+  <% end %>
+</div>
+<% content_for :javascripts do %>
+  <script>
+    $(document).ready(function(){
+      search_words = "بحث في الأخبار .. ..";
+      
+      if($(".search_item #keyword").val().length == 0){
+        $(".search_item #keyword").val(search_words);
+      }
+      $('.search_item #keyword').focusout(function () {
+        if($(".search_item #keyword").val().length == 0){
+          $(this).val(search_words);
+        }
+      });
+      $('.search_item #keyword').focusin(function () {
+        if($(".search_item #keyword").val() == search_words){
+          $(this).val("");
+        }
+      });
+    });
+  </script>
+<% end %>

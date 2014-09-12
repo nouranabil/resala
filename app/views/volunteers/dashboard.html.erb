@@ -1,0 +1,108 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:dashboard} %>
+<% end %>
+
+<div class="volunteer_container dashboard">
+  <div class="tabs">
+    <ul>
+      <li><a href="#currently_subscribed_to"><span>أعمال تطوعية أشارك فيها</span></a></li>
+      <% if !HIDE_ACTIVITY_CLOSING %>
+      <li><a href="#previous_subscribed_to"><span>أعمال تطوعية شاركت فيها</span></a></li>
+      <% end %>
+      <li><a href="#my_activities"><span>أعمال تطوعية أديرها</span></a></li>
+    </ul>
+    
+    <div class="tab_content">
+      
+      <div id="currently_subscribed_to" class="users">
+        <div class="section_intro">              
+          <p>تصفح الأعمال التطوعية التي تود الاشتراك بها، و انقر "أود المشاركة" لإبداء رغبتك في الاشتراك أو المساهمة بوقتك في العمل التطوعى.</p>
+        </div>
+        <div class="users_activityList">
+          <% if @upcoming_activities.length > 0 %>
+            <ul>
+              <% @upcoming_activities.each do |activity| %>
+                <%= render :partial=>'/activities/activity', :locals=>{:activity=>activity, :is_owner=>false} %>
+              <% end %>
+            </ul>
+            <% if @upcoming_activities.length >= 5 %>
+              <p class="more_btn"><a class="btn" href="<%= upcoming_activities_volunteer_path(current_user) %>">المزيد ...</a></p>
+            <% end %>
+          <% else %>
+            <ul>
+              <li>
+                <div class="section_intro nothing"><h2>لا توجد أعمال تطوعية</h2></div>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+      
+      <% if !HIDE_ACTIVITY_CLOSING %>
+      <div id="previous_subscribed_to" class="users">
+        <div class="section_intro">              
+          <p>تصفح الأعمال التطوعية التي تود الاشتراك بها، و انقر "أود المشاركة" لإبداء رغبتك في الاشتراك أو المساهمة بوقتك في العمل التطوعى.</p>
+        </div>
+        <div class="users_activityList">
+          <% if @previous_activities.length > 0 %>
+            <ul>
+              <% @previous_activities.each do |activity| %>
+                <%= render :partial=>'/activities/activity', :locals=>{:activity=>activity, :is_owner=>false} %>
+              <% end %>
+            </ul>
+            <% if @previous_activities.length >= 5 %>
+              <p class="more_btn"><a class="btn" href="<%= previous_activities_volunteer_path(current_user) %>">المزيد ...</a></p>
+            <% end %>
+          <% else %>
+            <ul>
+              <li>
+                <div class="section_intro nothing"><h2>لا توجد أعمال تطوعية</h2></div>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    
+    <div id="my_activities" class="users">
+        <div class="users_activityList">
+          <% if @my_activities.length > 0 %>
+            <ul>
+              <% @my_activities.each do |activity| %>
+                <%= render :partial=>'/activities/activity', :locals=>{:activity=>activity, :is_owner=>true} %>
+              <% end %>
+            </ul>
+            <% if @my_activities.length >= 5 %>
+            <p class="more_btn"><a class="btn" href="<%= activities_volunteer_path(current_user)%>">المزيد ...</a></p>
+            <% end %>
+          <% else %>
+            <div class="section_intro">                 
+              <h2>لتنظيم عمل تطوعى:</h2>
+                <p>- أنقر " طلب إذن لتنظيم أعمال تطوعية " لإبداء رغبتك في تنظيم أعمال تطوعية .</p>
+                <p>- أنقر تنظيم عمل تطوعى جديد . </p>
+            </div>
+            <ul>
+              <li>
+                <div class="section_intro nothing"><h2>لا توجد أعمال تطوعية</h2></div>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    
+  </div> <!-- tabs end -->
+</div>
+
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>
+
+<%content_for :javascripts do%>
+  <script type="text/javascript">
+    $(document).ready(function()  {
+      var tbs = $( ".tabs" ).tabs();
+    });
+  </script>
+<% end %>

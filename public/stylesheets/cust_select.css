@@ -1,0 +1,136 @@
+/************* CUSTOM TAG FOR SELECT *************************/
+.setScroll{
+	overflow-y:scroll;
+}
+.hideitem,.elmValue{
+	display: none; 
+}
+.selectbox{
+	background: url("../images/common/cust_select/dropdown.png") no-repeat 0 0;
+	padding:0px 0px 0px 35px;
+	float:right;
+	margin:0 0 5px 0;
+}
+.selectbox ul{
+	background: url("../images/common/cust_select/dropdown.png") no-repeat top right;
+	padding:5px 22px 8px 0;
+	margin:0;
+	vertical-align:top; /*causes ie to align text correctly*/
+	list-style: none;
+}
+.select_wrap{
+	margin:0 5px 0px 0px;
+	border:1px solid #fff;
+	width:300px;
+	float:right;
+	
+}
+.selectboxopen{
+	clear:both;
+	background: url("../images/common/cust_select/dropdownopen.png") no-repeat 0 0;
+	padding:0px 0px 0px 35px;
+	float:right;
+	margin:0;
+}
+.selectboxopen ul{
+	background: url("../images/common/cust_select/dropdownopen.png") no-repeat top right;
+	padding:7px 22px 10px 0px;
+	height:19px;
+	margin:0;
+	vertical-align:top; /*causes ie to align text correctly*/
+	list-style: none;
+}
+.selectbox ul li,.selectboxopen ul li{ 
+	list-style: none;
+	padding:0;
+	margin:0;
+	font-family: arial,helvetica,san-serif;
+	color:#DA0E15;
+	font-size: 12px;
+	cursor: pointer;
+	}
+.selectboxoptions_wrap{
+	display:none;
+	clear:both;
+	padding:0;
+	margin:0;
+}
+.selectboxoptions_radio,.selectboxoptions_check{
+	clear:both;
+	list-style: none;
+	padding:0;
+	margin:0 ;
+	background:#e6e9ed;
+	float:right;
+}
+.selectboxoptions_radio li, .selectboxoptions_check li{
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+	list-style: none;
+	padding:3px 20px 2px 0;
+	margin:2px 0 -2px 0px;
+	font-family: arial,helvetica,san-serif;
+	color:#657389;
+	font-size: 12px;
+	cursor: pointer;
+}
+.hover{
+	background-color:#e6e9ed; 
+}
+.selectboxoptions_check li{
+	background:#e6e9ed url(../images/common/cust_select/checkboxoff.png) no-repeat 15px 6px;
+}
+.selectboxoptions_radio li{
+	background:#e6e9ed url(../images/common/cust_select/radiooff.png) no-repeat 15px 6px;
+}
+.selectboxoptions_radio li.selected{
+	background:#f2f2f2 url(../images/common/cust_select/selectradio.png) no-repeat 15px 6px;
+	display:block !important;
+}
+.selectboxoptions_radio li.selected_disable{
+	background:#f2f2f2 url(../images/common/cust_select/selectradio_disable.png) no-repeat 15px 6px;
+	display:block !important;
+}
+.selectboxoptions_check li.selected{
+	background:#f2f2f2 url(../images/common/cust_select/selectcheck.png) no-repeat 15px 6px;
+	display:block !important;
+}
+.selectboxoptions_check li.selected_disable{
+	background:#f2f2f2 url("../images/common/cust_select/selectcheck_disable.png") no-repeat 15px 6px;
+	display:block !important;
+}
+.selectboxoptions_radio li.hover,.selectboxoptions_check li.hover{
+	background-color:#f2f2f2;
+}
+.selectboxfoot{
+/*	background:url("../images/common/cust_select/selectfoot.png") no-repeat 0 0;*/
+	padding:0px 0px 0px 35px;
+	float:right;
+	border-bottom:1px solid #999;
+	
+}
+.selectboxfoot div{
+/*	background:url("../images/common/cust_select/selectfoot.png") no-repeat top right;
+*/	padding:7px 22px 8px 0px;
+	margin:0;
+}
+
+/****** SELECT BOX HACKS *********/
+.selectbox{
+	margin:0 0 -2px 0 !important;
+}
+.selectboxoptions_radio li, .selectboxoptions_check li{
+	margin-top:0px !important;
+}
+
+.selectboxoptions_check li,
+.selectboxoptions_radio li,
+.selectboxoptions_radio li.selected,
+.selectboxoptions_radio li.selected_disable,
+.selectboxoptions_check li.selected,
+.selectboxoptions_check li.selected_disable{
+	background-position: 15px 8px !important;
+}
+.selectboxfoot div{
+	padding:1px 22px 1px 0px !important;
+}

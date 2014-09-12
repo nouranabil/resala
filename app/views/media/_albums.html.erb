@@ -1,0 +1,15 @@
+<script type="text/html" id="albums-list-template">
+  <![CDATA[
+  <%% if(this.size > 0){%>
+    <div class="list_item album">
+      <a name="<%%= this.name %>" class="thumb album-link" data-remote="true" href="/media/albums/<%%=this.aid%>/photos?<%=params[:per_page] ? "per_page=#{params[:per_page]}&" : ''%><%=params[:no_pagination] ? "no_pagination=#{params[:no_pagination]}&" : ''%>">
+        <img src="http://graph.facebook.com/<%%= this.object_id %>/picture" />
+      </a>
+      <p class="info"><%%= this.name %></p>
+      <%% var crtd = new Date();%>
+      <%% crtd.setTime(this.created * 1000);%>
+      <p class="date"><%%= crtd.getDate() + " " + months[crtd.getMonth()] + " " + crtd.getFullYear() %></p>
+    </div>
+  <%% }%>
+  ]]>
+</script>

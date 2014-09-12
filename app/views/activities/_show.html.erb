@@ -1,0 +1,165 @@
+<% @title = @activity.title ; @title_class = 'hideText activitiesDetails_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:activities} %>
+<% end %>
+
+<% activities_requests = activity.activities_requests %>
+  
+<div class="activies_detail">
+  
+  <%= render :partial=>'activities/activity_tabs', :locals=>{:the_activity_path=> @volunteer ? volunteer_activity_path(@volunteer, activity) : activity_path(activity), :selected_tab=>:activity_details, :back_to_link => !params[:back_to].blank? ? params[:back_to] : is_owner ? activities_volunteer_path(activity.user) : activities_path} %>
+  
+  <div class="list_item">
+    <div class="activity_status">
+      <% if is_owner %>
+      <span class="<%= activity_status_class(activity) %>" title="حالة العمل التطوعىs">حالة العمل التطوعى</span>
+      <% end %>
+      
+      <%= link_to "عودة الي الأعمال التطوعية", !params[:back_to].blank? ? params[:back_to] : is_owner ? activities_volunteer_path(activity.user) : activities_path  , :class=>"back_link" %>
+      
+      <% unless is_owner %>
+        <div class="user_action">
+          <% if current_user %>
+            <% if can? :join_activity, @activity %>
+              <%= link_to 'أشترك', join_activity_activity_path(@activity), :id=>"activity_join_button_#{@activity.id}", :class=>"hideText button-Subscribe", :method => :get %>
+            <% end %>
+          <% else %>
+              <%= link_to 'أشترك', login_path(:facebook), :class=>"hideText button-Subscribe login_button", :action_after_login=> join_activity_activity_path(activity) %>
+          <% end %>
+          
+          <% if can? :quit, @activity %>
+              <%= link_to 'انسحب', quit_activity_path(@activity), :title=>'انسحب',:class => "unjoin_red", :method => :post %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="user_action update">
+          <% if can? :edit, activity %>
+          <%= link_to "تعديل", edit_volunteer_activity_path(activity.user, activity), :class=>"edit", :title=>"تعديل العمل التطوعي"%>
+          <% if !HIDE_ACTIVITY_CLOSING %>
+          <%= link_to 'تحديث الإنجازات', new_volunteer_activity_achievement_path(@activity.user, @activity), :class=>"update", :title=>"تحديث الإنجازات" %>
+          <%= link_to "إنهاء العمل التطوعي", preview_volunteer_activity_path(activity.user, activity), :class=>"close", :title=>"إنهاء العمل التطوعي" %>
+          <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="details">
+      <div class="activity_desc">
+        <% if !is_owner %>
+        <div class="sharring_box">
+          <div class="addthis">
+            <%= render :partial=>'shared/share_links' %>
+          </div>                    
+        </div>
+        <% end %>
+        <h4><%= activity.title %></h4>
+        <p><%= activity.description.html_safe %></p>
+      </div>
+      
+      <div class="actvity_info">
+        <% unless activity.start_date.blank? %>
+        <dl>
+          <dt><label>العمل التطوعى يبدأ في: </label></dt>
+          <dd><%= l activity.start_date, :format=>:short %></dd>
+        </dl>
+        <% end %>
+        <% unless activity.duration.blank? && activity.duration_type.blank? %>
+        <dl>
+          <dt><label>مدة العمل التطوعى: </label></dt>
+          <dd><%= activity.duration %> <%= activity.duration_type %> </dd>
+        </dl>
+        <% end %>
+        <% unless activity.location.blank? %>
+        <dl>
+          <dt><label>المكان: </label></dt>
+          <dd><%= activity.location %></dd>
+        </dl>
+        <% end %>
+        <dl>
+          <dt><label>عدد المتطوعين:</label></dt>
+          <dd>مطلوب <%= activity.required_volunteers_count %> - اشترك <%=  activity.volunteers_count %> </dd>
+        </dl>
+        <% unless activity.volunteers_skills.blank? %>
+        <dl>
+          <dt><label>مهارات المتطوعين: </label></dt>
+          <dd><%= activity.volunteers_skills %></dd>
+        </dl>
+        <% end %>
+        <% if activity.branches.size > 0 %>
+        <dl>
+          <dt><label>الفروع: </label></dt>
+          <dd><%= activity.branches.collect{|ab| link_to(ab.name, branch_path(ab))}.join(", ").html_safe %></dd>
+        </dl>
+        <% end %>
+        <dl>
+          <dt><label>أنشطة ذات صلة: </label></dt>
+          <dd><%= activity.activity_categories.collect{|ac| link_to(ac.name, activity_category_path(ac))}.join(", ").html_safe %></dd>
+        </dl>
+      </div>
+      
+      <div class="article_activities">
+        <div class="date">
+          <span>نشرت في</span>
+          <span class="day"><%= l activity.created_at, :format => :long %></span>
+        </div>  
+        <div class="comments">
+          <span class="joins_no"> عدد المهتمين <%= activities_requests.size %> </span>
+        </div>
+      </div>
+    </div>  
+                           
+  </div>
+  
+  
+  <div class="profile_activites">
+    <% if activity.achievements.size > 0 %>
+    <div class="block_title">
+      <h3 class="hideText achievements_title">الأنجازات</h3>
+    </div>
+    <div class="achievements">
+      <ul>
+        <% activity.achievements.each do |achievement| %>
+        <li><strong><%= achievement.amount %></strong><span><%= achievement.achievements_type.name %></span></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    
+    <div class="block_title">
+      <h3 class="hideText comments_title">التعليقات</h3>
+    </div>  
+    <div class="comment_Block">
+      <%= render :partial=>'shared/facebook_comments', :locals=>{:url=>activity_url(activity,:only_path=> false),:activity=>activity, :notify_comments=>true} %>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :sidebar do %>
+  <div class="activity_owner">
+    <h4 class="hideText activity_owner_title">مدير العمل التطوعى</h4>
+    <div class="thumbnail">
+      <%= image_tag(activity.user.image.blank? ? "/images/dummy/resala_70x70.gif" : activity.user.image)%>
+    </div>
+    <h3><%= activity.user.name%></h3>
+    <div class="activity_details">
+      <span class="activitys_no">مشترك في <%= activity.user.accepted_activities_requests_count %> عمل تطوعى </span>
+      <% if !HIDE_ACTIVITY_CLOSING %>
+      <span class="users_hours"><%= activity.user.activities_hours || 0 %> ساعة عمل تطوعي </span>
+      <% end %>
+    </div>
+  </div>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>
+
+<% if params[:attempt_to_join] %>
+  <% content_for :javascripts do %>
+  <script>
+    $(document).ready(function(){
+      var selector = "<%= "#activity_join_button_#{@activity.id}" %>";
+      $(selector).trigger('click');
+    });
+  </script>
+  <% end %>
+<% end %>

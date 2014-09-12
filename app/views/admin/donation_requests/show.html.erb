@@ -1,0 +1,54 @@
+<div class="grid_16">
+<h2 id="page-heading">طلب التبرع</h2>
+</div>
+      
+<div class="grid_16">
+  <div class="box">
+  <h2></h2>
+  <div class="block list_show">
+    <dl>
+      <dt>أسم المتبرع</dt>
+      <dd><%= @donation_request.name %></dd>
+      
+      <dt>المبلغ</dt>
+      <dd><%= @donation_request.amount %></dd>
+      
+      <dt>دفع المبلغ كل</dt>
+      <dd><%= @donation_request.amount_period %></dd>
+      
+      <% unless @donation_request.email.blank? %>
+      <dt>البريد الإلكتروني</dt>
+      <dd><%= @donation_request.email %></dd>
+      <% end %>
+      
+      <dt>رقم الهاتف المحمولالمحمول</dt>
+      <dd><%= @donation_request.mobile %></dd>
+      
+      <% unless @donation_request.phone.blank? %>
+      <dt>التليفون</dt>
+      <dd><%= @donation_request.phone %></dd>
+      <% end %>
+      
+      <dt>المدينة</dt>
+      <dd><%= @donation_request.city.name %></dd>
+      
+      <dt>العنوان</dt>
+      <dd><%= @donation_request.address %></dd>
+      
+      <% unless @donation_request.notes.blank? %>
+      <dt>ملاحظات</dt>
+      <dd><%= @donation_request.notes %></dd>
+      <% end %>
+      
+      <% unless @donation_request.activity_categories.blank? %>
+      <dt>الأنشطة الخيرية المراد التبرع لها</dt>
+      <dd><%= @donation_request.activity_categories.collect{|ag| (link_to ag.name, ag, :target=>'_blank')}.join(" , ").html_safe %></dd>
+      <% end %>
+    </dl>
+  </div>  
+  </div>
+  <div class="controls">
+    <%= render :partial=>'reviewed', :locals=>{:donation_request=>@donation_request} %> - 
+    <%= link_to 'عودة', admin_donation_requests_path(:page=>params[:page]) %>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+javascripts:
+  common:
+    - public/javascripts/jquery.jqote2.min.js
+    - public/javascripts/fancybox.js
+    - public/javascripts/date.js
+    - public/javascripts/rails.js
+    - public/javascripts/application.js
+  admin_common:
+    - public/javascripts/jquery.jqote2.min.js
+    - public/javascripts/fancybox.js
+    - public/javascripts/rails.js
+    - public/javascripts/application.js
+
+stylesheets:
+  common:
+    - public/stylesheets/fancybox.css
+    - public/stylesheets/general.css
+  admin_common:
+    - public/stylesheets/admin/layout.css
+    - public/stylesheets/fancybox.css

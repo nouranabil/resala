@@ -1,0 +1,87 @@
+<div class="grid_16">
+  <h2 id="page-heading">المقالات</h2>
+</div>
+
+<div class="grid_16">
+  <div class="box">
+    <h2><%= link_to "البحث عن مقالات", "#", :id=>"article_search_display"%></h2>
+    <div class="block" id="article_search_container" style="<%= 'display: none;' if params[:article_category_id].blank? && params[:keyword].blank? %>" >
+      <%= form_tag admin_articles_path, :method => 'get' do |f| %>
+        <div class="page_actions">
+          <p>
+            <label>كلمات البحث</label>
+            <%= text_field_tag :keyword, params[:keyword] %>
+          </p>
+          <p>
+            <label>نوع المقالة</label>
+            <%= select_tag :article_category_id, options_for_select([["كل الأنواع", ""]]) + options_from_collection_for_select(@article_categories, "id", "name", params[:article_category_id].to_i) %>
+          </p>
+        </div>
+        <p class="controls">
+          <input type="submit" value="بحث" name="commit" id="article_submit"> <a href="/admin/articles"></a>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>      
+      
+<div class="grid_16">
+  <%= link_to "إضافة مقالة جديدة", new_admin_article_path, :class=>"add_btn"%>
+  <% if @articles.length > 0 %>     
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+      <col class="colD">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="4"></th>
+      </tr>
+      <tr>
+        <th>نوع المقالة</th>
+        <th>العنوان</th>
+        <th>تاريخ الإضافة</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @articles.each do |article| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <td>
+          <%= article.article_category.name %>
+        </td>
+        <th class="list_item_name">
+          <h5><%= link_to article.title, admin_article_path(article, :page=>params[:page] || 1) %></h5>
+        </th>
+        <td>
+          <%= l article.created_at, :format=>:long %>
+        </td>
+        <td  class="list-item-actions"> 
+          <%= link_to 'تعديل', edit_admin_article_path(article, :page=>params[:page] || 1), :class=>"edit", :title=>"تعديل"%>
+          <%= link_to 'حذف', admin_article_path(article, :page=>params[:page] || 1), :class=>"delete",:title=>"حذف", :confirm => 'هل انت متأكد من حذف هذه المقالة ؟', :method => :delete %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @articles %>
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا توجد مقالات</div>
+  </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    $("#article_search_display").live('click' , function(){
+      $("#article_search_container").slideToggle();
+      return false;
+    });
+  });
+</script>
+<% end %>

@@ -1,0 +1,6 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<p>يمكنك التطوع معنا وتكون مع الرسلاوية .. فرسان وفارسات الخير .. وتختار النشاط المفضل لك للتطوع به وكذلك اختيار الأوقات المناسبة لك</p>
+<% end %>
+
+<%= render :partial=>'activities/form', :locals=>{:activity=>@activity, :form_title=>"تعديل بيانات العمل التطوعى"} %>

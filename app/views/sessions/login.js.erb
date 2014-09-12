@@ -1,0 +1,17 @@
+var url = "<%= @redirect_url %>";
+var width = 800;
+var height = 565;
+var left = (screen.width - width) / 2;
+var top = (screen.height - height) / 2;
+
+var popupParams = 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left;
+myWindow = window.open(url, 'my_window', popupParams);
+
+onFacebookSuccess = function(return_to_url){
+   myWindow.close();
+   if(return_to_url){
+      document.location = return_to_url;
+   }else{
+      document.location.reload();
+   }
+};

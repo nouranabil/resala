@@ -1,0 +1,6 @@
+<div class="tabs">
+  <ul class="tab_nav">
+    <li class="<%= 'selected' if selected_tab == :activity_details %>" ><a href="<%= the_activity_path + (back_to_link ? "?back_to=" + back_to_link : "") %>"><span>تفاصيل العمل التطوعى</span></a></li>
+    <li class="<%= 'selected' if selected_tab == :volunteers %>" ><a href="<%= the_activity_path + "/volunteers" + (back_to_link ? "?back_to=" + back_to_link : "") %>"><span>المتطوعون</span></a></li>
+  </ul>
+</div>

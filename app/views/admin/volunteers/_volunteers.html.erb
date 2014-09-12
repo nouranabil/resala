@@ -1,0 +1,89 @@
+<div class="grid_16">
+  <% if volunteers.length > 0 %>     
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="8">قائمة المتطوعين</th>
+      </tr>
+      <tr>
+        <% additional_params = params[:popup] ? "&popup=true" : "" %>
+        <th><%= sortable("created_at", "تاريخ التطوع",additional_params,local_assigns[:url],(local_assigns[:url] ? 'fancybox':nil))%></th>
+        <th><%= sortable("name", "أسم المتطوع",additional_params,local_assigns[:url],(local_assigns[:url] ? 'fancybox':nil))%></th>
+        <th>الفرع</th>
+        <th><%= sortable("accepted_activities_requests_count", "عدد الأعمال التطوعية",additional_params,local_assigns[:url],(local_assigns[:url] ? 'fancybox':nil))%></th>
+        <th><%= sortable("activities_hours", "عدد الساعات",additional_params,local_assigns[:url],(local_assigns[:url] ? 'fancybox':nil))%></th>
+        <th> صفحة الفيس بوك الشخصية</th>
+        <% if params[:popup]!="true" %>
+        <th class="currency">طلبات</th>
+        <th class="currency" ></th>
+        <% end %>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% volunteers.each do |volunteer| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <td>
+          <%= l volunteer.created_at, :format=>:short %>
+        </td>
+        <td class="list_item_name">
+          <h5><%= link_to volunteer.name, admin_volunteer_path(volunteer, :page=>params[:page] || 1) %></h5>
+        </td>
+        <td>
+          <%= volunteer.branch.name %>
+        </td>
+        <td>
+          <%= volunteer.accepted_activities_requests_count %>
+        </td>
+        <td>
+          <%= volunteer.activities_hours %>
+        </td>
+        <td>
+	        <p class="fb_profile_show">
+	        	<%= link_to "Facebook Profile","http://www.facebook.com/profile.php?id="+volunteer.uid ,:target=>"_blank"%>
+	        </p>
+        </td>
+        <% if params[:popup]!="true" %>
+        <td>
+        <% unless volunteer.activities_authority_status == nil%>
+	        <p class="volunter_status">
+	        	<%= link_to "بيانات طلب إنشاء أعمال تطوعية", authority_volunteer_details_admin_volunteer_path(volunteer), :class=>"fancybox" %>
+	        </p>
+	        <%end%>
+        </td>
+        <td  class="list-item-actions" width="50px;"> 
+          <%= link_to 'تعديل', edit_admin_volunteer_path(volunteer, :page=>(params[:page] || 1) ), :class=>"edit", :title=>"تعديل بيانات العضو"%>
+          <% if volunteer.suspended %>
+            <%= link_to 'تفعيل العضو', admin_volunteer_path(volunteer, :suspended=>"false", :page=>(params[:page] || 1) ), :title=>'تفعيل العضو', :class=>"unblock_user", :confirm => 'هل انت متأكد من تفعيل هذا العضو ؟', :method => :delete %>
+          <% else %>
+            <%= link_to 'إيقاف العضو', admin_volunteer_path(volunteer, :page=>(params[:page] || 1) ), :class=>"block_user", :title=>'إيقاف العضو', :confirm => 'هل انت متأكد من ايقاف هذا العضو ؟', :method => :delete %>
+          <% end %>
+          <%= render :partial=>'volunteer_authorization', :locals=>{:volunteer=>volunteer} %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate volunteers, :class=> params[:popup]=="true" ? 'fancybox_pagination':nil %>
+  
+  <% report_params = params.clone %>
+  <% report_params.delete('controller') %>
+  <% report_params.delete('action') %>
+  <%= link_to 'تقرير إكسل', volunteers_admin_reports_path(report_params), :class=>"excel_btn" %>
+  
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا يوجد متطوعون</div>
+  </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+trigger_fancybox()
+</script>

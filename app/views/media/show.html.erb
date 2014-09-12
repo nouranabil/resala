@@ -1,0 +1,289 @@
+<% if !(params[:layout]=='false') %>
+<% @title = ""; @title_class = 'media_title' ;@section_title = @title %>
+  <% content_for :custom_section_header_content do %>
+  شاهد رسالة عبر الصور والفيديو
+  <% end %>
+<% end %>
+
+<% links = @media_info.activity_categories.collect do |activity| %>
+  <%link_to activity.name, activity_category_path(activity) %>
+<% end if @media_info%>
+
+<div class="media_show">
+  <!-- container to hold the image/video -->
+  <div id="<%= @media_type %>">
+  </div>
+  
+  <div class="coments">
+    <div class="block_title">
+      <h3 class="hideText comments_title">التعليقات</h3>
+    </div>
+    <li class="no_result" style="display:none" id='form-error-message'>
+      <span> لتتمكن من التعليق، ينبغى أن تكون من معجبى صفحة رسالة على فيسبوك. اضغط <iframe id="f34e814a4" name="ff8f0ef84" scrolling="no" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; height: 21px; width: 90px; " title="Like this content on Facebook." class="fb_ltr" src="http://www.facebook.com/plugins/like.php?action=like&channel_url=http%3A%2F%2Fstatic.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D2%23cb%3Df3259c2f98%26relation%3Dparent.parent&font=arial&href=<%=RESALA_PAGE%>&layout=button_count&locale=en_US&node_type=link&ref=at_xt%3D4dd8f36b80501701_0&sdk=joey&show_faces=false&width=90"></iframe> ثم حاول ثانية</span>
+    </li>
+    <!-- container to hold the comments -->
+    <ul id="comments" class="comments">
+      <li><p class="no_result"><%= t('media.no_comments') %></p></li>
+    </ul>
+    <div id="comments-pag">
+    </div>
+  
+    <!-- container to submit a comment -->
+    <div style="display:none" id="post-comment" class="add_comment">
+      <form style="display:none" id="comment-form">
+      
+        <fieldset>  
+          <legend class="hideText"><%=t('media.add_comment')%> :</legend>
+          <span class="thumbnail"><%=  image_tag("common/no_profile_pic.gif",:id=>"user_pic")  %></span>
+          <div class="textarea">
+            <textarea class="text_input" id="comment-text"></textarea>
+          </div>
+          <p>
+            <input type="submit" class="btn" value='<%= t('media.post_comment')%>' />
+          </p>
+        </fieldset>
+        
+      </form>
+    </div>
+    
+  </div>
+</div>
+
+<% if @media_type == 'photo' %>
+<!-- photo template -->
+<script type="text/html" id="photo-template">
+  <![CDATA[
+    <div class="media_block">
+      <% if ! links.blank? %>
+      <p><%= links.join(" ، ").html_safe%></p>
+      <% end %>
+      <a href="javascript:$.fancybox.next()"><img src="<%%= this.src_big %>" /></a>
+      <p class="img_description"><%%= this.caption %></p>
+    </div>
+  ]]>
+</script>
+
+<% elsif @media_type == 'video' %>
+<!-- video template -->
+<script type="text/html" id="video-template">
+  <![CDATA[
+    <h3 class="page_title"><%%= this.title %></h3>
+    <div class="media_block">
+      <% if ! links.blank? %>
+      <p><%= links.join(" ، ").html_safe%></p>
+      <% end %>
+      <%%= this.embed_html %>
+    </div>
+  ]]>
+</script>
+<% end %>
+
+<script type="text/html" id="comment-template">
+  <![CDATA[
+    <li>
+      <span class="thumbnail"><img src="http://graph.facebook.com/<%%= this.from.id %>/picture" /></span>
+      <b><%%= this.from.name %></b><p><%%= $('<div/>').text(this.message).html() %></p>
+      <div class="article_activities">
+        <div class="date">
+          <span>كتبت في</span>
+          
+          <%% crtd = Date.parseExact(((this.created_time).split('+'))[0], "yyyy-MM-ddTHH:mm:ss");%>
+          <span class="day"><%%= days[crtd.getDay()] %>، <%%= crtd.getDate() %></span>
+          <span class="month"><%%= months[crtd.getMonth()] %></span>
+          <span class="year"><%%= crtd.getFullYear() %></span>
+        </div>
+      </div>  
+    </li>
+  ]]>
+</script>
+
+<script type="text/html" id="comments-template">
+  <![CDATA[
+    <li>
+      <span class="thumbnail"><img src="http://graph.facebook.com/<%%= this.fromid %>/picture" /></span>
+      <b><%%= this.name %></b><p><%%= $('<div/>').text(this.text).html() %></p>
+      <div class="article_activities">
+        <div class="date">
+          <span>كتبت في</span>
+          
+          <%% var crtd = new Date();%>
+          <%% crtd.setTime(this.time * 1000);%>
+          <span class="day"><%%= days[crtd.getDay()] %>، <%%= crtd.getDate() %></span>
+          <span class="month"><%%= months[crtd.getMonth()] %></span>
+          <span class="year"><%%= crtd.getFullYear() %></span>
+        </div>
+      </div>  
+    </li>
+  ]]>
+</script>
+
+<script type="text/html" id="comments-pag-template">
+  <![CDATA[
+      <%% if(this.next != undefined || this.prev != undefined){%>
+      <div id="pagination_links" class="pagination">
+        <%% if(this.prev != undefined ){%>
+        <a id="prev-comments" href="<%%= this.prev %>" class="previous_page fancybox"><%=t('messages.prev')%></a>
+        <%% }else{%>
+        <span class="previous_page disabled"><%=t('messages.prev')%></span>
+        <%% }%>
+        
+        <%% if(this.next != undefined ){%>
+        <a id="next-comments" href="<%%= this.next %>" class="next_page fancybox"><%=t('messages.next')%></a>
+        <%% }else{%>
+        <span class="next_page disabled"><%=t('messages.next')%></span>
+        <%% }%>
+      </div>
+      <%% }%>
+  ]]>
+</script>
+
+<!-- script to fill the templates with data-->
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  var fbId = '<%= params[:fb_id] %>'
+  $(document).ready(function(){
+    months = <%= js_months %>;
+    days= <%= js_days %>;
+    getData("<%=@query%>",
+            function(response){
+              renderResponse(response,{
+                               template : "#<%= @media_type %>-template",
+                               container: "#<%= @media_type %>",
+                               paginated: false,
+                             });
+              <% if @media_type == 'video' || 'photo' %>
+              trigger_fancybox();
+              <% end %>
+              
+            });
+            
+    getComments = function(fb_id,date,perPage,direction,firstTime){
+      
+      if(direction == 'next'){
+        var clause = "> " + date + " ORDER BY time ASC"
+      }else if(direction == 'prev'){
+        var clause = "< " + date + " ORDER BY time DESC"
+      }
+      var query = "SELECT fromid,text,time FROM comment WHERE object_id = '"+ fb_id +"' AND time " + clause + " LIMIT " + (perPage + 1);
+      
+      getData(query, function(response){
+        if(response.length > 0){
+          
+          var hasNext = false;
+          var hasPrev = false
+          if(direction == 'prev'){
+            hasNext = true;
+            if(response.length > perPage){
+              hasPrev = true;
+              response.pop();
+            }
+            response.reverse();
+          }else if(direction == 'next'){
+            hasPrev = true;
+            if(response.length > perPage){
+              hasNext = true;
+              response.pop();
+            }
+          }
+          if(firstTime != undefined){
+            hasPrev = false;
+          }
+          
+          //get the next lastDate
+          var maxDate = response[response.length-1].time
+          var minDate = response[0].time
+          
+          //get the names
+          var uids = [];
+          $(response).each(function(){
+            uids.push(this.fromid);
+          });
+          
+          //TODO retrieve the data for both queries and join them with the response
+          var namesQuery = "SELECT uid,name FROM user WHERE uid IN {0}";
+          var pagesQuery = "SELECT page_id,name FROM page WHERE page_id IN {0}";
+          var list = "('" + $.unique(uids).join("','") + "')"
+          names = FB.Data.query(namesQuery, list );
+          var pages = FB.Data.query(pagesQuery, list );
+          FB.Data.waitOn([names, pages], function(args) {
+          
+            var hash = {};
+            for(var key in args[0]){
+              hash[args[0][key].uid] = args[0][key];
+            }
+            for(var key in args[1]){
+              hash[args[1][key].page_id] = args[1][key];
+            }
+            $(response).each(function(){
+              this.name = hash[this.fromid].name;
+            });
+          
+            $('#comments').html('');
+            renderResponse(response,{
+                                  template : "#comments-template",
+                                  container: "#comments",
+                                  paginated: false,
+            });
+                                         
+            var pag = $('#comments-pag-template').jqote({
+              next: hasNext ? 'javascript:getComments(\''+ fb_id +'\','+ maxDate +','+ perPage +',\'next\');' : undefined,
+              prev: hasPrev ? 'javascript:getComments(\''+ fb_id +'\','+ minDate +','+ perPage +',\'prev\');' : undefined
+            });
+            $("#comments-pag").html(pag);
+          });
+          
+        }
+        $('#post-comment').show();
+      });
+    }
+    
+    getComments(fbId,0,10,'next',true);
+    
+    var uid = undefined
+    FB.getLoginStatus(function(response) {
+      if (response.session) {
+        uid = response.session.uid
+        $('#user_pic').attr('src',"http://graph.facebook.com/"+ uid +"/picture")
+      }
+      $("#comment-form").show();
+    });
+    
+    var postComment = function(fb_id,commentText,session){
+      FB.api('/'+ fb_id +'/comments', 'post', { message: commentText }, function(response) {
+        if (!response || response.error) {
+          $('#form-error-message').show();
+        } else {
+          $('#form-error-message').hide();
+          $('#comment-text').val("");
+          FB.api('/'+response.id, function(rspnse){
+            var cmnt = $('#comment-template').jqote(rspnse)
+            $('#comments').append(cmnt);
+          });
+        }
+      });
+    };
+    
+    $("#comment-form").submit(function(){
+      FB.getLoginStatus(function(response) {
+        if (response.session) {
+          postComment('<%= params[:fb_id] %>',$('#comment-text').val(),response.session);
+        } else {
+          FB.login(function(response) {
+            if (response.session) {
+              uid = response.session.uid
+              $('#user_pic').attr('src',"http://graph.facebook.com/"+ uid +"/picture")
+              postComment('<%= params[:fb_id] %>',$('#comment-text').val(),response.session);
+            }
+          },{perms:'publish_stream'});
+        }
+      });
+      return false;
+    });
+    
+  });
+</script>
+<%end %>
+
+<% if params[:layout] == 'false' %>
+<%= yield :javascripts %>
+<% end %>

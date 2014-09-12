@@ -1,0 +1,2 @@
+class ActivitiesAuthorityStatus < Status
+end

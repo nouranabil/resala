@@ -1,0 +1,25 @@
+<% @questions.each do |question| %>
+<tr class="<%= cycle('odd', 'even')%>">
+  <td class="list_item_name" >
+    <h5><%= question.question %></h5>
+  </td>
+  <td class="list_item_name" >
+    <%= form_for(question , :url=>question.id ? admin_question_path(question) : admin_questions_path, :remote=> true ) do |f| %>
+      <div class="page_actions">
+        <%= f.text_field :position, :class=>"text medium"%>
+        <%= hidden_field_tag 'page', params[:page] %>
+        <%= f.submit "حفظ", :class=>"button" %>              
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <% if question.activity_category %>
+      <%= link_to question.activity_category.name, question.activity_category, :target=>'_blank' %>
+    <% end %>
+  </td>
+  <td  class="list-item-actions"> 
+    <%= link_to 'تعديل', edit_admin_question_path(question), :class=>"edit"%>
+    <%= link_to 'حذف', admin_question_path(question), :class=>"delete", :confirm => 'هل انت متأكد من حذف هذا السؤال', :method => :delete %>
+  </td>
+</tr>
+<% end %>

@@ -1,0 +1,67 @@
+  <div class="grid_16">     
+    <div class="box">
+      <h2><%= form_title%></h2>
+      <div class="block">
+      <%= form_for(@branch,:url=> (@branch.new_record? ? admin_branches_path  : admin_branch_path(@branch.id)) ) do |f| %>
+        <div class="page_actions">
+          <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@branch} %>        
+          <p>
+            <%= f.label :name %>
+            <%= f.text_field :name, :class=>"text" %> <span class="mandatory">*</span>              
+          </p>
+          <p>
+            <%= f.label :address %>
+            <%= f.text_field :address, :class=>"text" %> <span class="mandatory">*</span>
+          </p>
+          <p>
+            <%= f.label :city %>
+            <%= f.select :city_id, options_for_select([[t("messages.select_city"), ""]]) + options_from_collection_for_select(@cities_for_select, "id", "name", @branch.city_id.to_s) %> <span class="mandatory">*</span>
+          </p>
+          <p>
+            <%= f.label :phones %>
+            <%= f.text_field :phones, :dir=>"ltr", :class=>"text" %>
+          </p>
+          <p>
+            <%= f.label :email %>
+            <%= f.text_field :email, :dir=>"ltr", :class=>"text" %>
+          </p>
+          <p class="map" id="map_canvas" style="height: 500px;"></p>
+          <p class="location">
+            <%= f.label :longitude %>
+            <%= f.text_field :longitude,:dir=>'ltr', :class=>'latlng text the_branch_longitude' ,:disabled=>true, :name=>"" %>
+            <%= f.hidden_field :longitude, :class=>'the_branch_longitude' %>
+          </p>
+          <p class="location">
+            <%= f.label :latitude %>
+            <%= f.text_field :latitude,:dir=>'ltr', :class=>'latlng text the_branch_latitude'  ,:disabled=>true, :name=>"" %>
+            <%= f.hidden_field :latitude, :class=>'the_branch_latitude' %>
+          </p>
+          <p>
+            <%= f.label :description %>
+            <%= f.text_area :description, :class=>"tinymce" %>             
+          </p>
+          <%= render :partial=> 'admin/shared/media_picker', :locals=>{:association => :media, :parent=>@branch, :f=> f } %>
+        </div>
+        <div class="block"> 
+            <p><%= f.label :activity_categories %></p>
+            
+            <ul class="check_list">
+              <% branch_activity_categories = @branch.activity_categories.collect{|ac| ac.id} %>
+              <% @activity_categories.each_with_index do |activity_category, index| %>
+              <li>
+                <%= check_box_tag "activity_categories[]", activity_category.id, branch_activity_categories.include?(activity_category.id), {:class => "input_check", :id=>"activity_categories_#{activity_category.id}"} %>
+                <%= label_tag "activity_categories[]", activity_category.name, :class => "checkLabel", :for=>"activity_categories_#{activity_category.id}" %>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        <p class="controls">
+          <%= f.submit "حفظ الفرع", :class=>"button" %> <%= link_to "إلغاء", admin_branches_path %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/googlemaps'%>
+<%= render 'shared/tinymce' %>

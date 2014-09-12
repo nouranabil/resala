@@ -1,0 +1,107 @@
+<script type="text/html" id="empty-list-template">
+  <![CDATA[
+    <div class="section_intro nothing">
+      <h2><%%= this.message %></h2>
+    </div>
+  ]]>
+</script>
+
+<div id="media_list" class="article_detail">
+  <div class="tabs">
+    <% if !local_assigns[:no_header] %>
+      <h3 class="hideText media_block_title"><%=t('media.media')%></h3>
+    <% end %>
+    <ul>
+      <li><a id="photos-tab-link" href="#photos"><span><%=t('media.photos')%></span></a></li>
+      <li><a id="videos-tab-link" href="#videos"><span><%=t('media.videos')%></span></a></li>
+    </ul>
+    
+    <div class="tab_content">
+      <div id="photos">
+        <div id="photos-header">
+          <div class="header_actions"><%= link_to t('media.back_to_albums'), media_path('albums', :per_page => per_page,:no_pagination=>local_assigns[:no_pagination]),:class=>"back_link", :remote=> true %>
+          <span id='album_name'></span></div>
+        </div>
+        <div id="photos-list" class="media_listing">
+          <%= render :partial => "media/photos" %>
+        </div>
+        <div id="photos-pag"></div>
+        <div id="albums-list" class="media_listing">
+          <%= render :partial => "media/albums" %>
+        </div>
+        <div id="albums-pag"></div>
+      </div>
+      <div id="videos">
+        <div id="videos-list" class="media_listing">
+          <%= render :partial => "media/videos" %>
+        </div>
+        <div id="videos-pag"></div>
+      </div><!-- Albums tab Ends -->
+      <%= render :partial=>'shared/pagination' %>
+    </div>
+  </div>
+</div>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  $(document).ready(function()  {
+    var tbs = $( ".tabs" ).tabs();
+    var tabIndex = <%= media_type == 'videos' ? 1 : 0 %>;
+    tbs.tabs('select', tabIndex);
+    var query = "<%= query %>";
+    months = <%= js_months %>;
+    getData(query,
+            function(response){
+              <% if media_type =='photos' && local_assigns[:owner_id].nil? %>
+              $('#photos-header').show();
+              <% elsif (media_type == 'albums' || 'videos') || local_assigns[:owner_id] %>
+              $('#photos-header').hide();
+              $('.album-link').live('click', function(){
+                $('#album_name').html(this.name);
+              });
+              <% else %>
+              $('#album_name').html("");
+              $('#photos-header').show();
+              <% end %>
+              if(response.error_code){
+                //alert(response.error_msg)
+              }else{
+                if(response.length > 0){
+                  renderResponse(response,{
+                                   template : "#<%= media_type %>-list-template",
+                                   container: "#<%= media_type %>-list",
+                                   <% if !local_assigns[:no_pagination] %>
+                                   paginated: true,
+                                   next:'<%= params[:album_id] ? album_photos_path(params[:album_id],media_type, page + 1,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page) : media_path(media_type, page + 1, :no_pagination=>local_assigns[:no_pagination],:per_page => per_page ,:owner_id=> local_assigns[:owner_id], :owner_type=> local_assigns[:owner_type] ) %>',
+                                   prev:<%= page == 1 ? 'undefined' : ("'" + (params[:album_id] ? album_photos_path(params[:album_id],media_type, page - 1 ,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page) : media_path(media_type, page - 1,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page ,:owner_id=> local_assigns[:owner_id], :owner_type=> local_assigns[:owner_type])) + "'") %>,
+                                   pagContainer: "#<%= media_type %>-pag",
+                                   <% end %>
+                                   perPage: <%= per_page %>
+                                 });
+                }else{
+                  var message = $("#empty-list-template").jqote({
+                    message: 'لا توجد <%= t("media.#{media_type}")%>'
+                  });
+                  $("#<%= media_type %>-list").html(message);
+                }
+              <% if media_type == 'photos' || 'videos' %>
+                trigger_fancybox();
+              <% end %>
+              }
+            });
+    $("#videos-tab-link").click(function(){
+      $("#photos-list").html("");
+      $("#albums-list").html("");
+      $.ajax('<%= media_path('videos',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page,:owner_id=> local_assigns[:owner_id], :owner_type=> local_assigns[:owner_type]) %>');
+    });
+    $("#photos-tab-link").click(function(){
+      $("#videos-list").html("");
+      <% if local_assigns[:owner_id] %>
+        $.ajax('<%= media_path('photos',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page,:owner_id=> local_assigns[:owner_id], :owner_type=> local_assigns[:owner_type]) %>');
+      <% else %>
+        $.ajax('<%= media_path('albums',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page) %>');
+      <% end %>
+    });
+  });                                 
+</script>
+<% end %>

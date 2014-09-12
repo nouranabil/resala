@@ -1,0 +1,11 @@
+<p style="color:#000;font-size:normal;font-size:1.1em;padding:0;margin:0 0 10px;">أهلا ،</p>
+<p style="color:#222;padding:0;margin:5px 0;">قام <%= @commentor ? @commentor.name : @commentor_name %> بإضافة تعليق على صفحة النشاط الخيرى: <%= link_to @activity.title, "#{SITE_URL}/activities/#{@activity.id}" %></p>
+<% if @comment_text%>
+<p style="color:#222;padding:0;margin:5px 0;">كتب  <%= @commentor ? @commentor.name : @commentor_name %> : </p>
+<p style="color:#222;padding:0;margin:5px 0;">"<%= @comment_text%>"</p>
+<% end %>
+<div style="color:#999;padding-top:15px;" align="left" >
+  <p style="margin:5px 0;color:#777;">شكراً لكم ،</p>
+  <p style="margin:5px 0;color:#777;">فريق رساله</p>
+  <p style="margin:5px 0;"><a href="<%= SITE_URL %>" style="outline: none;color: #2F72A9;text-decoration: none;">www.resala.org</a></p>
+</div>

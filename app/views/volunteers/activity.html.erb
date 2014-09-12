@@ -1,0 +1,7 @@
+<%= render :partial=>'activities/show', :locals=>{:activity=>@activity, :is_owner=>true} %>
+
+<% content_for :top_search do %>
+  <% if @activity.finished? %>
+  <span class="activity_completed" title='العمل التطوعى انتهي' >العمل التطوعى انتهي</span>
+  <% end %>
+<% end %>

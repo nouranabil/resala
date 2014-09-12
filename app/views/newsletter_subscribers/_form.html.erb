@@ -1,0 +1,40 @@
+<div class="side_element subscribe">
+  <h2 class="hideText newsletter_block">النشرة البريدية</h2>
+  
+  <p> اشترك في النشرة البريدية لتتلقي أحدث الأخبار والإنجازات، بالإضافة للأعمال التطوعية القادمة في رسالة، نصلك علي بريدك الإكتروني</p>
+  <%= form_for(NewsletterSubscriber.new, :remote=>true) do |f| %>
+    <%= hidden_field_tag "redirect_to_url", request.url %>
+    <div style="display: none;" class="alert" id="new_newsletter_subscriber_alert"></div>
+    <div style="display: none;" class="flash-notice" id="new_newsletter_subscriber_notice"><h4></h4></div>
+    <fieldset>
+      <div class="sub_input_bg">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+                        
+      <div class="sub_input_bg">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </div>
+      
+      <p class="form-buttons">
+        <a href="#"></a>
+        <%= link_to "الغاء إشتراكي!", "#", :id=>"unsubscribe_button"%>
+       <%= f.submit "اشترك", :class=>"input_button button-Subscribe"%>
+      </p>
+    </fieldset>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+<script>
+  $('#unsubscribe_button').live('click',function(){
+    if($("#newsletter_subscriber_email").val().length == 0){
+      alert("برجاء كتابة البريد الإلكتروني.");
+      return false;
+    }
+    
+    $(this).attr("href", "/unsubscribe?email="+$("#newsletter_subscriber_email").val());
+  });
+</script>
+<% end %>

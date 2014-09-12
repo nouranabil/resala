@@ -1,0 +1,12 @@
+<p style="margin:5px 0;width:auto;text-align:justify;padding:10px 0"><%= CGI::escapeHTML(@email_body).gsub("\n","<br />").html_safe %></p>
+<% @email_media.length.times do |index|%>
+<a href="<%=attachments["#{index}.jpg"].url %>" target="_blank" ><%= image_tag attachments["#{index}.jpg"].url, :width=>"516px", :style=>"padding:4px; margin-bottom:10px; border:1px solid #252525" %></a>
+<% end %>
+
+<% content_for :unsubscription_message  do %>
+  <% if @newsletter_version %>
+    لقد وصلتك هذه الرسالة لأنك قمت بالاشتراك في قائمة النشرة البريدية الخاصة بجمعية رسالة. لإلغاء اشتراكك اختر "إلغاء اشتراكى" من <%= link_to 'الصفحة الرئيسية', "#{SITE_URL}" %> .
+  <% else %>
+    لقد وصلتك هذه الرسالة لأنك قمت بطلب إخطارك بريدياً بتحديثات و تنبيهات الأعمال التطوعية بجمعية رسالة. لإلغاء التنبيهات بالبريد الإلكترونى أو تعديل الأنشطة الخيرية التى تهتم بها يرجى تعديل تفضيلاتك الشخصية.
+  <% end %>
+<% end %>

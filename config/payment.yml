@@ -1,0 +1,19 @@
+development:
+  virtualPaymentClientURL: "https://migs.mastercard.com.au/vpcpay"
+  vpc_AccessCode: D970AB57
+  vpc_Merchant: TEST3920360009
+  
+test:
+  virtualPaymentClientURL: "https://migs.mastercard.com.au/vpcpay"
+  vpc_AccessCode: D970AB57
+  vpc_Merchant: TEST3920360009
+  
+staging:
+  virtualPaymentClientURL: "https://migs.mastercard.com.au/vpcpay"
+  vpc_AccessCode: D970AB57
+  vpc_Merchant: TEST3920360009
+  
+production:
+  virtualPaymentClientURL: "https://migs.mastercard.com.au/vpcpay"
+  vpc_AccessCode: 4500F1E9
+  vpc_Merchant: 3920360009

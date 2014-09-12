@@ -1,0 +1,45 @@
+<% if @activity_category %>
+  <% @title = @activity_category.name %>
+  
+  <% @show_title_text = true ;@title_class = 'activities_title' ;@section_title = @title %>
+  <% content_for :custom_section_header_content do %>
+  <ul class="header_menu">
+    <li><%= link_to "نبذة عن #{@title}", "#{activity_category_path(@activity_category)}#about_activity" %></li>
+    <li><%= link_to "صور وفيديو", "#{activity_category_path(@activity_category)}#media_list" %></li>
+    <li class="last_item"><%= link_to "أخبار ذات صلة", "/news?activity_category_id=#{@activity_category.id}" %></li>
+    <li><%= link_to "أسئلة شائعة", activity_category_questions_path(@activity_category)   %></li>
+  </ul>
+  <% end %>
+<% else %>
+  <% @title = "أسئلة شائعة" %>
+  <% @show_title_text = true ;@title_class = 'faq_title' ;@section_title = @title %>
+<% end %>
+
+<div class="article_detail">
+<% if @questions.length > 0 %>
+
+  <div class="form_block faq">
+    <% @questions.each do |question|%>        
+    <h3><%= question.question %></h3>
+    <p><%= question.answer %></p>
+    <% end %>
+  </div>
+  <br />
+  <%= will_paginate @questions %>
+  
+  
+<% else %>
+
+  <div class="no-data">لا توجد أسئلة</div>
+
+<% end %>
+
+</div>
+
+<% content_for :javascripts do %>
+<script>
+$(function() {
+  $( ".faq" ).accordion();
+});
+</script>
+<% end %>

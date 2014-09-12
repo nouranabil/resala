@@ -1,0 +1,52 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=> 'volunteers/volunteers_section_menu', :locals=>{:selected_item => :volunteers_home}%>
+<% end %>
+
+
+<div class="volunteer_container">
+  <div class="volunteer_home_intro">
+    <h4 class="hideText welcome_mes">مرحباً بك فى بوابة متطوعى رسالة</h4>
+    <strong>يمكنك من خلال بوابة متطوعى رسالة متابعة:</strong>
+    <ul>
+      <li><p><%= link_to "أحدث الأعمال التطوعية" , activities_path %> الخيرية القادمة برسالة، وتسجيل رغبتك فى المشاركة بأى منها ،والتواصل مع مديرى الأعمال والمتطوعين والتنسيق العام للقيام بها.</p></li>
+      <li><p>الأعمال التطوعية التى تم الانتهاء من تنفيذها وإنجازاتها.</p></li>
+      <li><p>متابعة <%= current_user ? (link_to "الأعمال التطوعية التى قمت بالاشتراك بها" , dashboard_volunteer_path(current_user)) : "الأعمال التطوعية التى قمت بالاشتراك بها"  %>، أو إبداء رغبتك فى الاشتراك بها، والتواصل مع المتطوعين الآخرين لتنفيذها بنجاح.</p></li>
+      <li><p>التواصل مع <%= link_to "متطوعى رسالة" , volunteers_path %> ومديرى الأعمال الخيرية التطوعية.</p></li>
+      
+      <% if current_user %>
+        <% if can?(:create, Activity.new)%>
+          <li><p>كما يمكنك <%= link_to 'إنشاء وإدارة أعمال تطوعية', new_activity_path%> خيرية تطوعية جديدة.</p></li>
+        <% elsif can?(:activities_authority, Volunteer.new) %>
+          <li><p>إذا كنت من مديرى أو منسقى الأعمال التطوعية برسالة، يمكنك <%= link_to 'طلب إذن لإنشاء وإدارة أعمال تطوعية', activities_authority_volunteers_path, :method=>:post %> خيرية تطوعية جديدة.</p></li>
+        <% else %>
+          <li><p>إذا كنت من مديرى أو منسقى الأعمال التطوعية برسالة، يمكنك طلب إذن لإنشاء وإدارة أعمال خيرية تطوعية جديدة.</p></li>
+        <% end %>
+      <% else %>
+        <li><p>إذا كنت من مديرى أو منسقى الأعمال التطوعية برسالة، يمكنك طلب إذن لإنشاء وإدارة أعمال تطوعية خيرية تطوعية جديدة.</p></li>
+      <% end %>
+    </ul>
+    <div class="joinNow">
+      <h2 class="hideText strat_now">ابدأ الآن :</h2>
+      <% if current_user%>
+        <% if can?(:create, Activity.new)%>
+        <%= link_to 'تصفح الأعمال التطوعية', activities_path, :class=>"browse_activities" %>
+        <%= link_to "تنظيم عمل تطوعي جديد", new_activity_path, :class=>"new_activities" %>
+        <% elsif can?(:request_activities_authority, current_user) %>
+        
+        <%= link_to 'تصفح الأعمال التطوعية', activities_path, :class=>"browse_activities" %>
+        <%= link_to 'طلب إذن لتنظيم أعمال تطوعية', request_activities_authority_volunteers_path %>
+        <% else %>
+        <div class="section_intro">              
+          <p> طلبك لإنشاء أعمال تطوعية جديدة قيد المراجعة من الإدارة.</p>
+        </div>
+        <% end %>
+      <% else %>
+        <%= link_to "إنشاء حساب متطوع", volunteering_path(:facebook), :class=>"registration_req register_button" %>
+        <%= link_to "تسجيل الدخول", login_path(:facebook), :class=>"login_req login_button" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

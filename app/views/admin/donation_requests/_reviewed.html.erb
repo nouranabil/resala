@@ -1,0 +1,5 @@
+<% if donation_request.reviewed == true %>
+  <%= link_to 'لم يتم استعراضه', admin_donation_request_path(donation_request.id, :reviewed=>"false", :page=>params[:page] || 1), :title=>"تعديل الى لم يتم استعراضه", :class=>"reviewed", :confirm => 'هل انت متأكد من تعديل هذا الطلب الى لم يتم استعراضه؟', :method => :put %>
+<% else %>
+  <%= link_to 'تم استعراضه', admin_donation_request_path(donation_request.id, :reviewed=>"true", :page=>params[:page] || 1), :title=>"تعديل الى تم استعراضه", :class=>"unreviewed", :confirm => 'هل انت متأكد من تعديل هذا الطلب الى تم استعراضه؟', :method => :put %>
+<% end %>

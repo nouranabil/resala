@@ -1,0 +1,17 @@
+<div class="side_element">
+<h2 class="hideText strat_now">ابدأ الآن</h2>
+<% if current_user %>
+  <% if can?(:create, Activity.new)%>
+    <%= link_to "تنظيم أعمال تطوعية", new_activity_path, :class=>"addActivity_req" %>
+  <% elsif can?(:request_activities_authority, current_user) %>
+    <%= link_to 'طلب إذن لتنظيم أعمال تطوعية', request_activities_authority_volunteers_path, :class=>"volunteer_req" %>
+  <% else %>
+    <div class="section_intro">              
+      <p> طلبك لتنظيم أعمال تطوعية جديدة قيد المراجعة من الإدارة.</p>
+    </div>
+  <% end %>
+<% else %>
+  <%= link_to "إنشاء حساب متطوع", volunteering_path(:facebook), :class=>"registration_req register_button" %>
+  <%= link_to "تسجيل الدخول", login_path(:facebook), :class=>"login_req login_button" %>
+<% end %>
+</div>

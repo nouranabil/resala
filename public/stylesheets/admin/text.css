@@ -1,0 +1,98 @@
+
+/* =Basic HTML
+--------------------------------------------------------------------------------*/
+
+body
+{
+	font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+}
+
+a:focus
+{
+	outline: 1px dotted invert;
+}
+
+hr
+{
+	border-color: #ccc;
+	border-style: solid;
+	border-width: 1px 0 0;
+	clear: both;
+	height: 0;
+}
+
+/* =Headings
+--------------------------------------------------------------------------------*/
+
+h1
+{
+	font-size: 25px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+h2
+{
+	font-size: 23px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+h3
+{
+	font-size: 21px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+h4
+{
+	font-size: 19px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+h5
+{
+	font-size: 17px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+h6
+{
+	font-size: 15px;
+	font-family: "Traditional Arabic" , "MS Trebuchet", sans-serif;
+}
+
+/* =Spacing
+--------------------------------------------------------------------------------*/
+
+ol
+{
+	list-style: decimal;
+}
+
+ul
+{
+	list-style: square;
+}
+
+li
+{
+	margin-left: 30px;
+}
+
+p,
+dl,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+ul,
+pre,
+table,
+address,
+fieldset
+{
+	margin-bottom: 20px;
+}

@@ -1,0 +1,42 @@
+<% @title = @testimonial.title%>
+<% @title_class = 'testimonials_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+ما نشر عن جمعية رسالة فى وسائل الأخبار المختلفة
+<% end %>
+
+<h2 class="page_title"><%= @testimonial.title %></h2>
+<div class="article_detail">
+  <article>  
+    <div class="article_activities">
+      <div class="date">
+        <span>نشرت في</span>
+        <span class="day"><%= l(@testimonial.disclosure_date, :format=>:long)%></span>
+        <span class="source">
+          <%= link_to "[#{@testimonial.source}]", @testimonial.url, :target=>"_blank" %>
+        </span>
+      </div>  
+      <div class="sharring_box">
+        <div class="addthis">
+          <%= render :partial=>'shared/share_links' %>
+        </div>                    
+      </div>
+    </div>  
+    
+    <div class="article_body">
+    <% if @testimonial.photo %>
+      <div class="article_img large">
+        <%= image_tag @testimonial.photo ? fb_picture(@testimonial.photo.fb_id) : "dummy/resala_70x70.gif", :alt=> @testimonial.title %>
+      </div>
+    <% end %>
+    <%= @testimonial.description.html_safe if @testimonial.description %>
+    </div>
+    
+    <div class="tabs">
+      <div class="tab_content">
+        <div id="latest">
+         <%= render :partial=>'shared/facebook_comments', :locals=>{:url=>testimonial_path(@testimonial)} %>
+        </div>
+      </div>
+    </div>
+  </article>            
+</div>

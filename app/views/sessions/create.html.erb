@@ -1,0 +1,10 @@
+<html>
+  <head></head>
+  <body>
+    <script type="text/javascript">
+      try {
+        window.opener.facebook_login.success_callback(<%= @return_to_url ? "\"#{@return_to_url}\"".html_safe : "" %>);
+      } catch(err) {}
+    </script>
+  </body>
+</html>

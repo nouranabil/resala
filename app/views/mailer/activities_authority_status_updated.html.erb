@@ -1,0 +1,14 @@
+<p style="color:#000;font-size:normal;font-size:1.1em;padding:0;margin:0 0 10px;">عزيزي المستخدم <%= @volunteer.name %> ،</p>
+<p style="color:#222;padding:0;margin:5px 0;">لقد قمت بإرسال طلب إذن لتنظيم أعمال تطوعية، وقام فريق رسالة بالرد على الطلب بالتالي : </p>
+<p style="color:#000;font-weight:bold;padding:0;margin:5px 0 10px;"><%= t("activities_authority_status.status_name_#{@volunteer.activities_authority_status}") %></p>
+<% if @volunteer.activities_authority_status == ActivitiesAuthorityStatus.accepted %>
+  <p style="color:#222;padding:0;margin:5px 0;">يمكنك الآن تنظيم أعمال تطوعية جديدة من رابط 'تنظيم عمل تطوعى جديد' في صفحة 'بوابة المتطوعين' وذلك بعد تسجيل دخولك على الموقع</p>
+<% end %>
+<p style="color:#222;padding:0;margin:5px 0;">لمتابعة حالة الطلب ، نرجو إرسال رسالة على البريد الإلكترونى التالي </p>
+<p style="margin:5px 0;"><a target="_blank" style="outline: none;line-height:1.6em;color:#307CBE;text-decoration: none; padding:0;" href="mail:info@resala.org">info@resala.org</a></p>
+
+<div style="color:#999;padding-top:15px;" align="left" >
+  <p style="margin:5px 0;color:#777;">شكراً لكم ،</p>
+  <p style="margin:5px 0;color:#777;">فريق رساله</p>
+  <p style="margin:5px 0;"><a href="<%= SITE_URL %>" style="outline: none;color: #2F72A9;text-decoration: none;">www.resala.org</a></p>
+</div>

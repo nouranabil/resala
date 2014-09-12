@@ -1,0 +1,14 @@
+<script type="text/html" id="photos-list-template">
+  <![CDATA[
+    <div class=" list_item photo">
+      <a title="<%%= this.caption %>" rel='gallery_images' class='fancybox thumb' href='/media/photos/<%%= this.object_id %>?layout=false'>
+        <img src="<%%= this.src_small.replace(/_t.jpg$/,"_s.jpg") %>" />
+      </a>
+      <%% var more = (this.caption.length > 20) ? " .... " : ""; %>
+      <p class="info"><%%= this.caption.substr(0,20) + more %></p>
+      <%% var crtd = new Date();%>
+      <%% crtd.setTime(this.created * 1000);%>
+      <p class="date"><%%= crtd.getDate() + " " + months[crtd.getMonth()] + " " + crtd.getFullYear() %></p>
+    </div>
+  ]]>
+</script>

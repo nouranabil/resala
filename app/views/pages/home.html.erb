@@ -1,0 +1,76 @@
+<% @title = t('page_titles.home')%>
+
+<div class="article_detail">
+  <article id="article">
+    <div class="block_title">
+      <h2 class="hideText ressala_news">أخبار رسالة</h2>
+    </div>
+    <ul>
+      <% @news.each do |news| %>
+      <li class="list_item">
+        <%= render :partial=>'articles/article', :locals=>{:article=>news, :type=>"news"} %>
+      </li>
+      <% end %>
+    </ul>
+    <p class="more_btn"><%= link_to "المزيد ...", "/news", :class=>"btn" %></p>
+    
+    <div class="users_activityList">
+      <div class="block_title">
+        <h3 class="hideText latestActivities_title">أحدث الأعمال التطوعية</h3>
+      </div>
+      <%= render :partial=> 'activities/activities', :locals=>{ :activities=> @activities, :no_pagination=>true }%>
+      <p class="more_btn"><%= link_to "المزيد ...", "/activities", :class=>"btn" %></p>
+    </div>
+    
+    <%= render :partial=> 'media/index' ,:locals=>{:media_type=> 'photos',
+                                             :query=>@query, 
+                                             :page=>1, 
+                                             :per_page=> @per_page,
+                                             :no_pagination=> true} %>
+    <p class="more_btn"><%= link_to "المزيد ...", media_path(:albums), :class=>"btn" %></p>
+  </article>
+  
+</div>
+
+<% content_for :slider do %>
+
+<div class="featuredActivities">
+  <div id="actions">
+     <a class="prev">&laquo; السابق</a>
+     <a class="next">التالى &raquo;</a>
+  </div>
+
+  <!-- root element for scrollable -->
+  <div class="scrollable vertical">
+     <!-- root element for the scrollable elements -->
+     <div class="items">
+      <% @slider_activities.each_with_index do |activity,index| %>
+      <div>
+        <div class="item">  
+          <div class="featuredDetails">
+            <%= link_to "<h3>#{activity.name}</h3>".html_safe, activity_category_path(activity) , :class=>"head"%>
+            <p> <%= activity.short_description %> </p>
+          </div>
+          <div class="featuredpic">
+              <img src="<%= (front_photo = activity.front_photo) ? fb_picture(front_photo.fb_id) : "../../images/common/no_image_available.gif" %>" />
+          </div>
+        </div><!-- first element Ends -->
+      </div>
+      <% end %>        
+    </div>
+  </div>
+  <p class="action_btn">
+    <%= link_to 'لمزيد من انشطة رسالة', activity_categories_path, :class=>"hideText home_more" %>
+  </p>
+</div><!-- featuredActivities  Ends-->
+
+<% end %>
+
+<% content_for :javascripts do%>
+<%= javascript_include_tag 'jquery.tools.min' %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".scrollable").scrollable({easing: 'easeInOutCirc', vertical: true, mousewheel: true, speed: 1000, circular: true}).autoscroll({interval: 5000});
+  });
+</script>
+<% end %>

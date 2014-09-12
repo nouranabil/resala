@@ -1,0 +1,99 @@
+<div class="grid_16">
+  <h2 id="page-heading"> التبرعات </h2>
+</div>
+
+<div class="grid_16">
+  <div class="box">
+    <h2><%= link_to "بحث", "#", :id=>"donation_search_display"%></h2>
+    <div class="block" id="donation_search_container" style="<%= 'display: none;' if params[:from_date].blank? && params[:to_date].blank? %>" >
+      <%= form_tag admin_donations_path, :method => 'get' do |f| %>
+        <div class="page_actions">
+          <p>
+            <label>بدءا من</label>
+            <%= select_date @from_date, {:prefix => 'from_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@from_date %>
+          </p>
+          <p>
+            <label>حتى</label>
+            <%= select_date @to_date, {:prefix => 'to_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@to_date %>
+          </p>
+          <p class="controls">
+            <input type="submit" value="بحث" name="commit" id="volunteer_submit" class="button">
+          </p>
+        </div>
+      <% end %>                     
+    </div>
+  </div>
+</div>
+
+
+<div class="grid_16"> 
+  <% if @donations.length > 0 %>    
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="6">قائمة التبرعات</th>
+      </tr>
+      <tr>
+        <th><%= sortable("amount", "المبلغ")%></th>
+        <th><%= sortable("donator_name", "اسم المتبرع")%></th>
+        <th><%= sortable("activity_category_id", "النشاط")%></th>
+        <th><%= sortable("donator_email", "البريد الإلكتروني")%></th>
+        <th><%= sortable("donator_phone", "التليفون")%></th>
+        <th><%= sortable("created_at", "تاريخ التبرع")%></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @donations.each do |donation| %>
+		  <tr class="<%= cycle('odd', 'even')%>">
+		    <th class="list_item_name" >
+		      <h5><%= "#{donation.amount} جنيه "%></h5>
+		    </th>
+		    <th class="list_item_name" >
+		      <h5><%= donation.donator_name %></h5>
+		    </th>
+		    <th class="list_item_name" >
+		      <h5><%= donation.activity_category.name  if donation.activity_category %></h5>
+		    </th>
+		    <th class="list_item_name" >
+		      <h5><%= mail_to donation.email %></h5>
+		    </th>
+		    <th class="list_item_name" >
+		      <h5><%= donation.phone %></h5>
+		    </th>
+		    <th class="list_item_name" >
+		      <h5><%= l donation.created_at, :format=>:long %></h5>
+		    </th>
+		  </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% report_params = params.clone %>
+  <% report_params.delete('controller') %>
+  <% report_params.delete('action') %>
+  <%= link_to 'تقرير إكسل', donations_admin_reports_path(report_params), :class=>"excel_btn" %>
+  <%= will_paginate @donations %>
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا توجد تبرعات</div>
+  </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    $("#donation_search_display").live('click' , function(){
+      $("#donation_search_container").slideToggle();
+      return false;
+    });
+  });
+</script>
+<% end %>

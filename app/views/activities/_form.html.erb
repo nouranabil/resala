@@ -1,0 +1,15 @@
+<div class="form_block">  
+  <h3 class="page_title"><%= form_title %></h3>      
+  <%= form_for(activity, :url=> @activity.new_record? ? activities_path : volunteer_activity_path(@activity.user_id, @activity),:html=>{:multipart => true}) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>activity} %>
+    <fieldset>
+      <%= render :partial=>'activities/form_attributes', :locals=>{:activity=>activity, :form=>f} %>
+      <p class="form-buttons">
+        <% if !@activity.new_record? && @activity.user_id %>
+        <%= link_to "الغاء", volunteer_activity_path(@activity.user_id, @activity.id) %>
+        <% end %>
+        <%= f.submit "أرسل", {:class=>"input_button button-send"} %>
+      </p>
+    </fieldset>
+  <% end %>           
+</div>

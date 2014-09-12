@@ -1,0 +1,146 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:volunteers} %>
+<% end %>
+<% @fb_friends_list = params[:fb_friends].blank? ? false : true %>
+
+<div class="volunteer_container">
+  <div class="tabs">
+    <h3></h3>
+    <ul class="tab_nav">
+      <li class="<%= 'selected' if @fb_friends_list %>" ><%= link_to("<span>أصدقائى على فيسبوك</span>".html_safe, "/volunteers?fb_friends=1", :id=>"facebook_friends_list") %></li>
+      <li class="<%= 'selected' unless @fb_friends_list %>" ><%= link_to("<span>المتطوعون</span>".html_safe, volunteers_path) %></li>
+    </ul>
+  </div>
+  <div class="users">
+    <div class="users_list profile_activites">
+    
+      <div class="filter_block" style="<%= 'display: none' if @fb_friends_list %>">
+        <%= form_tag(volunteers_path, :method=> :get ,:id=>'volunteer_search_form' ) do %>
+        <fieldset >
+          <legend class="hideText section_search">بحث</legend>
+          <div class="collExp_block">
+            <%= link_to "إخفاء", "#", :class=>"collapse", :style=>"display: none;"%>
+            <%= link_to "إظهار", "#", :class=>"expand" %>
+          </div>
+          <div id="search_container" style="display: none;">
+            <div class="search-specific">
+              <ul>
+                <li>
+                <%= label :activity_category_id , "النشاط الخيرى" %>
+                <%= select_tag :activity_category_id, "<option value=\"\">اختر النشاط الخيرى</option>".html_safe + options_from_collection_for_select(@activity_categories, "id", "name", :selected=>params[:activity_category_id]) %>
+                </li>
+                <li>
+                <%= label :branch_id , "الفروع" %>
+                <%= select_tag :branch_id, "<option value=\"\">اختر الفرع</option>".html_safe + options_for_select(@branches, :selected=>params[:branch_id]) %>
+                </li>
+                
+                <li>
+                  <dl class="options-sort">
+                    <dt><label class="hideText sort_label">رتب بــ</label></dt>
+                    <dd>
+                    <% options_array = [[t('activerecord.attributes.volunteer.created_at'), "created_at"],
+                                                              [t('activerecord.attributes.volunteer.name'), "name"],
+                                                              [t('activerecord.attributes.volunteer.accepted_activities_requests_count'), "accepted_activities_requests_count"]] %>
+                    <% if !HIDE_ACTIVITY_CLOSING %>
+                      <% options_array <<=  ["عدد ساعات العمل", "activities_hours"] %>
+                    <% end %>                                     
+                    <%= select_tag :sort, options_for_select(options_array,
+                                                              :selected=>params[:sort]), :class=>"small" %>
+                    <%= select_tag :direction, options_for_select([["تنازليا","desc"],["تصاعديا","asc"]],:selected=>params[:direction]), :class=>"small" %>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+            <p class="search-submit">
+              <%= submit_tag "عرض", :class=>"input_button button-search"%>
+            </p>
+          </div>
+        </fieldset>
+        <% end %>
+      </div>
+    
+      <% if @volunteers.to_a.length > 0 %>
+        <ul>
+          <% @volunteers.each do |volunteer| %>
+          <li class="list_item">
+            <div class="thumbnail user">
+              <%= image_tag(volunteer.image.blank? ? "/images/dummy/resala_70x70.gif" : volunteer.image) %>
+              <!-- <%= link_to image_tag(volunteer.image.blank? ? "/images/dummy/resala_70x70.gif" : volunteer.image), volunteer_path(volunteer)%> -->
+            </div>
+            <div class="details">
+              <h3><%= volunteer.name %></h3>
+              <!-- <h3><%= link_to volunteer.name, volunteer_path(volunteer) %></h3> -->
+              <p class="user_activitys">
+                <%= volunteer.activity_categories.collect{|ac| "<span><a href='#{activity_category_path(ac)}'>#{ac.name}</a></span>"}.join(' , ').html_safe %>
+              </p>
+              <div class="activity_details">
+                <span class="volunteering_date" title="تاريخ الإنضمام"><%= l(volunteer.created_at.to_date, :format => :long) %></span>
+                <% if !HIDE_ACTIVITY_CLOSING %>
+                <span class="users_hours" title="عدد الساعات"><%= volunteer.activities_hours %> ساعة </span>
+                <% end %>
+                <span class="activitys_no" title="عدد الأعمال التطوعية"><%= volunteer.accepted_activities_requests_count %> عمل تطوعى </span>
+              </div>
+            </div>                          
+          </li>
+          <% end %>
+        </ul>
+        <%= will_paginate @volunteers %>
+      <% else %>
+        <% if @fb_friends_list && current_user.nil? %>
+          <div class="section_intro nothing">
+            <h2>تأكد من تسجيل الدخول فى رسالة وعلى فيسبوك</h2>
+          </div>
+        <% else %>
+          <div class="section_intro nothing">
+            <h2>لا يوجد متطوعون</h2>
+          </div>
+        <% end %>
+      <% end %>          
+    </div>
+  </div>
+</div>
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>
+
+
+<% content_for :javascripts do %>
+  <script>
+    $('.collExp_block .expand').click(function(){
+      $(this).hide();
+      $('.collExp_block .collapse').show();
+      $('#search_container').fadeIn("slow");
+      return false;
+    });
+    
+    $('.collExp_block .collapse').click(function(){
+      $(this).hide();
+      $('.collExp_block .expand').show();
+      $('#search_container').fadeOut("slow");
+      return false;
+    });
+  </script>
+  <% if current_user %>
+  <script type="text/javascript">
+    $(document).ready(function()  {
+      var friendListFull = false;
+      $('#facebook_friends_list').click(function(){
+          getData("SELECT uid2 FROM friend WHERE uid1 = me()",
+            function(response){
+              friendListFull = true;
+              friend_ids = ''
+              $(response).each(function(){
+                friend_ids +=  this.uid2 + '|';
+              });
+              Cookies.createCookie("friend_ids",friend_ids,1);
+              window.location = $('#facebook_friends_list').attr("href");
+            });
+          return false;
+      });
+    });
+  </script>
+  <% end %>
+<% end %>
+

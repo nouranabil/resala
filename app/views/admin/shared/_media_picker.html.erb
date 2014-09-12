@@ -1,0 +1,204 @@
+<script type="text/html" id="current_media_list_template">
+  <![CDATA[
+    <li id="media_item_<%%= this.id %>">
+    
+      <div class="image_content">
+        <a href="http://graph.facebook.com/<%%= this.id %>/picture" target="_blank" >
+          <img style="width:100px;height50px" src="http://graph.facebook.com/<%%= this.id %>/picture" />
+        </a> 
+        <a class="remove_media_item" fbId="<%%= this.id %>">إزالة</a>
+      </div>
+      
+      <% if !parent.is_a?(Activity) && parent.respond_to?(:front_photo) %>
+      <%% if(this.mediaType == "photo"){%>
+      <div class="select_img">
+        <input type="radio" id="<%=parent.class.name.underscore %>_front_photo_fb_id_<%%= this.id %>" name="<%= parent.class.name.underscore %>[front_photo_fb_id]" value="<%%= this.id %>" class="input_check">
+        <span><label for="<%=parent.class.name.underscore %>_front_photo_fb_id_<%%= this.id %>">الصورة الرئيسية</label></span>
+      </div>
+      <%% }%>  
+      <% end %>
+      
+    </li>
+  ]]>
+</script>
+
+
+<div class="selected_img_thumb">
+
+<% if local_assigns[:single] %>
+  <h4>صورة الشهادة</h4>
+  <ul class="img_thumb" id="current_media_list" >
+    <% if  m = parent.send(association) %>
+    <li id="media_item_<%=m.fb_id%>">
+      <a href="<%=fb_picture(m.fb_id)%>" target="_blank" >
+        <img style="width:100px;height50px" src="<%=fb_picture(m.fb_id)%>" />
+      </a> 
+      <a class="remove_media_item" fbId="<%=m.fb_id%>">إزالة</a>
+    </li>
+    <% end %>
+  </ul>
+  <div class="clear"></div>
+<% else %>
+  
+  <h4>الملفات التي تم إختيارها</h4>
+  <ul class="img_thumb" id="current_media_list" >
+    <% parent.send(association).facebook_files.each do |m| %>
+      <li id="media_item_<%=m.fb_id%>">
+        <div class="image_content">
+          <a href="<%=fb_picture(m.fb_id)%>" target="_blank" >
+            <img style="width:100px;height50px" src="<%=fb_picture(m.fb_id)%>" />
+          </a> 
+          <a class="remove_media_item" fbId="<%=m.fb_id%>">إزالة</a>
+        </div>
+        <% if !parent.is_a?(Activity) && parent.respond_to?(:front_photo) %>
+        <div class="select_img">
+          <%= f.radio_button :front_photo_fb_id, m.fb_id, :class=>"input_check" %>
+          <span><label for="<%=parent.class.table_name.singularize%>_front_photo_fb_id_<%= m.fb_id %>">الصورة الرئيسية</label></span>
+        </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="clear"></div>
+  
+  <h4>الملفات التي تم رفعها</h4>
+  <ul class="img_thumb" id="current_media_list" >
+    <% parent.send(association).files.each do |m| %>
+      <li id="media_item_<%=m.id%>">
+        <a href="<%=m.media.url()%>" target="_blank" >
+          <img style="width:100px;height50px" src="<%=m.media.url()%>" />
+        </a>
+        <%= hidden_field "media", "files",{:name => "media_files_list[]", :value => m.id } %> 
+        <a class="remove_media_item" fbId="<%=m.id%>">إزالة</a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="clear"></div>
+
+<% end %>
+
+  <%= link_to((local_assigns[:button_text]||t("media.picker.choose_media")), media_path(:albums, :media_picker=>'true'), :id=>'picker_link', :class=>'fancybox add_btn')%>
+  <div class="clear"></div>
+</div>
+
+<% if local_assigns[:single] %>
+  <% m = parent.send(association) %>
+  <% json_media_list = m ? "[{mediaType:'#{m.media_type}',id:'#{m.fb_id}',thumbnail:'#{m.thumbnail||'undefined'}'}]" : "[]" %>
+<% else %>
+  <% json_media_list = "["+ parent.send(association).facebook_files.collect{|m| "{mediaType:'#{m.media_type}',id:'#{m.fb_id}',thumbnail:'#{m.thumbnail||'undefined'}'}"}.join(",")+"]" %>
+<% end %>
+<%= f.hidden_field association, :id=>"media_list", :value=>json_media_list %>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  var single = <%= local_assigns[:single] ? 'true':'false'%>;
+  var frontPhoto = "<%= parent.respond_to?(:front_photo) && parent.front_photo ? parent.front_photo.fb_id : '' %>"
+  $('#picker_link').click(function(){
+    initSelected();
+  });
+  
+  var initSelected = function(){
+    if(typeof selectedMedia === 'undefined'){
+      selectedMedia = {};
+    }
+    //Initialize selectedMedia
+    try {
+      $(eval($("#media_list").val())).each(function(){
+        selectedMedia[this.id] = this;
+      });
+    }catch(err){}
+  }
+  
+  $(".remove_media_item").live('click',function(){
+    removeItem($(this).attr('fbId'))
+  });
+  
+  var removeItem = function(fbId){
+    initSelected();
+    delete selectedMedia[fbId];
+    var firstTime = true;
+    var mediaList = "[";
+    for(var key in selectedMedia){
+      mediaList += (firstTime ? "" : ",") ;
+      firstTime = false;
+      var m = selectedMedia[key]
+      mediaList += "{mediaType:'" + m.mediaType + "',id:'" + m.id + (m.thumbnail == undefined ? ("',thumbnail:'"+m.thumbnail) : "") + "'}";
+    }
+    mediaList += "]";
+    $("#media_list").val(mediaList);
+    $("#media_item_"+fbId).remove();
+    delete selectedMedia;
+  }
+  
+  
+  $(document).ready(function()  {
+  
+    var addItem = function(item){
+      key = item.id+'';
+      if(selectedMedia[key] == undefined){
+        selectedMedia[key] = {  mediaType   : item.mediaType,
+                                id          : item.id,
+                                thumbnail   : item.thumbnail,
+                                url         : item.url
+                             };
+      }
+    }
+  
+    $('.toggleSelected').live('click',function(){
+      var id = $(this).attr('fbId')
+      var li = $('#item_'+id)
+      if(selectedMedia[id]==undefined){
+      //add item
+        if(single){
+          selectedMedia = {};
+          $('.toggleSelected:checkbox').attr('checked',false);
+          $('li.selected').removeClass("selected");
+        }
+        addItem({ id: id, mediaType: li.attr('mediaType') , thumbnail : li.attr('thumbnail'), url: li.attr('url') });
+        li.addClass('selected');
+        $('[fbId='+ id +']:checkbox').attr('checked',true);
+      }else{
+      //remove item
+        delete selectedMedia[id];
+        li.removeClass('selected');
+        $('[fbId='+ id +']:checkbox').attr('checked',false);
+      }
+    });
+    
+    $('#add_selected').live('click',function(){
+      $.fancybox.close();
+      var mediaList = "[";
+      var firstTime = true;
+      $("#current_media_list").html("");
+      for(var key in selectedMedia){
+        mediaList += (firstTime ? "" : ",") ;
+        firstTime = false;
+        var m = selectedMedia[key]
+        mediaList += "{mediaType:'" + m.mediaType + "',id:'" + m.id + (m.thumbnail == undefined ? "":("',thumbnail:'"+m.thumbnail)) + "'}";
+        $("#current_media_list").append($("#current_media_list_template").jqote(m));
+      }
+      mediaList += "]";
+      $("#media_list").val(mediaList);
+      
+      if(frontPhoto == ''){
+        var radios = $('div.select_img input:radio');
+        if(radios.length > 0){
+          $(radios[0]).attr('checked','true');
+        }
+      }else{
+        var radios = $('input[value='+ frontPhoto +']:radio');
+        radios.attr('checked','true');
+      }
+      
+      
+      delete selectedMedia;
+    });
+    
+    $('#cancel_button').live('click',function(){
+      $.fancybox.close();
+      delete selectedMedia;
+    });
+
+});
+</script>
+<% end %>

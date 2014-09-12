@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>رسالة</title>
+    <%= include_stylesheets :admin_common %>
+    <%= csrf_meta_tag %>
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/stylesheets/admin/ie.css" media="screen" /><![endif]-->
+    <!-- Start of Woopra Code -->
+    <script>
+    (function(){
+        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+    })("woopra");
+
+    woopra.config({
+        domain: 'resala.org'
+    });
+    woopra.track();
+    </script>
+    <!-- End of Woopra Code -->
+  </head>
+  <body>
+    <div class="container_16">
+      <div class="grid_16">
+        <h1 id="branding">
+          <a href="/admin" class="hid_text">رسالة</a>
+        </h1>
+        <div class="user_menu">
+          <%= link_to "تسجيل الخروج", "/logout"%>
+        </div>
+      </div>
+      
+      <div class="grid_16">
+        <ul class="nav main">
+          <li><%= link_to "المقالات", admin_articles_path , :class=>is_selected("admin/articles")%></li>
+          <li><%= link_to "قالوا عنا", admin_testimonials_path , :class=>is_selected("admin/testimonials")%></li>
+          <li>|</li>
+          <li><%= link_to "طلبات التبرع", admin_donation_requests_path , :class=>is_selected("admin/donation_requests")%></li>
+          <li><%= link_to "تبرعات", admin_donations_path , :class=>is_selected("admin/donations")%></li>
+          <li>|</li>
+          <li><%= link_to "الأعمال التطوعية", admin_activities_path , :class=>is_selected("admin/activities")%></li>
+          <li><%= link_to "المتطوعون", admin_volunteers_path , :class=>is_selected("admin/volunteers")%></li>
+          <li>|</li>
+		      <li><%= link_to "المشتركون بالنشرة البريدية", admin_newsletter_subscribers_path , :class=>is_selected("admin/newsletter_subscribers")%></li>
+		      <li>|</li>
+		      <li><%= link_to "الفروع", admin_branches_path , :class=>is_selected("admin/branches")%></li>
+		      <li><%= link_to "الأنشطة الخيرية", admin_activity_categories_path , :class=>is_selected("admin/activity_categories")%></li>
+		      <li><%= link_to "أنواع الإنجازات", admin_achievements_types_path , :class=>is_selected("admin/achievements_types")%></li>
+		      <li>|</li>
+		      <li><%= link_to "إرسال بريد إلكترونى", admin_new_bulk_email_path , :class=>is_selected("admin/emails")%></li>
+		      <li>|</li>
+		      <li><%= link_to "المشرفون", admin_admins_path , :class=>is_selected("admin/admins")%></li>
+		      <li>|</li>
+          <li><%= link_to "أسئلة شائعة", admin_questions_path , :class=>is_selected("admin/questions")%></li>
+        </ul>
+      </div>
+      
+      <div class="grid_16" >
+        <%- flash.each do |name, message| -%>
+          <% if name == :notice %>
+            <div class="flash-notice">
+               <h4><%= message %></h4>
+            </div>
+          <% else %>
+          <%= content_tag :div, message, :class => name %>
+          <% end %>
+        <%- end -%>
+      </div>
+      
+      <%= yield %>
+      
+      <div class="grid_16" id="site_info">
+        <div class="box">
+          <p></p>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </body>
+  <%= render :partial => 'shared/facebook_api'%>
+  
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" %>
+  <%= include_javascripts :admin_common %>
+  
+  <%= yield :javascripts %>
+</html>

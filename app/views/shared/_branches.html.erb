@@ -1,0 +1,6 @@
+<div class="side_element">
+  <h2 class="hideText related_branches_block">الفروع المتعلقة</h2>
+  <% branches.each do |branch|%>
+    <%= link_to branch.name, branch, :class=>"branch_tage" %>
+  <% end %>
+</div>

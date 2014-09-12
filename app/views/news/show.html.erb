@@ -1,0 +1,9 @@
+<% @title = @article.title; @title_class = 'news_title' ;@section_title = "الأخبار" %>
+<% content_for :custom_section_header_content do %>
+تعرف علي جديد أخبار جمعية رسالة و علي آخر الأعمال التطوعية
+<% end %>
+<%= render :partial=>'articles/show', :locals=>{:article=>@article, :type=>"news", :block_title=>"أخبار متعلقة"} %>
+
+<% content_for :top_search do%>
+  <%= render :partial => 'shared/top_search_form'%>
+<% end %>

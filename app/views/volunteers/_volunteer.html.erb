@@ -1,0 +1,72 @@
+<li class="list_item">
+  <% if is_owner %>
+  <% if current_user && @activity && current_user.id == @activity.user_id %>
+    <% if can? :update_join_activity, volunteer%>
+    <div class="user_action">
+      <% if activities_request.status == ActivitiesStatus.requested %>
+      	<%= link_to 'قبول', update_join_activity_volunteer_path(volunteer)+"?accept=true&activity_id=#{activities_request.activity_id}", :class=>"accept", :method => :post %>
+      	<%= link_to 'رفض',"#rejection_form_#{volunteer.id}", :id=>"inline", :class=>"unaccept"  %>
+      <% elsif activities_request.status == ActivitiesStatus.accepted %>
+      	<%= link_to 'رفض',"#rejection_form_#{volunteer.id}", :id=>"inline", :class=>"unaccept"  %>
+      <% elsif activities_request.status == ActivitiesStatus.rejected %>
+        <%= link_to 'قبول', update_join_activity_volunteer_path(volunteer)+"?accept=true&activity_id=#{activities_request.activity_id}", :class=>"accept", :method => :post %>
+      <% end %>
+    </div>
+    <% end %>
+  <% end %>
+  <% end %>
+  <div class="thumbnail">
+    <%= image_tag(volunteer.image.blank? ? "/images/dummy/resala_70x70.gif" : volunteer.image)%>
+  </div>
+  <div class="details">
+    <% if is_owner %>
+      <h3><%= link_to volunteer.name, volunteer_details_volunteer_path(volunteer), :class=>"fancybox" %></h3>
+      <div class="fb_profile_show">
+      	<%= link_to "Facebook Profile","http://www.facebook.com/profile.php?id="+volunteer.uid %>
+      </div>      
+      <div class="activity_details">
+        <span class="volunteering_date" title="تاريخ الإنضمام"><%= l(volunteer.created_at.to_date, :format => :long) %></span>
+        <% if !HIDE_ACTIVITY_CLOSING %>
+        <span class="users_hours" title="عدد الساعات"><%= volunteer.activities_hours %> ساعة </span>
+        <% end %>
+        <span class="activitys_no" title="عدد الأعمال التطوعية"><%= volunteer.accepted_activities_requests_count %>عمل تطوعى</span>
+      </div>
+    <% else %>
+      <h3><%= volunteer.name %></h3>
+      <div class="activity_details">
+        <span class="volunteering_date" title="تاريخ الإنضمام"><%= l(volunteer.created_at.to_date, :format => :long) %></span>
+        <% if !HIDE_ACTIVITY_CLOSING %>
+        <span class="users_hours" title="عدد الساعات"><%= volunteer.activities_hours %> ساعة </span>
+        <% end %>
+        <span class="activitys_no" title="عدد الأعمال التطوعية"><%= volunteer.accepted_activities_requests_count %> عمل تطوعى </span>
+      </div>
+    <% end %>
+    
+    <p class="user_activitys">
+    	<%= volunteer.activity_categories.collect{|ac| "<span>#{ac.name}</span>"}.join(' , ').html_safe %>
+    </p>
+    <!-- <div class="activity_details">
+          <span class="users_hours">cc 3'9) 9ED *7H9J </span>
+          <span class="activitys_no">E4*1C AJ ae F4'7 </span>
+        </div> -->
+  </div>
+  <div style="display:none">
+    <div  id="rejection_form_<%= volunteer.id %>" class="form_block">        
+      <%= form_for(ActivitiesRequest.new, :url=>update_join_activity_volunteer_path(volunteer)+"?accept=false&activity_id=#{activities_request.activity_id}") do |f| %>                   
+        <fieldset>  
+          <div class="section_intro" style="width: 92%">
+            <p>يرجى إدخال سبب للرفض.</p>
+          </div>        
+          <div class="form_item">
+            <label for="email">السبب</label>
+            <%= f.text_area :reject_reason, :rows => 8, :cols=>40 %>
+            <span class="mandatory">*</span>
+          </div>
+          <p class="form-buttons">
+            <%= f.submit "أرسل", :class=>"input_button button-send" %>
+          </p>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+</li>

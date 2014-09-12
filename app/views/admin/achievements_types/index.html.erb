@@ -1,0 +1,36 @@
+<div class="grid_16">
+  <h2 id="page-heading">أنواع الإنجازات</h2>
+</div>
+
+<div class="grid_16">
+  <%= link_to "إضافة نوع إنجاز جديد", new_admin_achievements_type_path, :class=>"add_btn"%> 
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="2">قائمة أنواع الإنجازات</th>
+      </tr>
+      <tr>
+        <th>الاسم</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @achievements_types.each do |achievements_type| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <th class="list_item_name" >
+          <h5><%= achievements_type.name %></h5>
+        </th>
+        <td  class="list-item-actions"> 
+          <%= link_to 'تعديل', edit_admin_achievements_type_path(achievements_type), :class=>"edit"%>
+          <%= link_to 'حذف', admin_achievements_type_path(achievements_type), :class=>"delete", :confirm => 'هل انت متأكد من حذف هذا النوع', :method => :delete %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>   

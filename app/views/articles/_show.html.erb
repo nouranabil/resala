@@ -1,0 +1,51 @@
+<div class="article_detail">
+  <h2 class="page_title"><%= article.title %></h2>
+  <article>  
+    <div class="article_activities">
+      <span class="views_no"><%= article.views_count %> مشاهدة </span>
+      <div class="date">
+        <span>كتبت في</span>
+        <span class="day"><%= l(article.created_at, :format=>:long)%></span>
+      </div>  
+      <div class="sharring_box">
+        <div class="addthis">
+          <%= render :partial=>'shared/share_links' %>
+        </div>                    
+      </div>
+    </div>  
+    <div class="article_body">
+      <%  if(front_photo = article.front_photo ? article.front_photo : article.media.facebook_files.photos.first) %>
+      <div class="article_img">
+        <%= image_tag fb_picture(front_photo.fb_id), :alt=> article.title %>
+      </div>
+      <% end %>
+      <%= article.description.html_safe %>
+    </div>
+    <%= render :partial=> 'media/index' ,:locals=>{:media_type=> 'photos',
+                                             :query=>@query,
+                                             :owner_type=> 'article',
+                                             :owner_id=> article.id,
+                                             :page=>1, 
+                                             :per_page=> Media::PER_PAGE} %>
+    <div>
+      <div class="tab_content">
+        <div id="latest">
+         <%= render :partial=>'shared/facebook_comments', :locals=>{:url=>url_for(:action=>:show, :controller=>type, :id=>article.id, :only_path=>false)} %>
+        </div>
+      </div>
+    </div>
+  </article>            
+</div>
+
+
+<% content_for :sidebar  do %>
+  <%= render :partial=>'shared/activity_categories', :locals=>{:activity_categories=>@article_activity_categories}  if @article_activity_categories.size > 0 %>
+  <%= render :partial=>'shared/branches', :locals=>{:branches=>@article_branches}  if @article_branches.size > 0 %>
+  <%= render :partial=>'shared/related_articles', :locals=>{:related_articles=>@related_articles, :block_title=>block_title, :type=>type, :show_more=>false} if @related_articles.size > 0 %>
+<% end %>
+
+<% content_for :og_meta_tags do %>
+<meta property="og:title" content="<%= @article.title %>"/>
+<meta property="og:image" content="<%= @article.image_url %>"/>
+<meta property="og:description" content="<%= strip_tags  @article.description %>"/>
+<% end %>

@@ -1,0 +1,32 @@
+development:
+  facebook:
+    key: 109888865769236
+    secret: de60edf69df0c50b4ac019c332629627
+    scope: "publish_stream,offline_access,email,user_likes,read_stream"
+    facebook_page_id : 197537156959282
+    page_token : "AAABj8X7PFxQBAKiHUrBUuZCBaZCLTflI0w7MZB90pDJNg8ZCZCUj4chOrelXShP2WyZBFd0xBMTdEZBYLn4YvBZAiwZAHuJHCtfhQk0fH4SlBXAZDZD"
+    
+test:
+  facebook:
+    key: 109888865769236
+    secret: de60edf69df0c50b4ac019c332629627
+    scope: "publish_stream,offline_access,email,user_likes,read_stream"
+    facebook_page_id : 197537156959282
+    page_token : "AAABj8X7PFxQBAKiHUrBUuZCBaZCLTflI0w7MZB90pDJNg8ZCZCUj4chOrelXShP2WyZBFd0xBMTdEZBYLn4YvBZAiwZAHuJHCtfhQk0fH4SlBXAZDZD"
+    
+staging:
+  facebook:
+    key: 116347165120902
+    secret: 839d333f718f10cc4c5ef6e201506b6f
+    scope: "publish_stream,offline_access,email,user_likes,read_stream"
+    facebook_page_id : 197537156959282
+    page_token : "AAABj8X7PFxQBAKiHUrBUuZCBaZCLTflI0w7MZB90pDJNg8ZCZCUj4chOrelXShP2WyZBFd0xBMTdEZBYLn4YvBZAiwZAHuJHCtfhQk0fH4SlBXAZDZD"
+    
+production:
+  facebook:
+    key: 243500399007521
+    secret: 1f900f4b59e28ad24a5017edef5efba8
+    scope: "publish_stream,offline_access,email,user_likes,read_stream"
+    facebook_page_id : 145505648808327
+    page_token : "CAADddlrJFyEBAEATpu2Wx4drHZAgf2igPZBu2qvSgr3kNHvMrL8oa7KB0eUwZBY9TqpEZAG7OPZAu6pRFwwoDTduWymZCX9HbM1tvJkEcZB12FwAoOiScGwt7H8vbpDL5ZC9CjrgMd4DEZBnSBVcyDMRR7DsRsO1Nc2ERt9EECx8kXwDlvBGn9ZAqvpJgVt8iAvxwZD"
+    

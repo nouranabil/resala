@@ -1,0 +1,42 @@
+<div class="grid_16">
+  <h2 id="page-heading">قالو عنا</h2>
+</div>
+
+<div class="grid_16">
+  <%= link_to "اضافة 'قالوا عنا' جديد", new_admin_testimonial_path, :class=>"add_btn"%>     
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="3"></th>
+      </tr>
+      <tr>
+        <th>قالوا عنا</th>
+        <th>المصدر</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @testimonials.each do |testimonial| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <th class="list_item_name" >
+          <h5><%= link_to testimonial.title, admin_testimonial_path(testimonial) %></h5>
+        </th>
+        <td class="list_item_descreption">
+          <p><%= testimonial.source %></p>
+        </td>                 
+        <td  class="list-item-actions"> 
+          <%= link_to 'تعديل', edit_admin_testimonial_path(testimonial, :page=>params[:page] || 1), :class=>"edit"%>
+          <%= link_to 'حذف', admin_testimonial_path(testimonial, :page=>params[:page] || 1), :class=>"delete", :confirm => 'هل انت متأكد من الحذف ؟', :method => :delete %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @testimonials %>
+</div>

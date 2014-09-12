@@ -1,0 +1,627 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Activities </title>
+		<link rel="stylesheet" type="text/css" href="../../stylesheets/admin/layout.css" media="screen" />
+		<!--[if IE 7]><link rel="stylesheet" type="text/css" href="../../../stylesheets/admin/ie.css" media="screen" /><![endif]-->
+	</head>
+	<body>
+		<div class="container_16">
+			<div class="grid_16">
+				<h1 id="branding">
+					<a href="#" class="hid_text">Resala</a>
+				</h1>
+				<div class="user_menu">
+					<a href="#">logout</a>
+				</div>
+			</div>
+			<div class="grid_16">
+				<ul class="nav main">
+					<li><a href="/admin/activity_categories">أنواع الأنشطة</a></li>
+					<li><a class="selected" href="/admin/branches">الفروع</a></li>
+					<li>-</li>
+					<li><a href="/admin/testimonials">قالوا عنا</a></li>
+					<li><a href="/admin/testimonials">الأنشطة</a></li>
+					<li><a href="/admin/articles">المقالات</a></li>
+					<li>-</li>
+					
+					<li><a href="/admin/newsletter_subscribers">المشتركون بالنشرة البريدية</a></li>
+					<li><a href="/admin/donation_requests">طلبات التبرع</a></li>
+				</ul>
+			</div>
+			<div class="grid_16">
+				<h2 id="page-heading">إدارة الأنشطة</h2>
+			</div>
+			<div class="grid_16">
+				<div class="box">
+					<h2>النشاط</h2>
+					<div class="block">
+						<div class="activity_authority_data">
+							<div class="block_tittle ">								
+								<h3>إعادة التصنيع </h3>
+							</div>
+							<form>
+								<div class="page_actions">
+									<div class="form_item">
+					        	<label for="name">الوقت المنجز</label>
+					          <input type="name" class="box_shadow small" id="name" value="">
+					        	<label class="small" for="name">ساعة</label>
+										<span class="mandatory">*</span>
+					        </div>
+									<div class="form_item">	
+										<label for="Name">عنوان النشاط</label>
+										<input type="Name" id="Name" required="required" class="box_shadow">
+										<span class="mandatory">*</span>						
+										<span class="form_note">e.g. قافلة لقرية اوسيم بالجيزة</span>
+									</div>
+									<div class="form_item">
+										<label for="Des">وصف النشاط</label>
+										<textarea name="Des" class="small"></textarea>
+										<span class="mandatory">*</span>						
+									</div>				
+									<p class="controls"><a href="#">الغاء</a>
+										<input type="submit" class=" button" value="حفظ">
+									</p>
+								</div>
+							</form>			
+ 							<div class="achievements">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+									</span>
+									<h3>إنجازات النشاط</h3>
+								</div>
+								<form>			
+									<div class="page_actions">
+										<div class="form_item adding_item">	
+											<label for="Name">عنوان النشاط</label>
+											<select class="middle">
+												<option>شنطة خير</option>
+												<option>تعبئة شنط رمضان</option>
+												<option>توزيع بطاطي</option>
+												<option>تعبئة شنط رمضان</option>
+												<option>توزيع بطاطي</option>
+												<option>تعبئة شنط رمضان</option>
+												<option>توزيع بطاطي</option>
+												<option>تعبئة شنط رمضان</option>
+												<option>توزيع بطاطي</option>
+												<option>تعبئة شنط رمضان</option>
+												<option>توزيع بطاطي</option>
+												<option>تعبئة شنط رمضان</option>
+											</select>
+											<label class="small" for="Name">العدد</label>
+											<input type="Name" value="العدد" id="Name" required="required" class="small box_shadow">
+											<label for="Name" class="small">الوحدة</label>
+						          <input type="Name" class="small box_shadow" required="required" id="Name" value="الوحدة">
+											<a class=" hideText add">اضافة</a>
+											<span class="mandatory">*</span>						
+										</div>
+										<div class="achievement_items">
+											<ul class="achievement_form">
+												<li>
+													<select class="middle">
+														<option>شنطة خير</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+													</select>
+													<label class="small" for="Name">العدد</label>
+													<input type="Name" value="العدد" id="Name" required="required" class="small box_shadow">
+													<label for="Name" class="small">الوحدة</label>
+								          <input type="Name" class="small box_shadow" required="required" id="Name" value="الوحدة">
+													<a class=" hideText remove">الغاء</a>
+												</li>
+												<li>
+													<select class="middle">
+														<option>شنطة خير</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+													</select>
+													<label class="small" for="Name">العدد</label>
+													<input type="Name" value="العدد" id="Name" required="required" class="small box_shadow">
+													<label for="Name" class="small">الوحدة</label>
+								          <input type="Name" class="small box_shadow" required="required" id="Name" value="الوحدة">
+													<a class=" hideText remove">الغاء</a>
+												</li>
+												<li>
+													<select class="middle">
+														<option>شنطة خير</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+														<option>توزيع بطاطي</option>
+														<option>تعبئة شنط رمضان</option>
+													</select>
+													<label class="small" for="Name">العدد</label>
+													<input type="Name" value="العدد" id="Name" required="required" class="small box_shadow">
+													<label for="Name" class="small">الوحدة</label>
+								          <input type="Name" class="small box_shadow" required="required" id="Name" value="الوحدة">
+													<a class=" hideText remove">الغاء</a>
+												</li>
+											</ul>
+										</div>
+										<div class="achievement_items">
+											<ul>
+												<li><strong>32</strong><span>شنطة</span><span>, شنطة خير </span><a class=" hideText remove">الغاء</a></li>
+												<li><strong>32</strong><span>شنطة</span><span>, شنطة خير </span><a class=" hideText remove">الغاء</a></li>
+												<li><strong>32</strong><span>شنطة</span><span>, شنطة خير </span><a class=" hideText remove">الغاء</a></li>
+												<li><strong>32</strong><span>شنطة</span><span>, شنطة خير </span><a class=" hideText remove">الغاء</a></li>
+											</ul>
+										</div>
+										<p class="controls"><a href="#">الغاء</a>
+											<input type="submit" value="حفظ" class=" button">
+										</p>
+									</div>
+								</form>		
+							</div>
+							<div class="clear"></div>
+							
+							<div class="activityHours">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+										<h3>الوقت المنجز</h3>
+									</span>
+								</div>
+								<form>
+									<div class="page_actions">
+										<div class="form_item">
+						        	<label for="name">الوقت المنجز</label>
+						          <input type="name" value="" id="name" class="box_shadow small">
+						        	<label for="name" class="small">ساعة</label>
+											<span class="mandatory">*</span>
+						        </div>
+										<div class="form_item">
+											<label for="Des">ملخص إنجازات المتطوعين</label>
+											<textarea class="small" name="Des"></textarea>
+											<span class="mandatory">*</span>						
+										</div>				
+										<p class="controls"><a href="#">الغاء</a>
+											<input type="submit" value="حفظ" class=" button">
+										</p>
+									</div>
+								</form>
+							</div>
+							<div class="selected_img_thumb">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+									</span>
+									<h3>الصور و الفيديو</h3>
+								</div>
+								<form>
+									<div class="page_actions">
+										<div class="uploader_block">	
+											<label for="article_media">ملفات الصور</label>
+											<div id="uploader_items" class="uploader">
+												<span class="uploader_item">
+													<span class="file-wrapper">
+														<input type="file" id="article_media" name="article_media[][media]" value="">
+													</span>
+													<a id="add_new_upload" class=" hideText add">إضافة</a>
+												</span>
+												<span class="uploader_item">
+													<span class="file-wrapper">
+														<input type="file" id="article_media" name="article_media[][media]" value="">
+													</span>
+													<a id="add_new_upload" class=" hideText remove">إضافة</a>
+												</span><span class="uploader_item">
+													<span class="file-wrapper">
+														<input type="file" id="article_media" name="article_media[][media]" value="">
+													</span>
+												</span>
+											</div>					
+										</div>
+									</div>
+									<a class="add_btn" href="#">Pick New Media</a>	
+									<div class="selected_img_thumb">
+										<ul class="img_thumb">
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>
+											</li>
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>
+											</li>
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>
+											</li>
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>
+											</li>
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>
+											</li>
+											<li>
+												<img src="../../images/dummy/dummy3.jpg">
+												<a class=" hideText remove" id="add_new_upload">remove</a>												
+											</li>
+										</ul>
+										<p class="controls"><a href="#">الغاء</a>
+											<input type="submit" class=" button" value="حفظ">
+										</p>
+										<div class="clear"></div>
+									</div>
+								</form>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid_16">
+				<div class="box">
+					<h2>النشاط</h2>
+					<div class="block">
+						<div class="activity_authority_data">
+							<div class="block_tittle ">								
+								<span class="list-item-actions"> 
+									<a class="edit" title="Edit" href="#">Edit</a>
+								</span>
+								<h3>إعادة التصنيع </h3>
+							</div>
+							<p>نقوم بتجميع كل الورق المستعمل مثل(الجرائد-الكشاكيل- المجلات- الورق –اللأجندات-......) وبيعة لمصانع إعادة التصنيع وده بيدخل عائد مادى للجمعية.يصل)</p>
+							<ul>
+								<li>ويقوم النشاط بتجميع الكتب القيمة من داخل أشولة التبرعات وعمل معارض لبيعها.</li>
+								<li>كما انه يوجد فى كل فروع رسالة مكتبة قيمة تم تكوينها من الكتب التى وردت للجمعية لإعادة التصنيع و يمكن الأستعارة او الشراء منها.</li>
+								<li>كما ان هذا النشاط يعمل على تنظيف البيئة، و استفادة المصانع منه فى عمل اخشاب أو ورق جديد.</li>
+							</ul>
+							<div class="achievements">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+										<a class="edit" title="Edit" href="#">Edit</a>
+									</span>
+									<h3>إنجازات النشاط</h3>
+								</div>
+								<ul>
+									<li><strong>32</strong><span>شنطة خير</span></li>
+									<li><strong>32</strong><span>شنطة خير</span></li>
+									<li><strong>6200</strong><span>تعبئة شنط رمضان</span></li>
+									<li><strong>7</strong><span>شنطة خير</span></li>
+									<li><strong>520</strong><span>تعبئة شنط رمضان</span></li>
+									<li><strong>32</strong><span> خير</span></li>
+								</ul>
+							</div>
+							<div class="activityHours">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+										<a class="edit" title="Edit" href="#">Edit</a>
+									</span>
+									<h3>الوقت المنجز</h3>
+								</div>
+								<p class="hours"><strong>35</strong> ساعة </p>
+								<p>مسئول عن سلوكياته وتعليمه و التوجيه وزيارته وقت مرضه ومتابعته دراسيا ولأنه سوف يكون أخ له مدى الحياه وليس لفترة قصير يزور الاخ الطفل مرتين فى الاسبوع اما الصديق فمره واحده ولنشاط الاخ الاكبر عده لجان هى لجنه ايمانيه : وهى مسئوله عن تسيق دروس دينيه وتحفيظ قران للطفل.</p>
+								<ol>
+									<li>لجنه رياضيه :دورها توفيير اماكن تقوم بتدريب الاطفال، ومن دورها أيضا عمل رحلات ترفيهية للأطفال.  </li>
+									<li>جنه التربيه :تتكون من دكاترة فى التربيه والسلوك تعطى كورسات للاخوات فى كيفيه التربيه وكيفيه حل مشاكل الاطفال سلوكيا.</li>
+									<li>لجنه رياضيه :دورها توفيير اماكن تقوم بتدريب الاطفال، ومن دورها أيضا عمل رحلات ترفيهية للأطفال.  </li>
+									<li>جنه التربيه :تتكون من دكاترة فى التربيه والسلوك تعطى كورسات للاخوات فى كيفيه التربيه وكيفيه حل مشاكل الاطفال سلوكيا.</li>
+								</ol>
+							</div>
+							<div class="selected_img_thumb">
+								<div class="block_tittle ">								
+									<span class="list-item-actions"> 
+										<a href="#" title="Edit" class="edit">Edit</a>
+									</span>
+									<h3>الصور و الفيديو</h3>
+								</div>
+								<ul class="img_thumb">
+									<li><img src="../../images/dummy/activity1.jpg"></li>
+									<li><img src="../../images/dummy/activity2.jpg"></li>
+									<li><img src="../../images/dummy/activity3.jpg"></li>
+									<li><img src="../../images/dummy/activity4.jpg"></li>
+									<li><img src="../../images/dummy/activity5.jpg"></li>
+									<li><img src="../../images/dummy/activity6.jpg"></li>
+									<li><img src="../../images/dummy/activity7.jpg"></li>
+									<li><img src="../../images/dummy/activity8.jpg"></li>
+								</ul>
+								<div class="clear"></div>
+							</div>
+							<div class="block gray_block">
+								<h2><label for="Education">النشاط</label></h2>
+								<form>
+									<div class="page_actions">
+										<div class="form_item">
+											<div class="radio_block">
+												<label for="reject"> رفض النشاط</label>
+												<input type="radio" name="reject" value="" id="reject" class="text">
+												<label for="Education"> قبول النشاط</label>
+												<input type="radio" name="Education" value="" id="Education" class="text">    													
+											</div>
+										</div>
+										<div class="form_item">
+											<label for="reason">سبب الرفض</label>
+											<textarea name="Bio" class="text"></textarea>
+										</div>
+										<div class="form_item post_ckeck">
+											<input type="checkbox" class="type_check" name="type_check" id="type2">		
+											<label class="facebook" for="name">Announce on facebook?</label>						        																	        
+										</div>
+										<p class="controls">
+											<input type="submit" value="أرسل" class=" button">
+										</p>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="grid_16">
+				<div class="box">
+					<h2>البحث عن الأنشطة</h2>
+					<div class="block">
+						<form>
+							<div class="page_actions">
+								<p>
+									<label>كلمات البحث</label>
+									<input type="text" name="value" class=" text">	
+								</p>
+								<p class="page_actions">
+									<label>كلمات البحث</label>
+									<select name="volunteer_activity_category_id" id="volunteer_activity_category_id" class="text">
+										<option value="">كل أنوع الأنشطة</option><option value="8">رعاية الأيتام</option>
+										<option value="10">رعاية المكفوفين</option>
+										<option value="11">رعاية ذوي الاحتياجات الخاصة</option>
+										<option value="12">رعاية الصم و ضعاف السمع</option>
+										<option value="13">مجموعات التقوية</option>
+										<option value="14">محو الأمية</option>
+										<option value="15">مراكز رسالة التدريبية</option>
+										<option value="16">معارض الملابس المستعملة</option>
+										<option value="17">التبرع بالدم</option>
+										<option value="18">زيارات الخير</option>
+										<option value="19">أطفال أد الحياة</option>
+										<option value="20">إعادة التصنيع</option>
+										<option value="9">مساعدات المحتاجين</option>
+										<option value="21">تزويج فتيات</option>
+									</select>								
+								</p>
+								<p>
+									<label>الفروع</label>
+									<select name="volunteer_branch_id" id="volunteer_branch_id" class="text">
+										<option value="">كل الفروع</option><option value="2">المندرة</option>
+										<option value="3">سيدى جابر</option>
+										<option value="7">Heba New Test</option>
+										<option value="4">فيصل</option></select>
+								</p>
+								<p class="controls">
+									<input type="submit" value="بحث" class=" button">
+								</p>
+								</div>
+						</form>											
+					</div>
+				</div>
+			</div><!-- Search and filter Ends -->		
+			
+
+			<div class="grid_16">
+				<div class="box">
+					<h2>تعديل الأنشطة</h2>
+					<div class="block">
+						<form>
+								<div class="page_actions">
+									<div id="error_explanation">
+									  <h2>يرجى التحقق من الحقول التالية:</h2>
+									  <ul>
+									    <li>نوع النشاط فارغ، يرجى ملء الحقل</li>
+									  </ul>
+									</div>	
+									<div class="form_item">	
+					        	<label for="Name">عنوان النشاط</label>
+					          <input type="Name" class="box_shadow" required="required" id="Name">
+										<span class="mandatory">*</span>						
+										<span class="form_note">e.g. قافلة لقرية اوسيم بالجيزة</span>
+					        </div>
+									<div class="form_item">
+					        	<label for="Des">وصف النشاط</label>
+										<textarea name="Des"></textarea>
+										<span class="mandatory">*</span>						
+					        </div>				
+									<div class="form_item">
+										<label for="Month">النشاط يبدأ في</label>
+										<select class="very_small">
+		                <option>1</option>
+		                  <option>2</option>
+		                  <option>3</option>
+		                  <option>4</option>
+		                  <option>5</option>
+		                  <option>6</option>
+		                  <option>7</option>
+		                  <option>8</option>
+		                  <option>9</option>
+		                  <option>10</option>
+		                </select>
+										<select class="middle">
+		                  <option>Jan</option>
+		                  <option>Feb</option>
+		                  <option>Mar</option>
+		                  <option>Apr</option>
+		                  <option>May</option>
+		                  <option>Jun</option>
+		                  <option>Jul</option>
+		                  <option>Aug</option>
+		                  <option>Sep</option>
+		                  <option>Oct</option>
+		                  <option>Nov</option>
+		                  <option>Dec</option>
+		                </select>
+
+		                <select class="small">
+		                  <option>2010</option>
+		                  <option>2011</option>
+		                  <option>2012</option>
+		                </select>
+									</div>
+									<div class="form_item">
+					        	<label for="Date">مدة النشاط</label>
+										<span class="mandatory">*</span>																		        
+											<input type="Date" class="box_shadow" required="required" id="Date">				
+									</div>
+					        <div class="form_item">
+					        	<label for="name">العنوان </label>
+										<span class="mandatory">*</span>
+					          <input type="text" class="box_shadow" id="name">
+					        </div>			
+									<div class="form_item checkLists">
+										<label for="name">الأنشطة ذات الصلة</label>						        																	        
+										<span class="listsfields">
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity1"><label class="sec_lbl" for="activity1"> رعاية الأيتام  </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity2"><label class="sec_lbl" for="activity2">  مساعدات المحتاجين </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity4"><label class="sec_lbl" for="activity3">رعاية المكفوفين </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity5"><label class="sec_lbl" for="activity4"> رعاية ذوي الإحتياجات الخاصة </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity6"><label class="sec_lbl" for="activity5"> رعاية الصم وضعاف السمع  </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity7"><label class="sec_lbl" for="activity6">مجموعات التقوية</label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity1"><label class="sec_lbl" for="activity1"> رعاية الأيتام  </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity2"><label class="sec_lbl" for="activity2">  مساعدات المحتاجين </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity4"><label class="sec_lbl" for="activity3">رعاية المكفوفين </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity5"><label class="sec_lbl" for="activity4"> رعاية ذوي الإحتياجات الخاصة </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity6"><label class="sec_lbl" for="activity5"> رعاية الصم وضعاف السمع  </label></span>
+											<span class="min_set"><input type="checkbox" class="lang_check" id="activity7"><label class="sec_lbl" for="activity6">مجموعات التقوية</label></span>
+										</span>				        																	        
+									</div>
+									<div class="form_item post_ckeck">
+										<input type="checkbox" id="type2" name="type_check" class="type_check">		
+										<label for="name" class="facebook">Announce on facebook?</label>						        																	        
+									</div>
+									<div class="form_item post_ckeck">
+										<input type="checkbox" id="type2" name="type_check" class="type_check">		
+										<label for="name" class="email">Send email notifications?</label>						        																	        
+									</div>
+								</div>
+								<p class="controls">
+									<a href="#">الغاء</a>
+									
+									<input type="submit" value="أرسل" class=" button">
+								</p>
+						</form>											
+					</div>
+				</div>
+			</div><!-- Search and filter Ends -->
+			
+			
+			<div class="grid_16">		
+				<a href="#" class="add_btn">إضافة نشاط</a>	
+				<table>
+							<caption>Categories Lists</caption>
+							<colgroup>
+								<col class="colA">
+								<col class="colB">
+								<col class="colC">
+							</colgroup>
+								<thead>
+									<tr>
+										<th class="table-head" colspan="3">Activites Lists</th>
+									</tr>
+									<tr>
+										<th>Activity Name</th>
+										<th>Description</th>
+										<th class="currency">Column 3</th>
+									</tr>
+								</thead>											
+								<tbody>
+									<tr class="odd">
+										<th class="list_item_name" >
+												<img title="Check profile" alt="Sanwar" src="../../images/dummy/resala-small.gif">
+											  <h5>Activity Name</h5>
+										</th>
+										<td class="list_item_descreption"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim, turpis quis rutrum hendrerit, magna nunc commodo metus, id tristique odio risus quis eros. Nam vestibulum, felis eget tempus scelerisque, sapien nunc euismod nisl, a tempus sem lacus nec eros. Sed eu dolor sit amet</p>
+										</td>									
+										<td  class="list-item-actions"> 
+								     	<a href="#" title="un block user" class="unblock_user">un block user</a>
+								      <a href="#" title="block user" class="block_user">"block user</a>
+								     	<a href="#" title="reject_req" class="reject_req">Reject</a>
+								      <a href="#" title="accept_req" class="accept_req">Accept</a>
+											<a href="#" title="delete" class="delete">Delete</a>
+								     </td>
+									</tr>								
+									<tr class="even">
+										<th class="list_item_name" >
+												<img title="Check profile" alt="Sanwar" src="../../images/dummy/resala-small.gif">
+											  <h5>Activity Name</h5>
+										</th>
+										<td class="list_item_descreption"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim, turpis quis rutrum hendrerit, magna nunc commodo metus, id tristique odio risus quis eros. Nam vestibulum, felis eget tempus scelerisque, sapien nunc euismod nisl, a tempus sem lacus nec eros. Sed eu dolor sit amet</p>
+										</td>									
+										<td  class="list-item-actions"> 
+								     	<a href="#" title="Block" class="block">Block</a>
+								      <a href="#" title="Send Message" class="send">Send Message</a>
+								     	<a href="#" title="Edit" class="edit">Edit</a>
+								      <a href="#" title="add" class="add">Add</a>
+											<a href="#" title="delete" class="delete">Delete</a>
+								     </td>
+									</tr>
+									<tr class="odd">
+										<th class="list_item_name" >
+												<img title="Check profile" alt="Sanwar" src="../../images/dummy/resala-small.gif">
+											  <h5>Activity Name</h5>
+										</th>
+										<td class="list_item_descreption"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim, turpis quis rutrum hendrerit, magna nunc commodo metus, id tristique odio risus quis eros. Nam vestibulum, felis eget tempus scelerisque, sapien nunc euismod nisl, a tempus sem lacus nec eros. Sed eu dolor sit amet</p>
+										</td>									
+										<td  class="list-item-actions"> 
+								     	<a href="#" title="announce" class="announce">Announce</a>
+								      <a href="#" title="Send Message" class="send">Send Message</a>
+								     	<a href="#" title="Edit" class="edit">Edit</a>
+								      <a href="#" title="add" class="add">Add</a>
+											<a href="#" title="delete" class="delete">Delete</a>
+								     </td>
+									</tr>								
+									<tr class="even">
+										<th class="list_item_name" >
+												<img title="Check profile" alt="Sanwar" src="../../images/dummy/resala-small.gif">
+											  <h5>Activity Name</h5>
+										</th>
+										<td class="list_item_descreption"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim, turpis quis rutrum hendrerit, magna nunc commodo metus, id tristique odio risus quis eros. Nam vestibulum, felis eget tempus scelerisque, sapien nunc euismod nisl, a tempus sem lacus nec eros. Sed eu dolor sit amet</p>
+										</td>									
+										<td  class="list-item-actions"> 
+								     	<a href="#" title="Block" class="block">Block</a>
+								      <a href="#" title="Send Message" class="send">Send Message</a>
+								     	<a href="#" title="Edit" class="edit">Edit</a>
+								      <a href="#" title="add" class="add">Add</a>
+											<a href="#" title="delete" class="delete">Delete</a>
+								     </td>
+									</tr>
+								</tbody>
+							</table>
+							<a class="excel_btn" href="#">Export Excel file</a>
+						</div><!-- table list Ends -->		
+			
+						<div class="grid_16" id="site_info">
+							<div class="box">
+								<p>Copyright@2010 Resala. All Rights Reserved.</p>
+							</div>
+						</div>
+						<div class="clear"></div>
+		
+		
+		</div>
+		<script type="text/javascript" src="../../javascripts/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="../../javascripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="../../javascripts/jquery-fluid16.js"></script>
+	</body>
+</html>

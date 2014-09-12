@@ -1,0 +1,24 @@
+<%= link_to "اختر الكل", "#", :class=> select_all_class %>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    var selectAllClass = "<%= select_all_class %>"; 
+    var inputsToCheck = "<%= inputs_to_check %>";
+    var recount = <%= local_assigns[:recount] ? "true" : "false" %>;
+    $('.' + selectAllClass ).toggle(function(){
+      $('.' + inputsToCheck + ":enabled" ).attr("checked", true);
+      if(recount){
+        update_email_counts();
+      }
+      return false;
+    }, function(){
+      $('.' + inputsToCheck + ":enabled" ).attr("checked", false);
+      if(recount){
+        update_email_counts();
+      }
+      return false;
+    });
+  });
+</script>
+<% end %>

@@ -1,0 +1,41 @@
+development:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  database: resala_development
+  pool: 5
+  username: resala
+  password: 1234
+
+legacy_sqlserver:
+   adapter: sqlserver
+   host: localhost
+   database: DB1135_Resala
+   username: resala
+   password: resala
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: resala_test
+  pool: 5
+  username: resala
+  password: 1234
+  
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: resala_staging
+  pool: 5
+  username: resala
+  password: r3$@lA
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: resala
+  pool: 5
+  username: resala
+  password: RE$Al@
+  host: localhost
+  port:  5433

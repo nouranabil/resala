@@ -1,0 +1,22 @@
+<div class="thumbnail">
+  <% src = (front_photo = article.front_photo ? article.front_photo : article.media.facebook_files.photos.first) ? (front_photo.thumbnail ? front_photo.thumbnail : fb_picture(front_photo.fb_id)) : "dummy/resala_70x70.gif"%>
+  <%= image_tag src, :alt=> article.title %>
+</div>
+<div class="article_desc">
+  <a href="<%= url_for(:action=>:show, :controller=>type, :id=>article.id) %>"><h3><%= article.title%></h3></a>
+  <p>
+    <%= truncate(strip_tags(article.description), :length=>200, :omission=>"  ").html_safe %> <%= link_to("المزيد ... ", url_for(:action=>:show, :controller=>type, :id=>article.id), :class=>'more') if strip_tags(article.description).size > 200 %>
+  </p>
+</div>
+ 
+<div class="article_activities">
+  <div class="date">
+    <span>كتبت في</span>
+    <span class="day"><%= l(article.created_at, :format=>:long)%></span>
+  </div>  
+  <div class="comments">
+    <span class="views_no"><%= article.views_count %> مشاهدة </span>
+    <!-- <span class="comment_no"><%= render :partial=>'shared/facebook_comments_count', :locals=>{:url=>url_for(:action=>:show, :controller=>type, :id=>article.id, :only_path=>false)} %></span> -->
+    <%= link_to "أضف تعليقا", "#{url_for(:action=>:show, :controller=>type, :id=>article.id)}#facebook_comments", :class=>"comment"%>
+  </div>
+</div>

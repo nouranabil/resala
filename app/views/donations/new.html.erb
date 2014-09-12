@@ -1,0 +1,37 @@
+<% @title = 'تبرع لرسالة'; @title_class = 'donateRequest_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+{مَّن ذَا الَّذِي يُقْرِضُ اللّهَ قَرْضاً حَسَناً فَيُضَاعِفَهُ لَهُ أَضْعَافاً كَثِيرَةً}
+<% end %>
+<div class="form_block">
+  <%= form_for(Donation.new) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@donation} %>
+    <fieldset>
+      <div class="form_item">
+        <%= f.label :amount %>
+        <%= f.text_field :amount ,:placeholder=>"المبلغ بالجنيه المصرى" , :value=>@donation.amount%>
+        <span class="mandatory">*</span>
+      </div>
+      
+      <div class="form_item">
+        <%= f.label :donator_name %>
+        <%= f.text_field :donator_name, :value=>@donation.donator_name%>
+      </div>
+      <div class="form_item">
+        <%= f.label :phone %>
+        <%= f.text_field :phone, :value=>@donation.phone%>
+      </div>
+      <div class="form_item">
+        <%= f.label :email %>
+        <%= f.text_field :email, :value=>@donation.email%>
+      </div> 
+      <div class="form_item">
+        <%= f.label :activity_category_id %>
+        <%= f.select :activity_category_id, options_for_select([["التبرع لأى نشاط خيرى", ""]]) + options_from_collection_for_select( ActivityCategory.donatable.select("id,name"), "id", "name") %>
+      </div>
+      <p class="form-buttons">
+        <%= link_to "إلغاء", page_path(:how_to_donate)%>
+        <%= submit_tag "تبرع", :class=>"input_button button-donate" %>
+      </p>
+    </fieldset>
+  <% end %>
+</div>

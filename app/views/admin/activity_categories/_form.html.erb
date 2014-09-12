@@ -1,0 +1,31 @@
+<%= form_for(@activity_category, :url=>@activity_category.id ? admin_activity_category_path(@activity_category) : admin_activity_categories_path) do |f| %>
+  <div class="grid_16">
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@activity_category} %>
+    <div class="box">
+      <h2><%= form_title%></h2>
+      <div class="block">
+          <div class="page_actions">
+            <%= f.label :name %>
+            <%= f.text_field :name %>              
+          </div>
+          <div class="page_actions">
+            <%= f.label :description %>
+            <%= f.text_area :description, :class=>"tinymce" %>             
+          </div>
+          <div class="page_actions">
+            <%= f.label :short_description %>
+            <%= f.text_area :short_description, :rows => 5 %>           
+          </div>
+          <div class="page_actions">
+            <%= f.label :donatable %>
+            <%= f.check_box :donatable %>           
+          </div>
+          <%= render :partial=> 'admin/shared/media_picker', :locals=>{:association => :media, :parent=>@activity_category, :f=> f } %>
+          <p class="controls">
+            <%= f.submit "حفظ النشاط الخيرى", :class=>"button" %> <%= link_to "إلغاء", admin_activity_categories_path %>
+          </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= render 'shared/tinymce' %>

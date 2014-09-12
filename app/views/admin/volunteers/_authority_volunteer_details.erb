@@ -1,0 +1,19 @@
+<div class="block">
+	<div class="activity_authority_data">
+		<%unless @existing_role == '' || @existing_role == nil%>
+			<h5>دوره كمتطوع بجمعية رسالة</h5>
+			<p><%= @existing_role %></p>
+		<%end%>
+		<%if @activities != nil %>
+			<h5>الأنشطة الخيرية</h5>						
+			<ul>
+				<% @activities.each do|activity|%>
+					<li> <%= activity.name %></li>
+				<%end%>
+			</ul>
+		<%end%>
+		<% if ( @existing_role == '' || @existing_role == nil) && @activities == nil %>
+			<p> لا يوجد بيانات عن المتطوع </p>
+		<%end%>
+	</div>
+</div>

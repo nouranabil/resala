@@ -1,0 +1,230 @@
+<div class="grid_16">
+  <h2 id="page-heading">الأعمال التطوعية</h2>
+</div>
+
+<div class="grid_16">
+  <div class="box">
+    <h2>بحث</h2>
+    <div class="block">
+      <%= form_tag(admin_activities_path, :method=> :get ) do %>
+        <div class="page_actions">
+          <p>
+            <label>حالة العمل التطوعى</label>
+            <%= select_tag :activity_status, options_for_select([["جميع الأعمال التطوعية",""],
+                                                                 [t('activity_status.status_name_1'),ActivitiesStatus.requested],
+                                                                 [t('activity_status.status_name_2'),ActivitiesStatus.accepted],
+                                                                 [t('activity_status.status_name_3'),ActivitiesStatus.rejected],
+                                                                 [t('activity_status.status_name_4'),ActivitiesStatus.closed],
+                                                                 [t('activity_status.status_name_5'),ActivitiesStatus.request_close],
+                                                                 [t('activity_status.status_name_6'),ActivitiesStatus.request_cancel],
+                                                                 [t('activity_status.status_name_7'),ActivitiesStatus.cancelled]],
+                                                                 :selected=> params[:activity_status] || 0) %>
+          </p>
+          <p class="controls">
+            <input type="submit" value="بحث" class=" button">
+          </p>
+          </div>
+      <% end %>              
+    </div>
+  </div>
+</div><!-- Search and filter Ends -->
+
+<%= link_to "بدء عمل تطوعى جديد", new_activity_path, :class=>"add_btn"%>
+<div class="grid_16"> 
+  <% if @activities.to_a.size > 0 %>    
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="8">الأعمال التطوعية</th>
+      </tr>
+      <tr>
+        <% additional_params = params[:activity_status] ? "&activity_status=#{params[:activity_status]}" : nil %>
+        <th><%= sortable("title", "العنوان",additional_params)%></th>
+        <th><%= sortable("start_date", "تاريخ البدء",additional_params)%></th>
+        <th><%= sortable("created_at", "تاريخ الإنشاء",additional_params)%></th>
+        <th> الوصف </th>
+        <th><%= sortable("status", "الحالة",additional_params)%> </th>
+        <th><%= sortable("volunteers_count", "عدد المتطوعين",additional_params)%> </th>
+        <th><%= sortable("total_volunteers_count", "عدد المهتمين",additional_params)%> </th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      
+      <% @activities.each do |activity| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <td class="list_item_name" >
+          <h5><%= link_to activity.title, admin_activity_path(activity), :target=>"_blank" %></h5>
+        </td>
+        <td class="list_item_name" >
+          <h5><%= activity.start_date ? (l activity.start_date, :format=>:long) : '' %></h5>
+        </td>
+        <td class="list_item_name" >
+          <h5><%= l activity.created_at, :format=>:long %></h5>
+        </td>
+        <td class="list_item_description" >
+          <h5><%= truncate strip_tags(activity.description), :length=>200 %></h5>
+        </td>
+        <td class="list_item_name" >
+          <h5><%= t("activity_status.status_name_#{activity.status}") %></h5>
+          
+          <%if activity.status == ActivitiesStatus.rejected %>
+          (<%= link_to "سبب الرفض", "#rejection_reason_#{activity.id}", :id=>"inline", :title=>"سبب الرفض" %>)
+            <div style="display:none">
+              <div id="rejection_reason_<%= activity.id %>">
+                <div class="grid_16">
+                  <div class="box">
+                    <div class="block">
+              
+                      <div class="page_actions">
+                        <h2>سبب الرفض</h2>
+                        <p><%= activity.rejection_reason %></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+              
+        </td>
+        <td class="list_item_name"><%= link_to activity.volunteers_count, members_admin_activity_path(activity,:popup=>'true',:accepted_only=>'true'),:class=>'fancybox'  %></td>
+        <td class="list_item_name"><%= link_to activity.total_volunteers_count, members_admin_activity_path(activity,:popup=>'true'),:class=>'fancybox'  %></td>
+        <td  class="list-item-actions">
+          <% if can? :reject, activity%>
+          <%= link_to "رفض", "#rejection_form_#{activity.id}", :id=>"inline", :class=>"reject_req", :title=>"رفض" %>
+          
+          <div style="display:none">
+            <div id="rejection_form_<%= activity.id %>">
+              <div class="grid_16">
+                <div class="box">
+                  <div class="block">
+                    <%=form_for activity, :url=>reject_admin_activity_path(activity) + "?page=#{(params[:page] || 1)}", :method=> :get do |f|%>
+                    <div class="page_actions">
+                      <h2>يرجى توضيح سبب الرفض للمتطوع (سيتم تضمينه فى البريد الإلكترونى)</h2>
+                      <div class="form_item">
+                        <%= f.label :rejection_reason %>
+                        <%= f.text_area :rejection_reason, :rows=>"8",  :cols=>"40" %>
+                      </div>
+                      <p class="controls">
+                        <%= f.submit 'رفض', :class=>"button" %>
+                      </p>
+                    </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <% end %>
+          <% if can? :publish, activity %>
+          <%= link_to "موافقة", "#accept_form_#{activity.id}", :id=>"inline", :class=>"accept_req", :title=>"موافقة" %>
+          
+          <div style="display:none;">
+            <div id="accept_form_<%= activity.id %>" style="width:800px">
+            
+              <div class="grid_16">
+                <div class="box">
+                  <div class="block">
+                    <%=form_for activity, :url=>publish_admin_activity_path(activity) + "?page=#{(params[:page] || 1)}", :method=> :get do |f|%>
+                      <div class="page_actions">
+                          <div class="form_item email post_ckeck">
+                            <%= f.check_box :facebook_announce,:id=>"facebook_announce_"+activity.id.to_s  ,:class=>"type_check", :value=>activity.facebook_announce %>
+                            <label name="انشر على الفيسبوك" id="facebook_announce_label_<%= activity.id %>" for="facebook_announce_<%= activity.id %>" class="facebook">انشر على الفيسبوك</label>
+                          </div>
+                          <%= render :partial=> 'activity_emails_counter' , :locals => {:activity=> activity, :f=> f} %>
+                        <p class="controls">
+                          <%= f.submit 'موافقة', :class=>"button" %>
+                        </p>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <% end %>
+          
+          <% if can? :announce, activity%>
+          <%= link_to "الإعلان عن العمل الخيرى", "#announce_form_#{activity.id}", :id=>"inline", :class=>"announce_req announce", :title=>"الإعلان عن العمل الخيرى" %>
+          
+          <div style="display:none;">
+            <div id="announce_form_<%= activity.id %>" style="width:800px">
+            
+              <div class="grid_16">
+                <div class="box">
+                  <div class="block">
+                    <%=form_for activity, :url=>announce_admin_activity_url(activity) do |f|%>
+                      <div class="page_actions">
+                        <div class="form_item email post_ckeck">
+                          <%= f.check_box :facebook_announce,:id=>"facebook_announce_"+activity.id.to_s  ,:class=>"type_check", :value=>activity.facebook_announce %>
+                          <label name="انشر على الفيسبوك" id="facebook_announce_label_<%= activity.id %>" for="facebook_announce_<%= activity.id %>" class="facebook">انشر على الفيسبوك</label>
+                        </div>
+                        
+                        <%= render :partial=> 'activity_emails_counter' , :locals => {:activity=> activity, :f=> f} %>
+                        
+                        <div class="form_item">
+                          <%= f.label :facebook_post_message %>
+                          <%= f.text_area :facebook_post_message %>
+                          <span class="form_note">النص المرفق على فيسبوك هو الذى يظهر على صفحة رسالة مع البوست عندما يتم نشر العمل التطوعى (اختيارى)</span>
+                        </div>
+                        <p class="controls">
+                          <%= f.submit 'موافقة', :class=>"button" %>
+                        </p>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <% end %>          
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @activities %>
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا توجد أعمال تطوعية</div>
+  </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+  <script type="text/javascript">
+  $(document).ready(function(){
+  
+    var countURL = "<%= email_counts_admin_activities_path %>";
+    $(".email_selector").change(function(){
+      var acId = $(this).attr('activity_id');
+      $.get( countURL , $('.email_selector[activity_id='+ acId +']').serialize() + '&activity_id=' + acId ,
+                        function(data){
+                          $("#activity_emails_count_"+ acId ).html(data).fadeOut().fadeIn();
+                        },'html');
+    });
+  
+  
+    $(':checkbox[name="activity[email_notifications]"]').change(function(){
+      var target = $('[name="branch_only"]');
+      if($(this).attr('checked')){
+        target.attr("checked",false);
+        target.attr("disabled",false);
+      }else{
+        target.attr("checked",false);
+        target.attr("disabled",true);
+      }
+    });
+  });
+  </script>
+<% end %>

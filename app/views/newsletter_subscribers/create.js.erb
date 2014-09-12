@@ -1,0 +1,14 @@
+<% if @newsletter_subscriber.new_record? %>
+  $("#new_newsletter_subscriber_notice").hide();
+  $("#new_newsletter_subscriber_alert").html("<%= @newsletter_subscriber.errors.full_messages.join(" #{t("messages.and")} ") %>");
+  $("#new_newsletter_subscriber_alert").show("slow");
+<% elsif @newsletter_subscriber.confirmed %>
+  $("#new_newsletter_subscriber_notice").hide();
+  $("#new_newsletter_subscriber_alert").html("البريد الإلكتروني تم تسجيله من قبل");
+  $("#new_newsletter_subscriber_alert").show("slow");
+<% else %>
+$("#new_newsletter_subscriber_alert").hide();
+  $("#new_newsletter_subscriber_notice h4").html("<%= t("messages.added_to_newsletter_subscribers")%>");
+  $("#new_newsletter_subscriber_notice").show("slow");
+  $("#new_newsletter_subscriber")[0].reset()
+<% end %>

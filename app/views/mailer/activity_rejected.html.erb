@@ -1,0 +1,19 @@
+<p style="color:#000;font-size:normal;font-size:1.1em;padding:0;margin:0 0 10px;">عزيزي المستخدم <%= @owner.name %> ،</p>
+<p style="color:#222;padding:0;margin:5px 0;">
+لقد قام فريق رسالة برفض طلبكم لتنظيم العمل التطوعى : <%= link_to @activity.title, @url %>.
+</p>
+<% if @activity.rejection_reason %>
+<p style="color:#222;padding:0;margin:5px 0;">
+وأضاف المشرف التعليق التالى لتوضيح سبب الرفض:
+</p>
+<p style="color:#222;padding:0;margin:5px 0;">
+<%= @activity.rejection_reason %>
+</p>
+<% end %>
+<p style="color:#222;padding:0;margin:5px 0;">للتواصل مع فريق رسالة، يمكنك استخدام عنوان البريد الإلكترونى:</p>
+<p style="margin:5px 0;"><a target="_blank" style="outline: none;line-height:1.6em;color:#307CBE;text-decoration: none; padding:0;" href="mail:info@resala.org">info@resala.org</a></p>
+<div style="color:#999;padding-top:15px;" align="left" >
+  <p style="margin:5px 0;color:#777;">شكراً لكم ،</p>
+  <p style="margin:5px 0;color:#777;">فريق رساله</p>
+  <p style="margin:5px 0;"><a href="http://resala.org" style="outline: none;color: #2F72A9;text-decoration: none;">www.resala.org</a></p>
+</div>

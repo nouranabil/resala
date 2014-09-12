@@ -1,0 +1,30 @@
+<div class="grid_16">
+  <h2 id="page-heading">أسئلة شائعة</h2>
+</div>
+
+<div class="grid_16">
+  <%= link_to "إضافة سؤال متكرر جديد", new_admin_question_path, :class=>"add_btn"%> 
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="4">قائمة الأسئلة الشائعة</th>
+      </tr>
+      <tr>
+        <th>السؤال</th>
+        <th>الترتيب</th>
+        <th>النشاط الخيرى</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <%= render :partial=>'index' %>
+    </tbody>
+  </table>
+  <%= will_paginate @questions %>
+</div>   

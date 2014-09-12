@@ -1,0 +1,22 @@
+<div class="side_element">
+  <h2 class="hideText <%= type == 'news' ? 'related_news_block' : 'related_stories_block' %>"><%= block_title %></h2>
+  <ul class="recent">
+    <% related_articles.each do |related_article| %>
+    <li>
+      <%= link_to related_article.title, url_for(:action=>:show, :controller=>type, :id=>related_article.id)%>
+      <div class="article_activities">
+        <div class="date">
+          <span>كتبت في</span>
+          <%= l( related_article.created_at.to_datetime, :format=>:styled).html_safe %>
+        </div>
+        <div class="comments">
+          <span class="comment_no"><fb:comments-count href=<%= url_for(:action=>:show, :controller=>type, :id=>related_article.id, :only_path=>false) %>></fb:comments-count> تعليقات</span>
+        </div>  
+      </div>
+    </li>
+    <% end %>
+  </ul>
+  <% if show_more %>
+    <%= link_to "المزيد", "/news?activity_category_id=#{activity_category_id}", :class=>"more hideText" %>
+  <% end %>
+</div>

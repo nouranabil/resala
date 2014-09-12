@@ -1,0 +1,114 @@
+<div class="grid_16">
+<h2 id="page-heading">بيانات المتطوع</h2>
+</div>
+      
+<div class="grid_16">
+  <div class="box">
+  <h2><%= @volunteer.name%></h2>
+  <div class="block list_show">
+    <dl>
+      <dt>البريد الإلكتروني</dt>
+      <dd>
+        <%= @volunteer.email %>
+      </dd>
+      <dt>النوع</dt>
+      <dd>
+        <%= @volunteer.gender_name %>
+      </dd>
+      <dt>تاريخ الميلاد</dt>
+      <dd>
+        <%= l @volunteer.date_of_birth %>
+      </dd>
+      <dt>المدينة</dt>
+      <dd>
+        <%= @volunteer.branch.city.name %>
+      </dd>
+      <dt>أقرب فرع</dt>
+      <dd>
+        <%= @volunteer.branch.name %>
+      </dd>
+      <dt>رقم الهاتف المحمول</dt>
+      <dd>
+        <%= @volunteer.mobile %>
+      </dd>
+      <dt>المؤهل الدراسى</dt>
+      <dd>
+        <%= @volunteer.graduated ? "حامل شهادة" : "طالب" %>
+      </dd>
+      <% if @volunteer.graduated  %>
+        <dt>المهنة</dt>
+        <dd>
+          <%= @volunteer.profession %>
+        </dd>
+        <% unless @volunteer.company.blank? %>
+        <dt>الهيئة</dt>
+        <dd>
+          <%= @volunteer.company %>
+        </dd>
+        <% end %>
+      <% else %>
+        <dt>الكلية او المعهد</dt>
+        <dd>
+          <%= @volunteer.university %>
+        </dd>
+        <% unless @volunteer.school_year.blank? %>
+        <dt>السنة الدراسية</dt>
+        <dd>
+          <%= @volunteer.school_year %>
+        </dd>
+        <% end %>
+      <% end %>
+      <dt>أنشطة يود المشاركة فيها أو تعليمها</dt>
+      <dd>
+        <%= @volunteer.activity_categories.collect{|ac| ac.name}.join(", ") %>
+      </dd>
+      <% unless @volunteer.bio.blank? %>
+        <dt>تحدث عن نفسك</dt>
+        <dd>
+          <%= @volunteer.bio %>
+        </dd>
+      <% end %>
+      <dt>أيام يمكنه التطوع فيها</dt>
+      <dd>
+        <%= @volunteer.available_days_names %>
+      </dd>
+      <dt>متاح فى أيام محددة من الأسبوع</dt>
+      <dd>
+        <%= @volunteer.stringify(:limited_days) %>
+      </dd>
+      <dt>أود أدراج اسمي بقائمة المتبرعين بالدم</dt>
+      <dd>
+        <%= @volunteer.stringify(:blood_donation) %>
+      </dd>
+      <% if @volunteer.blood_donation%>
+        <dt>فصيلة الدم</dt>
+        <dd>
+          <%= @volunteer.blood_type %>
+        </dd>
+      <% end %>
+      <dt>أود ابلاغ اصدقائي بقيامي بالإنضمام لمتطوعي رسالة ‫(‬النشر على فيسبوك‫)</dt>
+      <dd>
+        <%= @volunteer.stringify(:post_updates_to_facebook) %>
+      </dd>
+      <dt>إخطاري بالأعمال التطوعية التي تهمني عن طريق البريد الإلكتروني</dt>
+      <dd>
+        <%= @volunteer.stringify(:get_activities_updates) %>
+      </dd>
+      
+      <% unless @volunteer.activities_authority_status.blank? && @volunteer.activities_authority_status != 0 %>
+        <dt>طلب تنظيم أعمال تطوعية</dt>
+        <dd>
+          <%= t("activities_authority_status.status_#{@volunteer.activities_authority_status}") %> -
+          <%= render :partial=>'volunteer_authorization', :locals=>{:volunteer=>@volunteer} %>
+        </dd>
+      <% end %>
+      
+    </dl>
+  </div>  
+  </div>
+  <div class="controls">
+    <%= link_to 'تعديل', edit_admin_volunteer_path(@volunteer, :page=>params[:page] || 1) %> |
+    <%= link_to 'عودة', admin_volunteers_path(:page=>params[:page] || 1) %>
+  </div>
+</div>
+

@@ -1,0 +1,259 @@
+<div class="form_block"> 
+  <h3 class="page_title"><%= form_title %></h3>       
+  <%= form_for(volunteer) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>volunteer} %>
+    <div id="error_explanation" class="must_like_error" style="display:none;">
+      <h2></h2>
+      <ul>
+        <li>
+          <span> لتتمكن من التسجيل كمتطوع، ينبغى أن تكون من معجبى صفحة رسالة على فيسبوك. اضغط <iframe id="f34e814a4" name="ff8f0ef84" scrolling="no" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; height: 21px; width: 90px; " title="Like this content on Facebook." class="fb_ltr" src="http://www.facebook.com/plugins/like.php?action=like&channel_url=http%3A%2F%2Fstatic.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D2%23cb%3Df3259c2f98%26relation%3Dparent.parent&font=arial&href=<%=RESALA_PAGE%>&layout=button_count&locale=en_US&node_type=link&ref=at_xt%3D4dd8f36b80501701_0&sdk=joey&show_faces=false&width=90"></iframe> ثم حاول ثانية</span>
+        </li>
+      </ul>
+    </div>
+    <fieldset>
+      
+      <% if volunteer.new_record? %>
+        <%= f.hidden_field :provider %>
+        <%= f.hidden_field :uid %>
+        <%= f.hidden_field :provider_token %>
+        <%= f.hidden_field :provider_secret %>
+        <%= f.hidden_field :image %>
+      <% end %>
+      
+      <div class="form_item">
+        <%= f.label :name %>
+        <%= f.text_field :name , :class=>"box_shadow", :required=>"required"%>
+        <span class="mandatory">*</span>            
+      </div>
+      <div class="form_item">
+        <%= f.label :email %>
+        <%= f.text_field :email , :class=>"box_shadow", :required=>"required"%>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :gender %>
+        <%= f.select :gender, options_for_select([["اختر النوع", ""], ["ذكر", "M"], ["انثى", "F"]], volunteer.gender), {},:class=>"small" %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :date_of_birth %>
+        <%= f.date_select :date_of_birth, {:start_year=>7.years.ago.year, :end_year=>100.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر', :year => 'أختر السنة' }} , {:class=>"small"} %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :branch_id %>
+        <div id="select_field_branch_id">
+          <%= f.select :branch_id, options_for_select([["أختر الفرع", ""]]) + options_for_select(@branches, volunteer.branch_id), {}, {:class=>"text"} %>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="form_item">
+        <%= f.label :mobile %>
+        <%= f.text_field :mobile , :class=>"box_shadow", :required=>"required", :placeholder=>"01XXXXXXXXX" %>
+        <span class="mandatory">*</span>
+        <span class="form_note">رقم الهاتف المحمول يجب أن يتكون من ١١ رقماً بلا مسافات أو أقواس ويبدأ ب 01</span>
+      </div> 
+      <div class="form_item">
+        <label for="Education">المؤهل الدراسى</label>
+        <div class="radio_block">
+          <%= label_tag :graduated, "حامل شهادة", :for=>"volunteer_is_graduated" %>
+          <%= radio_button_tag :graduated, "true", volunteer.graduated, :id=>"volunteer_is_graduated", :name=>"volunteer[graduated]" %>
+          <%= label_tag :graduated, "طالب", :for=>"volunteer_is_not_graduated" %>
+          <%= radio_button_tag :graduated, "false", volunteer.graduated == false, :id=>"volunteer_is_not_graduated", :name=>"volunteer[graduated]" %>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div id="graduated_container" style="<%= 'display: none;' unless volunteer.graduated %>">
+        <div class="form_item">
+          <%= f.label :profession %>
+          <%= f.text_field :profession , :class=>"box_shadow"%>
+          <span class="mandatory">*</span>
+        </div>
+        <div class="form_item">
+          <%= f.label :company %>
+          <%= f.text_field :company , :class=>"box_shadow"%>
+        </div>
+      </div>
+      <div id="not_graduated_container" style="<%= 'display: none;' unless volunteer.graduated == false %>" >
+        <div class="form_item">
+          <%= f.label :university, "الكلية او المعهد / السنة الدراسية" %>
+          <%= f.text_field :university , :class=>"box_shadow middle"%>
+          <span class="mandatory">*</span>
+          <%= f.text_field :school_year , :class=>"box_shadow very_small"%>
+        </div>
+      </div>
+      <div class="form_item checkLists">
+        <%= f.label :activity_categories %>
+        <span class="listsfields">
+          <% branch_activity_categories = @volunteer.activity_categories.collect{|ac| ac.id} %>
+          <% @activity_categories.each_with_index do |activity_category, index| %>
+            <span class="min_set">
+              <%= check_box_tag "activity_categories[]", activity_category.id, branch_activity_categories.include?(activity_category.id), {:class => "lang_check ag_selectors", :id=>"activity_categories_#{activity_category.id}"} %>
+              <%= label_tag "activity_categories[]", activity_category.name, :class => "sec_lbl", :for=>"activity_categories_#{activity_category.id}" %>
+            </span>
+          <% end %>
+          <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors'} %>
+        </span>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :bio %>
+        <%= f.text_area :bio %>
+        <span class="form_note">تحدث عن نفسك قليلا (اختياري)، يرجى ذكر: هل لديك مهارات أو خبرات تسطيع ان تساعد رسالة بها. اهتماماتك و أية أعمال تطوعية خيرية قمت بالاشتراك بها سابقا.</span>
+      </div>
+      
+      <div class="form_item">
+        <label for="Education">أي ايام الاسبوع يمكنك التطوع بوقتك فيها؟</label>
+        <div class="radio_block">
+          <label for="all_days">فى أى يوم يمكننا الاتصال للتنسيق</label>
+          <%= radio_button_tag "volunteer[limited_days]", "false",!volunteer.limited_days, :id=>"all_days" %>
+          <label for="limited_days">ايام محددة</label>
+          <%= radio_button_tag "volunteer[limited_days]", "true",volunteer.limited_days , :id=>"limited_days" %>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div id="selected_days" style="<%= 'display: none;' %>" >
+        <div class="form_item checkLists ">                                                              
+          <%= f.label :available_days %>
+          <span class="daysfields">
+            <% Day.days.each do |en_day, ar_day| %>
+              <span>
+                <%= check_box_tag "volunteer[#{en_day}]", "true", volunteer.send(en_day) , {:class => "lang_check", :id=>"volunteer_available_days_#{en_day}"} %>
+                <%= label_tag "volunteer[#{en_day}]", ar_day, :for=>"volunteer_available_days_#{en_day}" %>
+              </span>
+            <% end %>
+          </span>                                                         
+        </div>     
+      </div>
+      
+      
+      <div class="form_item post_ckeck">
+        <%= f.check_box :blood_donation, :class=>"type_check" %>
+        <%= f.label :blood_donation, :class=>"blood_icon" %>
+      </div>
+      <div id="blood_type_container" style="<%= 'display: none; margin-right:80px;' unless volunteer.blood_donation %>">
+         <%= f.select :blood_type, options_for_select(BloodType.all, volunteer.blood_type), {},:class=>"small" %>
+         <label for="Blood type.">فصيلة الدم</label>
+      </div>
+      <div class="form_item email post_ckeck">
+        <%= f.check_box :post_updates_to_facebook, :class=>"type_check" %>
+        <%= f.label :post_updates_to_facebook, :class=>"facebook" %>
+      </div>
+      <div class="form_item email post_ckeck">
+        <%= f.check_box :get_activities_updates, :class=>"type_check", :checked=>true %>
+        <%= f.label :get_activities_updates, :class=>"email" %>   
+      </div>
+      
+      <div id="must_like" class="no_result" style="display:none;">
+        <p>لتتمكن من متابعة أخبار و أنشطة رسالة العديدة، يرجى نقر زر Like لمتابعة صفحة رسالة على الفيسبوك .</p>
+        <div class="fb_like"><iframe id="f34e814a4" name="ff8f0ef84" scrolling="no" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; height: 21px; width: 90px; " title="Like this content on Facebook." class="fb_ltr" src="http://www.facebook.com/plugins/like.php?action=like&channel_url=http%3A%2F%2Fstatic.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D2%23cb%3Df3259c2f98%26relation%3Dparent.parent&font=arial&href=<%=RESALA_PAGE%>&layout=button_count&locale=en_US&node_type=link&ref=at_xt%3D4dd8f36b80501701_0&sdk=joey&show_faces=false&width=90"></iframe></div>
+      </div>
+      
+      <p class="form-buttons">
+        <%= f.submit "ارسل", {:class=>"input_button button-send"} %>
+      </p>
+    </fieldset>
+  <% end %>           
+</div>
+
+<%= content_for :javascripts do %>
+  <script>
+    var fbPageId = '<%= OMNIAUTH_CONFIG[:facebook]['facebook_page_id'] %>';
+    $(document).ready(function(){
+      $("#volunteer_blood_donation").change(function(){
+        if($(this).attr("checked") == true){
+          $("#blood_type_container").fadeIn("slow");
+        }else{
+          $("#volunteer_blood_type").val("");
+          $("#blood_type_container").fadeOut("slow");
+        }
+      });
+      
+      $("#volunteer_is_graduated,#volunteer_is_not_graduated").change(function(){
+        if($("#volunteer_is_graduated").attr("checked") == true){
+          $("#graduated_container").fadeIn("slow");
+          $("#not_graduated_container").fadeOut("slow");
+        }else{
+          $("#graduated_container").fadeOut("slow");
+          $("#not_graduated_container").fadeIn("slow");
+          $("#volunteer_profession").val("");
+          $("#volunteer_company").val("");
+        }
+      });
+      
+      $("#limited_days").change(function(){
+        if($(this).attr("checked") == true){
+          $("#selected_days").show("slow");
+        }else{
+          $("#selected_days").hide("slow");
+        }
+      });
+      
+      $("#all_days").change(function(){
+        if($(this).attr("checked") == true){
+          $("#selected_days").hide("slow");
+        }else{
+          $("#selected_days").show("slow");
+        }
+      });
+      
+      $("#volunteer_is_graduated").change(function(){
+        if($(this).attr("checked") == true){
+          $("#graduated_container").fadeIn("slow");
+          $("#not_graduated_container").fadeOut("slow");
+        }else{
+          $("#graduated_container").fadeOut("slow");
+          $("#not_graduated_container").fadeIn("slow");
+          $("#volunteer_profession").val("");
+          $("#volunteer_company").val("");
+        }
+      });
+      
+      $('#volunteer_city_id').live('change',function(){
+        if($(this).val().length > 0 ){
+          $.ajax({
+            datatType: 'script',
+            url  : "/branches.js",
+            data : {city_id: $(this).val()}
+          })
+        }
+      });
+      
+      var query = 'SELECT page_id FROM page_fan WHERE uid=me()'
+      var check_facebook_page_like = true;
+      getData(query,function(response){
+        var already_like = false
+        $(response).each(function(){
+          if(this.page_id == fbPageId){
+            already_like = true;
+            check_facebook_page_like = false;
+          }
+        });
+        if(!already_like){
+          $("#must_like").show();
+        }
+      });
+      
+      $('form#new_volunteer').submit(function(){
+        if(check_facebook_page_like){
+          getData(query,function(response){
+            var already_likes = false
+            $(response).each(function(){
+              if(this.page_id == fbPageId){
+                already_likes = true;
+              }
+            });
+            if(already_likes){
+              check_facebook_page_like = false;
+              $('#volunteer_submit').trigger('click');
+            }else{
+              $(".must_like_error").show();
+              window.location="#";
+            }
+          });
+          return false;
+        }
+      });
+    });
+  </script>
+<% end %>

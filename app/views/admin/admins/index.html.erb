@@ -1,0 +1,55 @@
+<div class="grid_16">
+  <h2 id="page-heading">المشرفون</h2>
+</div>
+
+<div class="grid_16">
+  <% if @users.length > 0 %>     
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="4">قائمة المشرفين</th>
+      </tr>
+      <tr>
+        <th><%= sortable("name", "اسم المشرف")%></th>
+        <th><%= sortable("email", "البريد الإلكترونى")%></th>
+        <th><%= sortable("mobile", "رقم الهاتف المحمول")%></th>
+        <th></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @users.each do |user| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <td class="list_item_name">
+          <%= user.name %>
+        </td>
+        <td class="list_item_name">
+          <h5><%= user.email %></h5>
+        </td>
+        <td>
+          <%= user.mobile %>
+        </td>
+        
+        
+        <td  class="list-item-actions" width="50px;"> 
+          <% if can? :activate, user %>
+            <%= link_to 'تفعيل المشرف', activate_admin_admin_path(user), :title=>'تفعيل المشرف', :class=>"unblock_user", :confirm => 'هل انت متأكد من تفعيل هذا المشرف ؟', :method => :post %>
+          <% end %>
+        </td>
+        
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا يوجد مشرفون</div>
+  </div>
+  <% end %>
+</div>

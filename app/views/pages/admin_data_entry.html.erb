@@ -1,0 +1,34 @@
+<% @title = 'بيانات المشرف'; @title_class = 'profile_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+إدخال بيانات مشرف جديد
+<% end %>
+
+<div class="form_block">
+  <%= form_for(@user, :as=> :user, :url=> '/update_admin_data' ) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@user} %>
+    <fieldset>
+      <div class="form_item">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <span class="mandatory">*</span>
+      </div>
+      
+      <div class="form_item">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <span class="mandatory">*</span>
+      </div>
+      
+      <div class="form_item">
+        <%= f.label :mobile %>
+        <%= f.text_field :mobile, :placeholder=>"01XXXXXXXXX"  %>
+        <span class="mandatory">*</span>
+        <span class="form_note">رقم الهاتف المحمول يجب أن يتكون من ١١ رقماً بلا مسافات أو أقواس ويبدأ ب 01</span>
+      </div>
+      
+      <p class="form-buttons">
+        <%= f.submit "حفظ", :class=>"input_button button-send" %>
+      </p>
+    </fieldset>
+  <% end %>
+</div>

@@ -1,0 +1,11 @@
+<% content_for :top_search do %>
+  <% if can?(:activities_authority, Volunteer.new)%>
+    <%= link_to 'طلب إذن لتنظيم أعمال تطوعية', activities_authority_volunteers_path, :class=>"volunteer_req", :method => :post %>
+  <% else %>
+    <% if can?(:create, Activity.new)%>
+      <%= link_to "تنظيم أعمال تطوعية", new_activity_path, :class=>"addActivity_req" %>
+    <% elsif current_user %>
+      <span class="volunteer_req_invalid" title='<%= t("activities_authority_status.status_#{current_user.activities_authority_status}") %>' >طلب إذن لتنظيم أعمال تطوعية</span>
+    <% end %>
+  <% end %>
+<% end %>

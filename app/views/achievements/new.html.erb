@@ -1,0 +1,118 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'hideText activitiesDetails_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+الأعمال التطوعية ، يمكنك المشاركة باي عمل تطوعي
+<% end %>
+
+<div class="form_block">
+	<div class="block_title">
+		<h3 class="hideText achievements_title">الأنجازات</h3>
+	</div>        
+  <%= form_for(@achievement, :url=>volunteer_activity_achievements_path(@activity.user, @activity), :html => { :multipart => true})  do |f| %>
+  <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@activity} %>
+    <fieldset>
+      <div class="form_item adding_item"> 
+        <%= f.label :achievements_type_id %>
+        <%= f.select :achievements_type_id, options_for_select([["أختر الإنجاز . . . ", ""]]) + options_from_collection_for_select(@achievements_types, :id, :name, 0), {}, :class=>"middle", :name=>"" %>
+        
+        <%= f.label :amount, :class=>"small" %>
+        <%= f.text_field :amount , :class=>"small"%>
+        
+        <%= link_to "اضافة", "#", :class=>"hideText add_btn", :id=>"add_new_achievement" %>
+		<span class="form_note">e.g.  توزيع بطاطين = ٥٠, تعبئة شنط رمضان = ٥٠٠, etc..</span>
+      </div>
+      <div id="achievement_items" class="achievement_items">
+        <ul>
+          <% @achievements.each_with_index do |achievement, index| %>
+            <li>
+              <span><%= achievement.amount %></span>
+              <span><%= achievement.achievements_type.name %></span>
+              <%= link_to "إلغاء", "#", :class=>"hideText remove_btn", :id=>"remove_achievement" %>
+              
+              <%= f.hidden_field :amount, :id=>"activity_achievement_amount_#{index}", :value=>achievement.amount, :name=>"activity_achievements[#{index}][amount]", :class=>"activity_achievement_amount_input" %>
+              
+              <%= f.hidden_field :achievements_type_id, :id=>"activity_achievement_type_#{index}", :value=>achievement.achievements_type_id, :name=>"activity_achievements[#{index}][achievements_type_id]", :class=>"activity_achievement_type_input" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+	  <div class="block_title">
+		<h3 class="hideText time_block_title">الأنجازات</h3>
+	  </div>
+	  <div class="activity_hours">
+		<div class="form_item">
+		   	<label for="name">الوقت المنجز</label>
+		   	<%= text_field_tag :volunteers_hours , value= @activity.volunteers_hours , :class=>"box_shadow small"%>
+		   	<label for="name" class="small">ساعة</label>
+		   	<span class="form_note">متوسط عدد الساعات التي قام بتقديمها كل من المتطوعين المشتركين بالعمل التطوعي. سيتم اضافة تلك الساعات الى ساعات التطوع الخاصة بكل من المتطوعين المشتركين بعد انتهاء العمل التطوعي و موافقة الادارة على نشر انجازاته.</span>
+        </div>
+		<div class="form_item">
+			<label for="summery">ملخص إنجازات المتطوعين</label>
+			<%= text_area_tag :summary, value= @activity.summary ,:cols=>"40", :rows=>"8"%> 
+		</div>
+      </div>     
+	  <div class="block_title">
+		<h3 class="hideText media_block_title">الأنجازات</h3>
+	  </div>
+	  <div class="imagesUploader  form_item adding_item">
+		<label>الصور و الفيديو</label>								
+		<div class="uploader">
+			<span class="uploader_item" id="uploads" >
+				<span class="file-wrapper">
+				   	<%= text_field_tag :desc , value= "الوصف" , :class=>" small",:name=>"activity_media[0][desc]", :id=>"activity_media_desc_0"%>
+					<%= file_field_tag :activity_media ,:name=>"activity_media[0][media]", :id=>"activity_media_media_0", :accept => 'image/png,image/gif,image/jpeg' %>
+				</span>
+			</span>
+			<a id="more_media">"المزيد"</a>
+			<div class="uploaded_img">
+				<h3> الصور المحملة</h3>
+				<% @activity.media.each do |media_file| %>
+					<span class="thumb">
+						
+						
+						<%= image_tag (media_file.media_upload_type == 'File' ?  media_file.media.url : media_file.thumbnail_version('s') || fb_picture(media_file.fb_id))%>
+						<%= hidden_field "media", "files",{:name => "media_files_list[]", :value => media_file.id } %> 
+						<!--Remove image link-->
+						<%= link_to "إلغاء", "#", :class=>"removeImageBtn hideText", :id=>"remove_media" %>
+						<p class="info"><%= media_file.desc %></p>
+					</span>
+				<% end %>
+			</div>
+		</div>
+
+      
+      <p class="form-buttons">
+        <%= link_to "إلغاء", volunteer_activity_path(@activity.user, @activity) %>
+        <%= f.submit "أرسل", {:class=>"input_button button-Save"} %>
+      </p>
+    </fieldset>
+  <% end %>
+</div>
+
+<script type="text/html" id="multiple-uploads-template">
+  <![CDATA[
+	<span class="file-wrapper">
+		<%= text_field_tag :desc , value= "الوصف" , :class=>" small",:name=>"", :id=>""%>
+		<%= file_field_tag :activity_media ,:name=>"", :id=>"",:accept => 'image/png,image/gif,image/jpeg'%>
+	</span>
+  ]]>
+</script>
+
+<textarea id="activity_achievement_template" style="display: none;">
+<li>
+  <span class="achievement_amount"></span>
+  <span class="achievements_type_name"></span>
+  <a href="#" class="hideText remove_btn" id="remove_achievement">إلغاء</a>
+  
+  <input class="activity_achievement_amount_input" id="activity_achievement_amount_0" name="activity_achievements[0][amount]" type="hidden" value="">
+  
+  <input class="activity_achievement_type_input" id="activity_achievement_type_0" name="activity_achievements[0][achievements_type_id]" type="hidden" value="">
+</li>
+</textarea>
+
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>
+<% content_for :javascripts do %>
+  <%= javascript_include_tag "achievements" %>
+  <%= javascript_include_tag "media" %>
+<% end %>

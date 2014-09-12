@@ -1,0 +1,29 @@
+<% if volunteer.activities_authority_status == ActivitiesAuthorityStatus.rejected || volunteer.activities_authority_status == ActivitiesAuthorityStatus.requested %>
+  <%= link_to 'الموافقة على طلب تنظيم أعمال تطوعية', "#grant_permission_form_#{volunteer.id}", :id=>"inline", :title=>'الموافقة على طلب تنظيم أعمال تطوعية', :class=>"accept_req"%>
+  <% allowed_categories = (volunteer.request_activities ||= "").split(",").collect(&:to_i) %>
+  <div style="display:none">
+    <div id="grant_permission_form_<%= volunteer.id %>">
+      <div class="grid_16">
+        <div class="box">
+          <div class="block">
+            <%= form_tag(update_activities_authority_status_admin_volunteer_path(volunteer, :accept=>"true", :page=>(params[:page] || 1))) do -%>
+              <div class="page_actions">
+              <% ActivityCategory.all.each_with_index do |ac,indexx| %>
+                <div class="form_item">
+                <%= label_tag "ac_#{volunteer.id}_#{ac.id}", ac.name %>
+                <%= check_box_tag("activity_categories[]", ac.id , allowed_categories.include?(ac.id),:id=>"ac_#{volunteer.id}_#{ac.id}") %>
+                </div>
+              <% end %>
+              <p class="controls"><%= submit_tag 'موافقة', :class=>"button" %></p>
+              </div>
+            <% end -%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<% end %>
+<% if volunteer.activities_authority_status == ActivitiesAuthorityStatus.accepted || volunteer.activities_authority_status == ActivitiesAuthorityStatus.requested %>
+  <%= link_to 'رفض طلب تنظيم أعمال تطوعية', update_activities_authority_status_admin_volunteer_path(volunteer, :accept=>"false", :page=>(params[:page] || 1)), :title=>'رفض طلب تنظيم أعمال تطوعية', :class=>"reject_req", :confirm => 'هل انت متأكد من رفض طلب تنظيم أعمال تطوعية ؟', :method => :post %>
+<% end %>

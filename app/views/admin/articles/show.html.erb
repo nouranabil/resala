@@ -1,0 +1,67 @@
+<div class="grid_16">
+<h2 id="page-heading">المقالة</h2>
+</div>
+      
+<div class="grid_16">
+  <div class="box">
+    <h2><%= @article.title%></h2>
+    <div class="block list_show">
+      <dl>
+        <dt>نوع المقالة</dt>
+        <dd>
+          <%= @article.article_category.name %>
+        </dd>
+        
+        <% unless @article.branches.size == 0 %>
+        <dt>الفروع</dt>
+        <dd><%= @article.branches.collect{|b| b.name}.join(", ") %></dd>
+        <% end %>
+        
+        <% unless @article.activity_categories.blank? %>
+        <dt>الأنشطة الخيرية</dt>
+        <dd><%= @article.activity_categories.collect{|b| b.name}.join(", ") %></dd>
+        <% end %>
+        
+        <% unless @article.description.blank? %>
+        <dt>الوصف</dt>
+        <dd><%= @article.description.html_safe %></dd>
+        <% end %>
+        
+      </dl>
+    </div>  
+    
+    <div class="selected_img_thumb">
+      <h4>الملفات التي تم إختيارها</h4>
+      <ul class="img_thumb" id="current_media_list" >
+        <% @article.media.facebook_files.each do |m| %>
+          <li id="media_item_<%=m.fb_id%>">
+            <a href="<%=fb_picture(m.fb_id)%>" target="_blank" >
+              <img style="width:100px;height50px" src="<%=fb_picture(m.fb_id)%>" />
+            </a>
+          </li>
+        <% end %>
+      </ul>
+      <div class="clear"></div>
+      
+      <h4>الملفات التي تم رفعها</h4>
+      <ul class="img_thumb" id="current_media_list" >
+        <% @article.media.files.each do |m| %>
+          <li id="media_item_<%=m.id%>">
+            <a href="<%=m.media.url()%>" target="_blank" >
+              <img style="width:100px;height50px" src="<%=m.media.url()%>" />
+            </a>
+            <%= hidden_field "media", "files",{:name => "media_files_list[]", :value => m.id } %> 
+          </li>
+        <% end %>
+      </ul>
+      <div class="clear"></div>
+    </div>
+
+
+  </div>
+  <div class="controls">
+    <%= link_to 'تعديل', edit_admin_article_path(@article, :page=>params[:page] || 1) %> |
+    <%= link_to 'عودة', admin_articles_path(:page=>params[:page] || 1) %>
+  </div>
+</div>
+

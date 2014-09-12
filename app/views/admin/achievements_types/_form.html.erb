@@ -1,0 +1,17 @@
+<%= form_for(@achievements_type, :url=>@achievements_type.id ? admin_achievements_type_path(@achievements_type) : admin_achievements_types_path) do |f| %>
+  <div class="grid_16">
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@achievements_type} %>
+    <div class="box">
+      <h2><%= form_title%></h2>
+      <div class="block">
+          <div class="page_actions">
+            <%= f.label :name %>
+            <%= f.text_field :name, :class=>"text" %>              
+          </div>
+          <p class="controls">
+            <%= f.submit "حفظ نوع الإنجاز", :class=>"button" %> <%= link_to "إلغاء", admin_achievements_types_path %>
+          </p>
+      </div>
+    </div>
+  </div>
+<% end %>

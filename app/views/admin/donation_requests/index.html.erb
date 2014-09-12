@@ -1,0 +1,90 @@
+<div class="grid_16">
+  <h2 id="page-heading">طلبات التبرع</h2>
+</div>
+
+<div class="grid_16">
+  <div class="box">
+    <h2><%= link_to "بحث", "#", :id=>"donation_search_display"%></h2>
+    <div class="block" id="donation_search_container" style="<%= 'display: none;' if params[:from_date].blank? && params[:to_date].blank? %>" >
+      <%= form_tag admin_donation_requests_path, :method => 'get' do |f| %>
+        <div class="page_actions">
+          <p>
+            <label>بدءا من</label>
+            <%= select_date @from_date, {:prefix => 'from_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@from_date %>
+          </p>
+          <p>
+            <label>حتى</label>
+            <%= select_date @to_date, {:prefix => 'to_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@to_date %>
+          </p>
+          <p class="controls">
+            <input type="submit" value="بحث" name="commit" id="volunteer_submit" class="button">
+          </p>
+        </div>
+      <% end %>                     
+    </div>
+  </div>
+</div>
+
+
+<div class="grid_16"> 
+  <% if @donation_requests.length > 0 %>    
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="4">قائمة بطلبات التبرع</th>
+      </tr>
+      <tr>
+        <th>اسم المتبرع</th>
+        <th>المدينة</th>
+        <th>الأنشطة الخيرية المراد التبرع لها</th>
+        <th></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @donation_requests.each do |donation_request| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <td class="list_item_name" >
+          <h5><%= link_to donation_request.name, admin_donation_request_path(donation_request.id, :page=>params[:page] || 1) %></h5>
+        </td>
+        <td class="list_item_name" >
+          <h5><%= donation_request.city.name %></h5>
+        </td>
+        <td> <%= donation_request.activity_categories.collect{|ag| (link_to ag.name, ag, :target=>'_blank')}.join(" , ").html_safe %></td>                 
+        <td  class="list-item-actions"> 
+          <%= link_to 'حذف', admin_donation_request_path(donation_request.id, :page=>params[:page] || 1), :class=>"delete", :confirm => 'هل انت متأكد من حذف هذا الطلب؟', :method => :delete %>
+          <%= render :partial=>'reviewed', :locals=>{:donation_request=>donation_request} %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% report_params = params.clone %>
+  <% report_params.delete('controller') %>
+  <% report_params.delete('action') %>
+  <%= link_to 'تقرير إكسل', donation_requests_admin_reports_path(report_params), :class=>"excel_btn" %>
+  <%= will_paginate @donation_requests %>
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا توجد طلبات</div>
+  </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    $("#donation_search_display").live('click' , function(){
+      $("#donation_search_container").slideToggle();
+      return false;
+    });
+  });
+</script>
+<% end %>

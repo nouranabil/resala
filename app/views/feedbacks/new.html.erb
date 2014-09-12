@@ -1,0 +1,38 @@
+<% @title = 'شارك برأيك'; @title_class = 'feedback_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+شاركنا بآرائك ومقترحاتك لتطوير رسالة للأفضل
+<% end %>
+<div class="form_block"> 
+  <%= form_for(@feedback) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@feedback} %>
+    <h6>
+      <p><strong>يمكنكم مراسلتنا على: </strong></p>
+      <p><a href="mailto:raselna@resala.org">raselna@resala.org</a></p>
+      <p><a href="mailto:contact_us@resala.org">contact_us@resala.org</a></p>
+      <p><strong>يسعدنا التواصل معكم ومناقشة مقترحاتكم وآرائكم </strong></p>
+      <p><strong>ونتمنى من الله عزوجل التوفيق لكل ماهو خير</strong></p>
+    </h6>
+
+    <fieldset>
+      <div class="form_item">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :body %>
+        <%= f.text_area :body, :rows=>4 %>
+        <span class="mandatory">*</span>
+      </div>
+      <p class="form-buttons">
+        <%= link_to "إلغاء", root_path %>
+        <%= f.submit "إرسال", :class=>"input_button button-send" %>
+      </p>
+    </fieldset>
+  <% end %>
+</div>

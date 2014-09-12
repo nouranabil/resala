@@ -1,0 +1,75 @@
+$('#branch_show_container').hide();
+$('#branch_show_container').html("<%= escape_javascript(render :partial => "show", :locals=>{:branch => @branch, :branch_activity_categories=>@branch_activity_categories, :query=>@query}) %>").show("slow");
+
+$('#branch_show_media_container').hide();
+$('#branch_show_media_container').html("<%= escape_javascript(render :partial=> 'media/index' ,:locals=>{:media_type=> 'photos', :query=>@query, :owner_type=> 'branch', :owner_id=> @branch.id, :page=>1,  :per_page=> Media::PER_PAGE}) %>").show("slow");
+
+window.location = "#branch_show_container";
+
+<% if @branch.longitude && @branch.latitude %>
+if(map){
+  loc = new google.maps.LatLng(<%= @branch.latitude %>, <%= @branch.longitude %>);
+  map.setCenter(loc);
+  map.setZoom(16);
+}
+<% end %>
+
+<% media_type ='photos' %>
+<% query = @query %>
+<% owner_type = 'branch' %>
+<% owner_id = @branch.id %>
+<% page = 1 %>
+<% per_page = Media::PER_PAGE %>
+
+$(document).ready(function()  {
+  var tbs = $( ".tabs" ).tabs();
+  var tabIndex = <%= media_type == 'videos' ? 1 : 0 %>;
+  tbs.tabs('select', tabIndex);
+  var query = "<%= query %>";
+  months = <%= js_months %>;
+  getData(query,
+          function(response){
+            <% if media_type =='photos' && owner_id.nil? %>
+            $('#photos-header').show();
+            <% elsif (media_type == 'albums' || 'videos') || owner_id %>
+            $('#photos-header').hide();
+            $('.album-link').live('click', function(){
+              $('#album_name').html(this.name);
+            });
+            <% else %>
+            $('#album_name').html("");
+            $('#photos-header').show();
+            <% end %>
+            if(response.error_code){
+              //alert(response.error_msg)
+            }else{
+              renderResponse(response,{
+                               template : "#<%= media_type %>-list-template",
+                               container: "#<%= media_type %>-list",
+                               <% if !local_assigns[:no_pagination] %>
+                               paginated: true,
+                               next:'<%= params[:album_id] ? album_photos_path(params[:album_id],media_type, page + 1,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page, :format=>'js') : media_path(media_type, page + 1, :format=>'js' ,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page ,:owner_id=> owner_id, :owner_type=> owner_type ) %>',
+                               prev:<%= page == 1 ? 'undefined' : ("'" + (params[:album_id] ? album_photos_path(params[:album_id],media_type, page - 1 ,:no_pagination=>local_assigns[:no_pagination],:per_page => per_page ,:format=>'js') : media_path(media_type, page - 1, :format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page ,:owner_id=> owner_id, :owner_type=> owner_type)) + "'") %>,
+                               pagContainer: "#<%= media_type %>-pag",
+                               <% end %>
+                               perPage: <%= per_page %>
+                             });
+            <% if media_type == 'photos' || 'videos' %>
+              trigger_fancybox();
+            <% end %>
+            }
+          });
+  $("#videos-tab-link").click(function(){
+    $("#photos-list").html("");
+    $("#albums-list").html("");
+    $.ajax('<%= media_path('videos',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page,:owner_id=> owner_id, :owner_type=> owner_type) %>');
+  });
+  $("#photos-tab-link").click(function(){
+    $("#videos-list").html("");
+    <% if owner_id %>
+      $.ajax('<%= media_path('photos',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page,:owner_id=> owner_id, :owner_type=> owner_type) %>');
+    <% else %>
+      $.ajax('<%= media_path('albums',:format=>'js',:no_pagination=>local_assigns[:no_pagination],:per_page => per_page) %>');
+    <% end %>
+  });
+});

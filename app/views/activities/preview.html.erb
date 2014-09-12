@@ -1,0 +1,80 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'hideText activitiesDetails_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+الأعمال التطوعية ، يمكنك المشاركة باي عمل تطوعي
+<% end %>
+
+
+<div class="form_block">				
+	<div class="block_title">
+		<h3 class="hideText achievements_title">الأنجازات</h3>
+	</div>
+	<div class="achievements">
+		<ul>
+			<% if @achievements.length > 0%>
+				<% @achievements.each do |achievement|%>
+					<li>
+						<strong><%= achievement.amount %></strong>
+						<span><%= achievement.achievements_type.name %></span>
+					</li>
+				<% end %>
+			<% else %>
+					<p>لا توجد انجازات </p>
+			<% end %>			
+		</ul>
+	</div>
+	<div class="block_title">
+		<h3 class="hideText time_block_title">الأنجازات</h3>
+	</div>
+	<div class="activityHours">
+		<% if @activity.volunteers_hours > 0 %>	
+			<p class="hours">ساعة <strong><%= @activity.volunteers_hours %></strong></p>
+		<% end %>
+		<% if @activity.summary == nil || @activity.summary == ''%>	
+			<p> لا يوجد ملخص </p>
+		<% else %>	
+			<p><%= @activity.summary %></p>
+		<% end %>
+	</div>
+	<div class="block_title">
+		<h3 class="hideText media_block_title">الأنجازات</h3>
+	</div>
+	<div class="media_listing">
+		<% if @activity.media.length > 0%>
+			<% @activity.media.each do |media_file| %>
+				<div class=" list_item photo">
+					<span class="thumb">
+					  <%= image_tag (media_file.media_upload_type == 'File' ?  media_file.media.url : media_file.thumbnail_version('s'))%>
+					  <p class="info"><%= media_file.desc %></p>
+					</span>
+				</div>
+			<% end %>
+		<% else %>
+			<p> لا يوجد ملحقات </p>	
+		<% end %>	
+	</div>
+	<div class="form_block colseActivity">	
+		<% form_tag request_close_volunteer_activity_path(@activity.user, @activity) do  %>
+			<fieldset>	
+				<div class="form_item">
+					<div class="radio_block">
+						<label for="close">إنهاء العمل التطوعى</label>
+						<%= radio_button_tag 'request_type', 'end', :checked=>true%>
+						<label for="close">العمل التطوعى لم يكتمل</label>
+						<%= radio_button_tag 'request_type', 'cancel'%>
+					</div>
+				</div>
+				<p class="form-buttons">
+					<%= link_to "إلغاء", volunteer_activity_path(@activity.user, @activity) %>
+					<%= submit_tag "أرسل", {:class=>"input_button button-EndActivity"} %>
+				</p>
+			</fieldset>
+		<% end %>
+	</div>
+</div>
+	
+	
+
+	
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>

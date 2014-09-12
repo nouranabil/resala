@@ -1,0 +1,19 @@
+THE OLD URL (where XXX is the ID) >>> THE NEW URL (where XXX is the same ID)
+
+/AboutUs.aspx >>> /pages/about
+/News.aspx >>> /news
+/How.aspx >>> /pages/how_to_donate
+/Donate.aspx >>> /donations/new
+/DonateMember.aspx >>> /donation_requests/new
+/HowToVolunteer.aspx >>> /volunteers/gateway
+/Gallery.aspx >>> /media/albums
+/Stories.aspx >>> /stories
+/Headlines.aspx >>> /testimonials
+/ContactUs.aspx >>> /feedbacks/new
+/City.aspx?CityID=XXX >>> /branches
+/DonateFromEgypt.aspx >>> /pages/how_to_donate#from_egypt
+/DonateOutEgypt.aspx >>> /pages/how_to_donate#from_abroad
+/Activity.aspx?ActivityID=XXX >>> /activity_categories/XXX?legacy=true
+/NewsItem.aspx?NewsItemID=XXX >>> /news/XXX?legacy=true
+/Story.aspx?StoryID=XXX >>> /stories/XXX?legacy=true
+/NewsPaperItem.aspx?NewsPaperID=XXX >>> /testimonials/XXX?legacy=true

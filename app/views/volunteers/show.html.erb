@@ -1,0 +1,117 @@
+<% @title = 'تطوع'; @title_class = 'profile_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+عرض كل بيانات المتطوع
+<% end %>
+
+<div class="volunteer_profile">           
+  <div class="list_item">
+    <div class="thumbnail">
+      <%= image_tag(@volunteer.image.blank? ? "/images/dummy/resala_70x70.gif" : @volunteer.image)%>
+    </div>
+    <div class="details">
+      <h3><%= @volunteer.name %></h3>
+      <div class="location"><i><%= @volunteer.city.name if @volunteer.type == "Volunteer" %></i></div>
+      <div class="email"><i><%= @volunteer.email %></i></div>
+      <!-- <div class="activity_details">
+              <span class="users_hours">cc 3'9) 9ED *7H9J </span>
+              <span class="activitys_no">E4*1C AJ ae F4'7 </span>
+            </div> -->
+    </div>                                          
+  </div>
+  <div class="my_info">
+    <dl>
+      <dd><label>النوع</label></dd>
+      <dt><%= @volunteer.gender_name if @volunteer.gender %></dt>
+    </dl>
+    <dl>
+      <dd><label>تاريخ الميلاد</label></dd>
+      <dt><%= l(@volunteer.date_of_birth) if @volunteer.date_of_birth %></dt>
+    </dl>
+    <dl>
+      <dd><label>أقرب فرع</label></dd>
+      <dt><%= @volunteer.branch.name if @volunteer.type == "Volunteer" %></dt>
+    </dl>
+    <dl>
+      <dd><label>رقم الهاتف المحمول</label></dd>
+      <dt><%= @volunteer.mobile %></dt>
+    </dl>
+    <dl>
+      <dd><label>المؤهل الدراسى</label></dd>
+      <dt><%= @volunteer.graduated ? "حامل شهادة" : "طالب" %></dt>
+    </dl>
+    
+    <% if @volunteer.graduated %>
+      <dl>
+        <dd><label>المهنة</label></dd>
+        <dt><%= @volunteer.profession %></dt>
+      </dl>
+      <% unless @volunteer.company.blank? %>
+      <dl>
+        <dd><label>الهيئة</label></dd>
+        <dt><%= @volunteer.company %></dt>
+      </dl>
+      <% end %>
+    <% else %>
+      <dl>
+        <dd><label>الكلية او المعهد</label></dd>
+        <dt><%= @volunteer.university %></dt>
+      </dl>
+      <% unless @volunteer.school_year.blank? %>
+        <dl>
+          <dd><label>السنة الدراسية</label></dd>
+          <dt><%= @volunteer.school_year %></dt>
+        </dl>
+      <% end %>
+    <% end %>
+    <dl>
+      <dd><label>أنشطة يرغب فى الأشتراك فيها</label></dd>
+      <dt><%= @volunteer.activity_categories.collect{|ac| ac.name}.join(", ") if @volunteer.type == "Volunteer" %></dt>
+    </dl>
+    <% unless @volunteer.bio.blank? %>
+      <dl>
+        <dd><label>معلومات عن العضو</label></dd>
+        <dt><%= @volunteer.bio %></dt>
+      </dl>
+    <% end %>
+    
+    <dl>
+      <dd><label>أيام يمكنه التطوع فيها</label></dd>
+      <% if @volunteer.limited_days == true %>
+        <dt><%= @volunteer.available_days_names if @volunteer.type == "Volunteer" %></dt>
+      <% else %>
+        <dt>فى أى يوم يمكن الاتصال للتنسيق</dt>
+      <% end %>
+    </dl>
+    
+    <dl>
+      <dd><label>أود أدراج اسمي بقائمة المتبرعين بالدم</label></dd>
+      <dt><%= @volunteer.stringify(:blood_donation) if @volunteer.type == "Volunteer" %></dt>
+    </dl>
+    <% if @volunteer.blood_donation%>
+      <dl>
+        <dd><label>فصيلة الدم</label></dd>
+        <dt><%= @volunteer.blood_type %></dt>
+      </dl>
+    <% end %>
+    
+    <% if current_user && current_user.id == @volunteer.id%>
+      <dl>
+        <dd><label>أود ابلاغ اصدقائي بقيامي بالإنضمام لمتطوعي رسالة ‫(‬النشر على فيسبوك‫)</label></dd>
+        <dt><%= @volunteer.stringify(:post_updates_to_facebook) if @volunteer.type == "Volunteer" %></dt>
+      </dl>
+      <dl>
+        <dd><label>أخطاري بالأنشطة التطوعية التي تهمني عن طريق البريد الإلكتروني</label></dd>
+        <dt><%= @volunteer.stringify(:get_activities_updates) if @volunteer.type == "Volunteer" %></dt>
+      </dl>
+    <% end %>
+  </div>
+</div>
+
+<% content_for :top_search do %>
+  <% if current_user.id == @volunteer.id %>
+    <%= link_to "تعديل معلوماتي الشخصية", edit_volunteer_path(@volunteer), :class=>"edit_myProfile"%>
+  <% end %>
+<% end %>
+<% content_for :sidebar do %>
+  <%= render :partial=>'shared/start_now_activity' %>
+<%end%>

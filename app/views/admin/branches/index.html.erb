@@ -1,0 +1,78 @@
+<div class="grid_16">
+  <h2 id="page-heading">فروع رسالة</h2>
+  <%= link_to "اضافة فرع جديد", new_admin_branch_path, :class=>"add_btn" %>
+</div>
+
+<div class="grid_16">     
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="5">قائمة الفروع</th>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.branch.name')%></th>
+        <th><%= t('activerecord.attributes.branch.description')%></th>
+        <th><%= t('activerecord.attributes.branch.city')%></th>
+        <th><%= t('activerecord.attributes.branch.address')%></th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @branches.each do |branch| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <th class="list_item_name" >
+          <h5><%= branch.name %></h5>
+        </th>
+        <td class="list_item_description">
+          <p><%= branch.description.html_safe if branch.description %></p>
+        </td>                 
+        <td class="list_item_name">
+          <p><%= branch.city.name if branch.city %></p>
+        </td>
+        <td class="list_item_name">
+          <p><%= branch.address %></p>
+        </td>
+        <td  class="list-item-actions"> 
+          <%= link_to 'تعديل', edit_admin_branch_path(branch), :class=>"edit", :title=>'تعديل' %>
+          
+          <%= link_to 'حذف', "#branch_delete_form_#{branch.id}", :id=>"inline", :class=>"delete",:title=>'حذف' %>
+          <div style="display:none">
+            <div id="branch_delete_form_<%= branch.id %>">
+              <div class="grid_16">
+                <div class="box">
+                  <div class="block">
+                    <% if (@branches - [branch]).empty? %>
+                      <h2>عذرا, لا يوجد فروع بديلة لتحويل جميع الأعمال الخيرية ومتطوعى الفرع المحذوف إليهم, برجاء إضافة فرع بديل ثم عاود المحاولة</h2>
+                    <% else %>
+                      <%= form_for branch, :url => admin_branch_path(branch.id) , :method => :delete do |f| %>
+                      <div class="page_actions">
+                        <h2>يُرجى اختيار فرع بديل لتحويل جميع الأعمال الخيرية ومتطوعى الفرع المحذوف إليه</h2>
+                        <div class="form_item">
+                          <%= f.label :alternative_branch %>
+                          <%= f.select :alternative_branch , options_from_collection_for_select(@branches - [branch], "id", "name", params[:volunteer_branch_id].to_i), :class => "text" %>
+                          <%= hidden_field_tag '_method', 'delete' %>
+                        </div>
+                        <p class="controls">
+                          <%= f.submit 'حذف', :class => "button" %>
+                        </p>
+                      </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>   

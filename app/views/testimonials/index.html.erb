@@ -1,0 +1,42 @@
+<% @title = "قالوا عنا"%>
+<% @title_class = 'testimonials_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+ما نشر عن جمعية رسالة فى وسائل الأخبار المختلفة
+<% end %>
+
+<div class="article_listing"> 
+  <% @testimonials.each do |testimonial| %>
+    <article>    
+      <div class="thumbnail">
+        <%= image_tag((testimonial.photo && testimonial.photo.thumbnail) ? testimonial.photo.thumbnail : "dummy/resala_70x70.gif", :alt=> testimonial.title)%>
+      </div>
+      <div class="article_desc">
+        <a href="<%= testimonial_path(testimonial) %>"><h3><%= testimonial.title%></h3></a>
+        <% if testimonial.description %>
+        <p>
+          <%= truncate(strip_tags(testimonial.description), :length=>30, :omission => link_to(" المزيد ... ", testimonial_path(testimonial))).html_safe %>
+        </p>
+        <% end %>
+        <span class="source">
+          <%= link_to "[#{testimonial.source}]", testimonial.url, :target=>"_blank" %>
+        </span>
+      </div>
+      
+      <div class="article_activities">
+        <div class="date">
+          <span>نشرت في</span>
+          <span class="day"><%= l(testimonial.disclosure_date, :format=>:long)%></span>
+        </div>  
+        <div class="comments">
+          <%= link_to "أضف تعليقاً", "#{testimonial_path(testimonial)}#facebook_comments", :class=>"comment"%>
+        </div>
+      </div>
+    </article>
+  <% end %>
+  <% if @testimonials.length == 0 %>
+  <article>
+    <div class="no-data">لا توجد مقالات</div>
+  </article>
+  <% end %>
+  <%= will_paginate @testimonials %>
+</div>

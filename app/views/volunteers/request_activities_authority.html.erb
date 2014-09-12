@@ -1,0 +1,34 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<p>يمكنك التطوع معنا وتكون مع الرسلاوية .. فرسان وفارسات الخير .. وتختار النشاط المفضل لك للتطوع به وكذلك اختيار الأوقات المناسبة لك</p>
+<% end %>
+
+<div class="form_block"> 
+  <h3 class="page_title">طلب إذن لإنشاء أنشطة</h3>       
+  <%= form_for(@activities_authority, :url=>activities_authority_volunteers_path) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@activities_authority} %>
+      <div class="form_item">
+        <%= f.label :existing_role %>
+        <%= f.text_area :existing_role, :name=>"existing_role" %>
+      </div>
+      
+      <div class="form_item checkLists">
+        <%= f.label :request_activities %>
+        <span class="listsfields">
+          <% activity_request_categories = @activities_authority.request_activities.collect(&:to_i) %>
+          <% @activity_categories.each_with_index do |activity_category, index| %>
+            <span class="min_set">
+              <%= check_box_tag "activity_categories[]", activity_category.id, activity_request_categories.include?(activity_category.id), {:class => "lang_check", :id=>"activity_categories_#{activity_category.id}"} %>
+              <%= label_tag "activity_categories[]", activity_category.name, :class => "sec_lbl", :for=>"activity_categories_#{activity_category.id}" %>
+            </span>
+          <% end %>
+        </span>
+        <span class="mandatory">*</span>
+      </div>
+      
+      <p class="form-buttons">
+        <%= f.submit "ارسل", {:class=>"input_button button-send"} %>
+      </p>
+    </fieldset>
+  <% end %>           
+</div>

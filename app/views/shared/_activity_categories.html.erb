@@ -1,0 +1,8 @@
+<div class="side_element">
+  <h2 class="hideText related_activites_block">الأنشطة المتعلقة</h2>
+  <p class="related_activities">
+    <% activity_categories.each do |activity_category|%>
+      <%= link_to activity_category.name, activity_category %>
+    <% end %>
+  </p>
+</div>

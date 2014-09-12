@@ -1,0 +1,14 @@
+<% if activities.length > 0 %>
+<ul>
+  <% activities.each do |activity| %>
+    <%= render :partial=>'/activities/activity', :locals=>{:activity=>activity, :is_owner=>false} %>
+  <% end %>
+</ul>
+<% if !local_assigns[:no_pagination]%>
+  <%= will_paginate activities %>
+<% end %>
+<% else %>
+<div class="section_intro nothing">
+  <h2>لا توجد أعمال تطوعية</h2>
+</div>
+<% end %>

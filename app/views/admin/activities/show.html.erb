@@ -1,0 +1,346 @@
+<div class="grid_16">
+  <h2 id="page-heading">الأعمال التطوعية</h2>
+</div>
+
+<div class="grid_16">
+  <div class="box">
+    <h2>العمل التطوعى</h2>
+    <div class="block">
+      <div class="activity_authority_data">
+        <div id="preview_block">
+          <div class="block_tittle ">               
+            <span class="list-item-actions"> 
+              <a class="edit edit_button" title="تعديل" href="#">Edit</a>
+            </span>
+            <h3><%= @activity.title%></h3>
+          </div>
+          <p><%= @activity.description.html_safe %></p>
+          
+          <div class="block list_show">
+            <dl>
+              <dt><label>مدير العمل التطوعى: </label></dt>
+              <dd><%= link_to_if !(owner = @activity.user).admin? , "#{owner.name}#{owner.admin? ? ' (أدمن)':''}", admin_volunteer_path(owner), :target=>"_blank"  %></dd>
+              
+              <% unless @activity.start_date.blank? %>
+              <dt><label>العمل التطوعى يبدأ في: </label></dt>
+              <dd><%= l @activity.start_date, :format=>:short %></dd>
+              <% end %>
+              
+              <% unless @activity.duration.blank? && @activity.duration_type.blank? %>
+              <dt><label>مدة العمل التطوعى: </label></dt>
+              <dd><%= @activity.duration %> <%= @activity.duration_type %> </dd>
+              <% end %>
+              
+              <% unless @activity.location.blank? %>
+              <dt><label>المكان: </label></dt>
+              <dd><%= @activity.location %></dd>
+              <% end %>
+              
+              <dt><label>عدد المتطوعين:</label></dt>
+              <dd>مطلوب <%= @activity.required_volunteers_count %> - اشترك <%=  @activity.volunteers_count %> </dd>
+              
+              <% unless @activity.volunteers_skills.blank? %>
+              <dt><label>مهارات المتطوعين: </label></dt>
+              <dd><%= @activity.volunteers_skills %></dd>
+              <% end %>
+              
+              <% if @activity.branches.size > 0 %>
+              <dt><label>الفروع: </label></dt>
+              <dd><%= @activity.branches.collect{|ab| link_to(ab.name, admin_branch_path(ab), :target=>"_blank")}.join(", ").html_safe %></dd>
+              <% end %>
+              
+              <dt><label>أنشطة ذات صلة: </label></dt>
+              <dd><%= @activity.activity_categories.collect{|ac| link_to(ac.name, activity_category_path(ac), :target=>"_blank")}.join(", ").html_safe %></dd>
+  
+              <dt>نشرت في</dt>
+              <dd><%= l @activity.created_at, :format => :long %></dd>
+    
+              <dt> عدد المهتمين </dt>
+              <dd> <%= @activity.activities_requests.size %> </dd>
+            </dl>
+          </div>
+          
+          <div class="achievements">
+            <div class="block_tittle ">               
+              <h3>إنجازات العمل التطوعى</h3>
+            </div>
+            <% if @activity.achievements.empty? %>
+              <!-- TODO handle no achievements -->
+            <% else %>
+            <ul>
+              <% @activity.achievements.includes(:achievements_type).each do |achievement| %>
+                <li><strong><%= achievement.amount %></strong><span><%= achievement.achievements_type.name %></span></li>
+              <% end %>
+            </ul>
+            <% end %>
+          </div>
+          <div class="activityHours">
+            <div class="block_tittle ">               
+              <h3>عدد الساعات الكلى</h3>
+            </div>
+            <p class="hours"><strong><%= @activity.volunteers_hours %></strong> ساعة </p>
+          </div>
+          <div class="selected_img_thumb">
+            <div class="block_tittle ">             
+              <h3>الصور و الفيديو</h3>
+            </div>
+            <% if @activity.media.empty?%>
+            <!-- TODO handle no media-->
+            <% else %>
+            <ul class="img_thumb">
+              <% @activity.media.each do |m| %>
+                <li><%= image_tag (m.media_upload_type == 'File' ?  m.media.url : m.thumbnail_version('s'))%></li>
+              <% end %>
+            </ul>
+            <% end %>
+            <div class="clear"></div>
+          </div>
+        </div>
+        
+        <div id="edit_block" style="display:none">
+          <%= form_for @activity,:url=> admin_activity_path(@activity) ,:html=>{:multipart => true} do |f|%>
+            <div class="block_tittle ">               
+              <h3><%= @activity.title %> </h3>
+            </div>
+            <div class="page_actions">
+              <%= render :partial=>'activities/form_attributes', :locals=> {:form => f, :activity=> @activity}%>        
+            </div>
+            
+            <div class="achievements">
+              <div class="block_tittle ">               
+                <h3>إنجازات العمل التطوعى</h3>
+              </div>
+              <div class="page_actions">
+                <%= fields_for Achievement.new do |x| %>
+                <div class="form_item adding_item"> 
+                  <%= x.label :achievements_type_id %>
+                  <%= x.select :achievements_type_id, options_for_select([["أختر الإنجاز . . . ", ""]]) + options_from_collection_for_select(AchievementsType.all, :id, :name, 0), {}, :class=>"middle", :name=>"" %>
+                  <label for="achievement_amount" class="small">العدد</label>
+                  <%= x.text_field :amount , :class=>"small", :name=>""%>
+                  <%= link_to "اضافة", "#", :class=>"hideText add", :id=>"add_new_achievement" %>
+                  <span class="form_note">مثال: توزيع بطاطين = ٥٠, تعبئة شنط رمضان = ٥٠٠, ..</span>
+                </div>
+                <% end %>
+                <div id="achievement_items" class="achievement_items">
+                  <ul>
+                    <% index = 0 %>
+                    <% @activity.achievements.each do |ach| %>
+                      <% f.fields_for :achievements, ach do |b| %>
+                      <li>
+                        <span class="quantity"><%= b.object.amount %></span>
+                        <span><%= b.object.achievements_type.name %></span>
+                        <%= link_to "إلغاء", "#", :class=>"hideText remove", :id=>"remove_achievement" %>
+                        <%= b.hidden_field :amount, :id=>"activity_achievement_amount_#{index}", :class=>"activity_achievement_amount_input" %>
+                        <%= b.hidden_field :achievements_type_id, :id=>"activity_achievement_type_#{index}", :class=>"activity_achievement_type_input" %>
+                        <%= b.check_box :_destroy, :class=>"remove_achievement" ,:style=>"display:none;" %>
+                      </li>
+                      <% index += 1%>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+              <div class="page_actions">
+                <div class="form_item">
+                  <%= f.label :volunteers_hours %>
+                  <%= f.text_field :volunteers_hours, :class=>"box_shadow small" %>
+                  <label for="volunteers_hours" class="small">ساعة</label>
+                  <span class="mandatory">*</span>
+                </div>
+                <div class="form_item">
+                  <%= f.label :summary %>
+                  <%= f.text_area :summary , :class=>"small" %>
+                </div>        
+              </div>
+            </div>
+            
+            <div class="uploader_block">
+              <label for="activity_media">ملفات الصور</label>
+              <div id="uploader_items" class="uploader">
+                <span class="uploader_item">
+                  <span class="file-wrapper">
+                    <%= f.file_field :media, :name=>"activity_media[][media]", :value=>"" %>
+                  </span>
+                  <a id="add_new_upload" class=" hideText add">إضافة</a>
+                  <a id="remove_upload" class=" hideText remove" style="display:none;">حذف</a>
+                </span>
+              </div>
+            </div>
+            <%= render :partial=> 'admin/shared/media_picker', :locals=>{:association => :media, :parent=>@activity, :f=> f } %>
+            
+            <p class="controls">
+              <a id="cancel_button" href="#">إلغاء</a>
+              <%= f.submit "حفظ", :class=>"button" %>
+            </p>
+          <% end %>
+        </div>
+        
+        <% if can? :close, @activity %>
+        <div class="block gray_block">
+        <% process = @activity.status == ActivitiesStatus.request_close ? 'إنهاء':'إلغاء'%>
+          <h2><label>الرفض أو الموافقة على <%= process %> العمل التطوعى</label></h2>
+          <%= form_for @activity,:url=>close_admin_activity_path(@activity), :html=>{:multipart => true} do |f|%>
+            <div class="page_actions">
+              <div class="form_item">
+                <div class="radio_block">
+                  <label for="accept_radio_button"> <%= process %> العمل التطوعى</label>
+                  <%= radio_button_tag 'decision', 'accept', true, :id=>"accept_radio_button", :class=>"text" %>
+                  
+                  <label for="reject_radio_button"> رفض <%= process %> العمل التطوعى</label>
+                  <%= radio_button_tag 'decision', 'reject', false, :id=>"reject_radio_button",:class=>"text" %>
+                  
+                </div>
+              </div>
+              <div class="form_item" style="display:none;" id="rejection_reason_container">
+                <label for="rejection_reason">سبب الرفض</label>
+                <%= text_area_tag 'rejection_reason', '', :class=>"text" %>
+              </div>
+              
+              <% if @activity.status == ActivitiesStatus.request_close %>
+              <div class="form_item post_ckeck">
+                <%= check_box_tag 'post_to_facebook', 'true', true, :class=>"type_check" %>
+                <label class="facebook" for="post_to_facebook">انشر على فيسبوك</label>                                                              
+              </div>
+              <div class="form_item" id="facebook_text_container">
+                <label for="rejection_reason">النص المرفق على فيسبوك</label>
+                <%= text_area_tag 'facebook_text', '', :class=>"text" %>
+              </div>
+              <% end %>
+              <p class="controls">
+                <%= submit_tag 'أرسل',:class=>'button'%>
+              </p>
+            </div>
+          <% end %>
+        </div>
+        <% end %>
+      
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="activity_achievement_template" style="display: none;">
+  <li>
+    <span class="achievement_amount"></span>
+    <span class="achievements_type_name"></span>
+    <a href="#" class="hideText remove" id="remove_achievement">إلغاء</a>
+    <input class="activity_achievement_amount_input" id="activity_achievement_amount_0" name="activity_achievements[0][amount]" type="hidden" value="">
+    <input class="activity_achievement_type_input" id="activity_achievement_type_0" name="activity_achievements[0][achievements_type_id]" type="hidden" value="">
+  </li>
+</div>
+
+<script type="text/html" id="achievements-template">
+<![CDATA[
+<li new="true">
+  <span class="quantity"><%%= this.quantity %></span>
+  <span><%%= this.name %></span>
+  <a href="#" class="hideText remove" id="remove_achievement">إلغاء</a>
+  <input class="activity_achievement_amount_input" id="activity_achievement_amount_<%%= this.index %>" name="activity[achievements_attributes][<%%= this.index %>][amount]" type="hidden" value="<%%= this.quantity %>">
+  <input class="activity_achievement_type_input" id="activity_achievement_type_<%%= this.index %>" name="activity[achievements_attributes][<%%= this.index %>][achievements_type_id]" type="hidden" value="<%%= this.type_id %>">
+  <input name="activity[achievements_attributes][<%%= this.index %>][_destroy]" type="hidden" value="0">
+  <input class="remove_achievement" id="activity_achievements_attributes_<%%= this.index %>__destroy" name="activity[achievements_attributes][<%%= this.index %>][_destroy]" style="display:none;" type="checkbox" value="1">
+</li>
+]]>
+</script>
+
+
+<% content_for :javascripts do%>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#reject_radio_button,#accept_radio_button').change(function(){
+      if($('#reject_radio_button').attr('checked')){
+        $('#rejection_reason_container').show("slow");
+        $('#post_to_facebook').removeAttr('checked');
+        $('#post_to_facebook').attr('disabled', 'disabled');
+        $('#facebook_text_container').hide("slow");
+      }else{
+        $('#rejection_reason_container').hide("slow");
+        $('#post_to_facebook').attr('checked', 'checked');
+        $('#post_to_facebook').removeAttr('disabled');
+        $('#facebook_text_container').show("slow");
+      }
+    });
+    if($('#post_to_facebook').length > 0){
+      $('#post_to_facebook').change(function(){
+        if($(this).attr('checked')){
+          $('#facebook_text_container').show("slow");
+        }else{
+          $('#facebook_text_container').hide("slow");
+        }
+      });
+    }
+    $(".edit_button").click(function(){
+      $('#preview_block').hide("slow");
+      $('#edit_block').show("slow");
+      return false;
+    });
+    $("#cancel_button").click(function(){
+      $('#edit_block').hide("slow");
+      $('#preview_block').show("slow");
+      return false;
+    });
+    //photos multiple upload
+    $('#add_new_upload').live('click',function(){
+      $(this).closest(".uploader_item").find("#add_new_upload").hide();
+      new_upload = $(this).closest(".uploader_item").clone();
+      new_upload.find("input").val("");
+      new_upload.find("#add_new_upload").show();
+      new_upload.find("#remove_upload").show();
+      $("#uploader_items").append (new_upload);
+      return false;
+    });
+    $('#remove_upload').live('click',function(){
+      $(this).closest(".uploader_item").remove();
+      $("#uploader_items .uploader_item:last").find("#add_new_upload").show();
+      return false;
+    });
+    
+    //Achievements
+    //add
+    $('#add_new_achievement').live('click',function(){
+      var new_index = $("#achievement_items ul").children("li").length;
+      var achievement_amount_value = $("#achievement_amount").val();
+      var achievement_achievements_type_id = $("#achievement_achievements_type_id").val();
+      var achievement_achievements_type_id_value = $("#achievement_achievements_type_id option:selected").text();
+      
+      if(achievement_amount_value.length == 0 || achievement_achievements_type_id.length == 0 || achievement_achievements_type_id_value.length == 0 || !achievement_amount_value.match(/^[0-9\.]*$/) ){
+        alert("برجاء إختيار نوع الإنجاز وكتابة العدد بصيغة صحيحة ")
+        return false;
+      }
+      var input;
+      if($(".achievement_items li").not(":hidden").children(".activity_achievement_type_input[value="+ achievement_achievements_type_id + "]").size() > 0 ){
+        alert("تم إضافة نوع الإنجاز من قبل");
+        return false;
+      }else if((input = $(".achievement_items .activity_achievement_type_input[value="+ achievement_achievements_type_id + "]")).size() > 0 ){
+        var li = input.closest('li');
+        li.children('.quantity').html(achievement_amount_value);
+        li.children('.activity_achievement_amount_input').val(achievement_amount_value);
+        li.children(".remove_achievement").removeAttr('checked');
+        li.show();
+        $("#achievement_amount").val("");
+        $("#achievement_achievements_type_id").val(0);
+        return false;
+      }
+      var node = $("#achievements-template").jqote({ quantity : achievement_amount_value,
+                                                     name     : achievement_achievements_type_id_value,
+                                                     index    : new_index,
+                                                     type_id  : achievement_achievements_type_id});
+      $("#achievement_items ul").append(node);
+      $("#achievement_amount").val("");
+      $("#achievement_achievements_type_id").val(0);
+      return false;
+    });
+    //remove
+    $('#remove_achievement').live('click',function(){
+      if($(this).closest("li").attr('new')=="true"){
+        $(this).closest("li").remove();
+      }else{
+        $(this).closest("li").hide();
+        $(this).siblings(".remove_achievement").attr('checked','checked')
+      }
+      return false;
+    });
+  });
+</script>
+<% end %>

@@ -1,0 +1,21 @@
+<ul class="sectionMenu">
+  <% if selected_item == :activities %>
+    <li class="selected upcoming_activities_tab"><%= link_to "<span>الأعمال التطوعية</span>".html_safe , activities_path %></li>
+  <% else %>
+    <li class="upcoming_activities_tab"><%= link_to "<span>الأعمال التطوعية</span>".html_safe , activities_path %></li>
+  <% end %>
+  
+  <% if can? :dashboard, current_user%>
+    <% if selected_item == :dashboard %>
+      <li class="dashboard_tab selected"><a href="<%= dashboard_volunteer_path(current_user) %>"><span>أنشطتي</span></a></li>
+    <% else %>
+      <li class="dashboard_tab"><a href="<%= dashboard_volunteer_path(current_user) %>"><span>أنشطتي</span></a></li>
+    <% end %>
+  <% end %>
+  
+  <% if selected_item == :volunteers %>
+    <li class="volunteerList_tab selected"><%= link_to "<span>متطوعو رسالة</span>".html_safe , volunteers_path %></li>
+  <% else %>
+    <li class="volunteerList_tab"><%= link_to "<span>متطوعو رسالة</span>".html_safe , volunteers_path %></li>
+  <% end %>
+</ul>

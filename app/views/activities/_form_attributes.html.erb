@@ -1,0 +1,151 @@
+<div class="form_item">
+  <%= form.label :title %>
+  <%= form.text_field :title , :class=>"box_shadow", :required=>"required"%>
+  <span class="mandatory">*</span>
+  <span class="form_note">مثال: قافلة لقرية اوسيم بالجيزة</span>            
+</div>
+<div class="form_item">
+  <%= form.label :description %>
+  <%= form.text_area :description, :class=>"tinymce" %>
+  <span class="mandatory">*</span>            
+</div>
+<div class="form_item">
+  <%= form.label :start_date %>
+  <%= form.datetime_select :start_date, {:start_year=>Time.now.year, :end_year=>10.years.from_now.year, :prompt => {:day => 'اليوم', :month => 'الشهر', :year => 'السنة', :hour => 'الساعة', :minute =>'الدقائق' }} , {:class=>"very_small"} %>
+  <span class="mandatory">*</span>
+</div>
+<div class="form_item">
+  <%= form.label :duration %>
+  <%= form.text_field :duration, :class=>"small"%>
+  <%= form.select :duration_type, options_for_select([["ساعة", "ساعة"], ["يوم", "يوم"], ["شهر", "شهر"]], activity.duration_type), {},:class=>"normal" %>
+</div>
+<div class="form_item">
+  <%= form.label :location %>
+  <%= form.text_field :location , :class=>"box_shadow"%>
+</div>
+<div class="form_item">
+  <%= form.label :required_volunteers_count %>
+  <%= form.text_field :required_volunteers_count, :class=>"box_shadow", :required=>"required" %>
+  <span class="mandatory">*</span>
+</div>
+<div class="form_item">
+  <%= form.label :volunteers_skills %>
+  <%= form.text_area :volunteers_skills %>
+</div>
+<div class="form_item checkLists">
+  <%= form.label :activity_categories %>
+  <% allowed_categories = (current_user.request_activities ||= "").split(",").collect(&:to_i) %>
+  <span class="listsfields">
+    <% branch_activity_categories = activity.activity_categories.collect{|ac| ac.id} %>
+    <% @activity_categories.each_with_index do |activity_category, index| %>
+      <span class="min_set">
+        <%= check_box_tag "activity_categories[]", activity_category.id, branch_activity_categories.include?(activity_category.id), {:disabled=> !(current_user.admin? || allowed_categories.include?(activity_category.id)) ,:class => "lang_check email_selector ag_selectors", :id=>"activity_categories_#{activity_category.id}"} %>
+        <%= label_tag "activity_categories[]", activity_category.name, :class => "sec_lbl", :for=>"activity_categories_#{activity_category.id}" %>
+      </span>
+    <% end %>
+    <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors', :recount=>true} %>
+    <% if !current_user.admin? && allowed_categories.length < @activity_categories.length %>
+    <div class="user_msg">
+      <p>بعض الأنشطة غير مفعلة لأنك لا تملك صلاحية إنشاء أعمال تطوعية جديدة تحت هذه الأنشطة، لطلب تفعيل بعض الأنشطة،يُرجى الاتصال بالإدارة على contact_us@resala.org</p>
+    </div>
+    <% end %>
+    
+  </span>
+  <span class="mandatory">*</span>
+</div>
+<div class="form_item">
+  <%= form.label :branches %>
+  <%= form.select :branches, options_for_select([["أختر الفرع . . . ", ""]]) + options_for_select(@branches, activity.branches.collect{|ab| ab.id}), {}, :style=> "height: 150px", :multiple=>true, :name=>"branches[]", :class=>"email_selector" %>
+  <span class="mandatory">*</span>
+</div>
+
+<div class="form_item">
+  <%= form.label :facebook_post_message %>
+  <%= form.text_area :facebook_post_message %>
+  <span class="form_note">النص المرفق على فيسبوك هو الذى يظهر على صفحة رسالة مع البوست عندما يتم نشر العمل التطوعى (اختيارى)</span>
+</div>
+
+<div class="uploader_block">
+  <label for="activity_media">الصورة الرئيسية</label>
+  <div id="uploader_items" class="uploader">
+    <span class="uploader_item">
+      <span class="file-wrapper">
+        <%= form.file_field :front_photo %>
+      </span>
+    </span>
+    <% if photo = form.object.front_photo %>
+      <%= link_to "الصورة الرئيسية", photo.url, :target => "_blank" %>
+    <% end %>
+  </div>
+  <span class="form_note">الصورة الرئيسية هى التى تظهر على صفحة رسالة على فيسبوك عندما يتم نشر العمل الخيرى </span>
+</div>
+
+<% if current_user.admin? %>
+  <div class="form_item email post_ckeck">
+    <%= form.check_box :facebook_announce, :class=>"type_check" %>
+    <%= form.label :facebook_announce, :class=>"facebook" %>
+  </div>
+  <div class="form_item email post_ckeck">
+    <%= form.check_box :email_notifications, :class=>"type_check email_selector", :checked=>'checked' %>
+    <%= form.label :email_notifications, :class=>"email" %>
+  </div>
+  <div class="form_item email post_ckeck">
+    <%= check_box_tag :branch_only, "true", false, :class=>"type_check email_selector", :id=>"branch_only"%>
+    <label class="email" for="branch_only">
+    إخطار المتطوعين الأقرب إلى فرع رسالة الخاص بهذا العمل الخيرى فقط
+    </label>
+  </div>
+  <div id="recipients_count" class="form_item">
+    <%= render :partial=>"shared/email_counts", :locals=>{:count=> @activity.new_record? ? 0 : @activity.email_counts(true,false)} %>
+  </div>
+  
+  <% content_for :javascripts do%>
+    <script type="text/javascript">
+    var countURL = "<%= email_counts_admin_activities_path %>";
+    update_email_counts = function(){
+      $.get( countURL , $('.email_selector').serialize() ,
+                          function(data){
+                            $("#recipients_count").html(data).fadeOut().fadeIn();
+                          },'html');
+    };
+    $(".email_selector").change(function(){
+      update_email_counts();
+    });
+    </script>
+  <% end %>
+  
+<% end %>
+<% if form.object.new_record? %>
+<div class="form_item email post_ckeck">
+  <%= form.check_box :requires_approval, :class=>"type_check" %>
+  <%= form.label :requires_approval, :class=>"admin_accept" %>
+</div>
+<% end %>
+<div class="form_item email post_ckeck">
+  <%= form.check_box :disclose_volunteers, :class=>"type_check" %>
+  <%= form.label :disclose_volunteers, :class=>"users_list_icon" %>
+</div>
+
+<% if current_user.admin? %>
+  <% content_for :javascripts do %>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      if($('#activity_email_notifications').length > 0){
+        $('#activity_email_notifications').change(function(){
+          if($(this).attr('checked')){
+            $('#branch_only').attr("checked",false);
+            $('#branch_only').attr("disabled",false);
+          }else{
+            $('#branch_only').attr("checked",false);
+            $('#branch_only').attr("disabled",true);
+          }
+        });
+      }
+    });
+    </script>
+  <% end %>
+<% end %>
+
+<% content_for :javascripts do %>
+  <%= render 'shared/tinymce' %>
+<% end %>

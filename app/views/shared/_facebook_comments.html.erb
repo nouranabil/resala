@@ -1,0 +1,55 @@
+<div id="facebook_comments">
+<div id="fb-root"></div>
+<fb:comments href="<%= url%>" num_posts="10" width="550"></fb:comments>
+</div>
+
+<% if local_assigns[:notify_comments]%>
+  <% content_for :javascripts do %>
+  
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  var pageURL = '<%= url %>';
+  var sendPath = '<%= notify_comment_activity_path(local_assigns[:activity],"js") %>';
+  var activityId = '<%= local_assigns[:activity].id %>';
+  var localMachine = <%= Rails.env == 'development' ? 'true' : 'false' %>;
+  
+  FB.Event.subscribe('comment.create', function(response) {
+
+    // Querying the latest comment on the page
+    FB.api({
+      method: 'fql.multiquery',
+      queries: {
+        comment: 'SELECT xid, object_id, post_id, fromid, time, text, id, username, reply_xid, post_fbid FROM comment WHERE object_id IN (SELECT comments_fbid FROM link_stat WHERE url ="'+ pageURL +'") ORDER BY time desc LIMIT 1',
+        participants: 'SELECT fromid FROM comment WHERE object_id IN (SELECT comments_fbid FROM link_stat WHERE url="' + pageURL + '")',
+        user: 'SELECT id, name, url, pic_square FROM profile WHERE id IN (SELECT fromid FROM #comment)'
+      }
+    },
+      function(response) {
+        var comment = response[0].fql_result_set;
+        var user = response[2].fql_result_set;
+        var participants = response[1].fql_result_set;
+        var others_ids = [];
+        $(participants).each(function(){
+          others_ids.push(this.fromid);
+        });
+        
+        if(!localMachine){
+        // Insert comment body text
+          var commentText = comment[0].text;
+          commentText = commentText.replace(/\n/g, '<br />');
+          
+          $.post(sendPath,{comment_text : commentText, commentor_uid : user[0].id, commentor_name : user[0].name, other_commentors : $.unique(others_ids) }, "html");
+        }else{
+          $.post(sendPath,{}, "html");
+        }
+      }
+    );
+  });
+});
+
+</script>
+
+  <% end %>
+<% end %>

@@ -1,0 +1,35 @@
+<%= form_for(@testimonial, :url=>@testimonial.id ? admin_testimonial_path(@testimonial, :page=>params[:page] || 1) : admin_testimonials_path(:page=>params[:page] || 1) ) do |f| %>
+  <div class="grid_16"> 
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@testimonial} %>
+    <div class="box">
+      <h2><%= form_title%></h2>
+      <div class="block">
+          <div class="page_actions">
+            <%= f.label :title %>
+            <%= f.text_field :title, :class=>"text" %>
+          </div>
+          <div class="page_actions">
+            <%= f.label :source %>
+            <%= f.text_field :source, :class=>"text" %> 
+          </div>
+          <div class="page_actions">
+            <%= f.label :url %>
+            <%= f.text_field :url, :class=>"text" %>
+          </div>
+          <div class="page_actions">
+            <%= f.label :disclosure_date %>
+            <%= f.date_select :disclosure_date, :include_blank=>true %>
+          </div>
+          <div class="page_actions">
+            <%= f.label :description %>
+            <%= f.text_area :description, :class=>"tinymce" %> 
+          </div>
+          <%= render :partial=> 'admin/shared/media_picker', :locals=>{:association => :photo, :parent=>@testimonial, :f=> f, :button_text=>'اختر صورة', :single=>true } %>
+          <p class="controls">
+            <%= f.submit "حفظ", :class=>"button" %> <%= link_to "إلغاء", admin_testimonials_path(:page=>params[:page] || 1) %>
+          </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= render 'shared/tinymce' %>

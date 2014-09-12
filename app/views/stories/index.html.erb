@@ -1,0 +1,7 @@
+<% @title = "أجمل قصصنا"%>
+<% @title_class = 'stories_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+أجمل قصصنا
+<% end %>
+
+<%= render :partial=>'articles/index', :locals=>{:articles=>@articles, :type=>"stories"} %>

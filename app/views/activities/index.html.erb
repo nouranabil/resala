@@ -1,0 +1,99 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'voluntee»section_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:activities} %>
+<% end %>
+
+<div class="volunteer_container">
+  <div class="users">
+    <div class="users_activityList">
+      <div class="section_intro">              
+        <h2>أحدث الأعمال التطوعية،</h2>
+        <p>تصفح الأعمال التطوعية التي تود الاشتراك بها، و انقر "أود المشاركة" لإبداء رغبتك في الاشتراك أو المساهمة بوقتك في العمل التطوعى.</p>
+      </div>
+    
+      <div class="filter_block">
+        <%= form_tag(activities_path, :method=> :get ) do %>
+        <fieldset>
+          <legend class="hideText section_search">بحث</legend>
+          <div class="collExp_block">
+            <%= link_to "إخفاء", "#", :class=>"collapse", :style=> (params[:commit] ? nil:'display:none;' )%>
+            <%= link_to "إظهار", "#", :class=>"expand", :style=> (params[:commit] ? 'display:none;':nil) %>
+          </div>
+          <div id="search_container"<%= params[:commit] ?  '':"style='display:none;'" %>>
+          <div class="search-keyword">
+              <%= label :keyword, "كلمات البحث" %>
+              <%= text_field_tag :keyword, '',:class=>"input_text", :value=>params[:keyword] %>
+          </div>
+          <div class="search-specific">
+            <ul>
+              <li>
+              <%= label :activity_category_id , "النشاط الخيرى" %>
+              <%= select_tag :activity_category_id, "<option value=\"\">اختر النشاط الخيرى</option>".html_safe + options_from_collection_for_select(@activity_categories, "id", "name", :selected=>params[:activity_category_id]) %>
+              </li>
+              <li>
+              <%= label :branch_id , "الفروع" %>
+              <%= select_tag :branch_id, "<option value=\"\">اختر الفرع</option>".html_safe + options_for_select(@branches, :selected=>params[:branch_id]) %>
+              </li>
+              
+              <li>
+                <dl class="options-sort">
+                  <dt><label class="hideText sort_label">رتب بــ</label></dt>
+                  <dd>
+                  <%= select_tag :sort, options_for_select([[t('activerecord.attributes.activity.created_at'), "created_at"],
+                                                            [t('activerecord.attributes.activity.title'), "title"],
+                                                            [t('activerecord.attributes.activity.start_date'),"start_date"],
+                                                            [t('activerecord.attributes.activity.volunteers_count'),"volunteers_count"]],
+                                                            :selected=>params[:sort]), :class=>"small" %>
+                  <%= select_tag :direction, options_for_select([["تنازليا","desc"],["تصاعديا","asc"]],:selected=>params[:direction]), :class=>"small" %>
+                  </dd>
+                </dl>
+              </li>
+            </ul>
+          </div>
+          <p class="search-submit">
+            <%= submit_tag "عرض", :class=>"input_button button-search"%>
+          </p>
+          </div>
+        </fieldset>
+        <% end %>
+      </div>
+      <!-- filter block ends -->
+      <%= render :partial=>'activities', :locals=>{:activities => @activities} %>
+      
+    </div><!-- users_activityList Ends -->
+    
+  </div><!--volunteers Ends -->
+</div><!--volunteer_container Ends -->
+
+<% if cookies[:popup_dismissed] != "true" %>
+<div style="display:none">
+  <%= render :partial=>'volunteers/gateway'%>
+</div>
+<% end %>
+
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>
+
+<% content_for :javascripts do %>
+  <script>
+    $(document).ready(function(){
+      $("#inline").trigger("click");
+    });
+    
+    
+    $('.collExp_block .expand').click(function(){
+      $(this).hide();
+      $('.collExp_block .collapse').show();
+      $('#search_container').fadeIn("slow");
+      return false;
+    });
+    
+    $('.collExp_block .collapse').click(function(){
+      $(this).hide();
+      $('.collExp_block .expand').show();
+      $('#search_container').fadeOut("slow");
+      return false;
+    });
+  </script>
+<% end %>

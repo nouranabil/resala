@@ -1,0 +1,6 @@
+<% @title = 'تطوع'; @title_class = 'volunteerReg_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+يمكنك أن تصبح أحد المتطوعين بجمعية رسالة
+<% end %>
+
+<%= render :partial=>'volunteers/form', :locals=>{:volunteer=>volunteer, :form_title=>""} %>

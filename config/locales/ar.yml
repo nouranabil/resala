@@ -1,0 +1,536 @@
+ar:
+  page_titles:
+    home: الرئيسية
+    media: الصور والفيديو
+    activity_categories: أنشطة رسالة
+    about: عن رسالة
+    mission: مهمتنا
+    history: تاريخنا
+    achievements: إنجازات
+    
+  messages:
+    form_error: "يرجى التحقق من الحقول التالية:"
+    saved: تم حفظ %{name} بنجاح
+    updated: تم تحديث بيانات %{name} بنجاح
+    generic_updated: تم التعديل بنجاح
+    deleted: تمت عملية الحذف بنجاح
+    select_alternate_branch: يجب إختيار الفرع البديل أولا قبل الحذف
+    deletetion_error: عفوا! حدث خطأ ما. لم تتم عملية الحذف بنجاح
+    branch_deletion_failed: عفوا! حدث خطأ ما. لم تتم عملية الحذف. تأكد أنك قمت بتحديد فرع بديل
+    select_city: اختر المدينة
+    select_branch: اختر الفرع
+    select_activity_category: اختر النشاط الخيرى
+    select_article_category: اختر نوع المقالة
+    next: التالى
+    prev: السابق
+    comments_error: لتتمكن من التعليق، ينبغى أن تكون من معجبى صفحة رسالة على فيسبوك. اضغط ثم حاول ثانية
+    added_to_newsletter_subscribers: تم إرسال رسالة الى بريدك الإلكتروني لتأكيد الاشتراك
+    failed: لم تتم عملية الحفظ بنجاح
+    sent: تم إرسال الرسالة بنجاح
+    email_exists: تم تسجيله من قبل
+    incorrect_email: غير صحيح
+    login_failed: لم تكتمل عملية تسجيل الدخول بنجاح
+    and: و 
+    donation_done: تهانينا! لقد تم التبرع بنجاح  بمبلغ %{amount} جنيه
+    donation_done_for_category: لنشاط %{activity}
+    donation_error: "عفواً ، حدث خطأ ما ، لم تتم عملية التبرع "
+    more: المزيد
+    more_branches: اضغط هنا لعرض التفاصيل
+    volunteer_added: تم تسجيلك كمتطوع بنجاح ، شكرا لتسجيلك وسيتم الاتصال بك فى وقت لاحق لأي أعمال تطوعية متاحة.
+    volunteer_updated: تم تعديل بياناتك الشخصية بنجاح
+    m: ذكر
+    f: انثى
+    y: نعم
+    n: لا
+    suspended: تم إيقاف العضو
+    unsuspended: تم تفعيل العضو
+    logged_in: تم تسجيل دخولك بنجاح
+    already_volunteered: انت متطوع بالفعل ، وتم تسجيل دخولك بنجاح
+    not_volunteered: لم تقم بالتسجيل كمتطوع حتى الان ، يجب عليك التسجيل كمتطوع أولا
+    activities_authority_sent: تم إرسال الطلب بنجاح، ستتم المراجعة وسنقوم بالرد عليك على بريدك الإلكتروني
+    activities_authority_sent_before: تم إرسال الطلب من قبل وفي انتظار المراجعة
+    activities_authority_sent_and_accepted: تم إرسال الطلب من قبل وتمت الموافقة عليه
+    activities_authority_sent_and_rejected: تم إرسال الطلب من قبل وتم رفض الطلب
+    activity_added: تم حفظ العمل التطوعى بنجاح، سيتم مراجعته بواسطة فريق رسالة أولا
+    activity_added_by_admin: تم حفظ العمل التطوعى ونشره بنجاح
+    account_suspended: لا يمكنك تسجيل الدخول، تم إيقاف عضويتك
+    activity_close_requested: تم إرسال طلبك بنجاح، سيتم مراجعته بواسطة فريق رسالة أولا
+    activity_update: تم تحديث العمل التطوعى
+    activity_not_closed: لم يتم إنهاء العمل التطوعى
+    activity_joined: تم إرسال طلب أشتراك بالعمل التطوعى ، سيقوم مدير العمل التطوعى بالمراجعة والرد عليك
+    activity_joined_and_confirmed: تمت إضافتك بنجاح إلى قائمة المشتركين فى العمل التطوعى
+    activity_not_joined: لم يتم إرسال طلب أشتراكك بالعمل التطوعى
+    activity_quit: لقد انسحبت من هذا العمل التطوعى
+    activity_not_quit: لم تنسحب من العمل التطوعى
+    activity_published: تمت الموافقة على العمل التطوعى
+    activity_published_notify: عمل خيرى جديد. هل من متطوعين ؟
+    activity_announced: تم الإعلان عن العمل التطوعى بنجاح
+    activity_rejected: تم رفض العمل التطوعى
+    activity_closed: تم إنهاء ونشر العمل التطوعى بنجاح!
+    activity_close_failed: عفواً! حدث خطأ ما. لم يتم إنهاء العمل التطوعى
+    activity_cancelled: تم إلغاء العمل التطوعى بنجاح!
+    activity_cancel_failed: عفواً! حدث خطأ ما. لم يتم إلغاء العمل التطوعى
+    activity_close_rejected: تم رفض طلب إنهاء العمل التطوعى
+    activity_close_reject_failed: عفواً! حدث خطأ ما. لم يتم رفض إنهاء العمل التطوعى 
+    activity_cancel_rejected: تم رفض طلب إلغاء العمل التطوعى
+    activity_cancel_reject_failed: عفواً! حدث خطأ ما. لم يتم رفض إلغاء العمل التطوعى
+    provide_rejection_reason: فضلا يُرجى توضيح سبب رفض طلب تنظيم العمل الخيرى
+    joined_activity: تم تحديث طلب المتطوع بنجاح
+    not_joined_activity: لم يتم تحديث طلب المتطوع
+    activities_not_valid: يرجى أختيار نشاط خيري واحد على الأقل ترغب في الاشتراك فيه
+    subscribe_confirmation: تأكيد الاشتراك بالنشرة البريدية لموقع رسالة
+    subscribe_confirmed: تم تأكيد الاشتراك بالنشرة البريدية بنجاح
+    subscribe_confirmed_before: أنت مشترك بالفعل بالنشرة البريدية
+    subscribe_not_confirmed: لم يتم تأكيد الاشتراك بالنشرة البريدية بنجاح، يُرجى إعادة الاشتراك مرة اخرى
+    removed_from_newsletter_subscribers: تم إرسال رسالة الى بريدك الإلكتروني لتأكيد إلغاء الأشتراك
+    unsubscribe_confirmed_before: البريد الإلكتروني الذي قمت بإدخاله غير موجود بالفعل
+    unsubscribe_confirmation: تأكيد إلغاء الاشتراك بالنشرة البريدية لموقع رسالة
+    unsubscribe_confirmed: تم تأكيد إلغاء الاشتراك بالنشرة البريدية بنجاح
+    email_sending_failed: ولكن حدث خطأ أثناء إرسال البريد الإلكترونى إلى المتطوعين المهتمين
+    article_deleted_with_facebook_error: "تم حذف المقالة بنجاح ولكن حدث خطأ أثناء الحذف من فيسبوك"
+    facebook_deletion_error: "حدث خطأ ما أثناء الحذف من فيسبوك"
+    email_sent: تم إرسال البريد الإلكترونى بنجاح
+    upcoming_activities: جمعية رسالة - أعمال تطوعية جديدة
+    activity_reminder: جمعية رسالة - تذكير بالعمل التطوعى
+    new_facebook_comment_added: تعليق جديد على النشاط الخيرى
+    new_activity_authority_request: طلب إذن لتنظيم أعمال تطوعية
+    admin_activated: تم تفعيل المشرف بنجاح
+    admin_not_activated: عفواً فشل تفعيل المشرف
+    volunteers_report: قائمة المتطوعين
+    
+  unauthorized:
+    manage:
+      all: عفوا، أنت لاتملك الصلاحيات اللازمة للقيام بهذا
+  
+  activity_category:
+    activity_category: النشاط
+    activity_categories: أنشطة رسالة
+    
+  branch:
+    branch: الفرع
+  
+  testimonial:
+    testimonial: قالوا عنا
+  
+  article:
+    article: المقالة
+  
+  donation_request:
+    donation_request: طلب التبرع  
+  
+  feedback:
+    feedback: شارك برأيك
+    
+  user:
+    your_data: بياناتك  
+  
+  volunteer:
+    volunteer: المتطوع
+  
+  achievements_type:
+    achievements_type: نوع الإنجاز  
+  
+  activity:
+    activity: العمل التطوعى
+    
+  question:
+    question: السؤال
+    
+  media:
+    media: صور و فيديو
+    video: فيديو
+    photo: صورة
+    album: ألبوم
+    videos: فيديوهات
+    photos: صور
+    albums: ألبومات
+    back_to_albums: عودة إلى الألبومات 
+    comments: التعليقات
+    add_comment: أضف تعليقك
+    post_comment: أرسل
+    no_comments: لا توجد تعليقات
+    picker:
+      choose_media: اختر صورة أو فيديو
+      add_selected: حفظ التغييرات
+      cancel: إلغاء
+  
+  activities_authority_status:
+    status_1: تم إرسال الطلب وفي انتظار المراجعة 
+    status_2: تم إرسال الطلب وتمت الموافقة عليه
+    status_3: تم إرسال الطلب وتم رفض الطلب
+    status_name_1: طلب إذن لتنظيم أعمال تطوعية في انتظار المراجعة 
+    status_name_2:  طلب إذن لتنظيم أعمال تطوعية تمت الموافقة عليه
+    status_name_3: طلب إذن لتنظيم أعمال تطوعية تم رفضه
+    requested: تم إستقبال طلب إذن تنظيم أعمال تطوعية
+    
+  activity_status:
+    status_2: تمت الموافقة على طلبكم بتنظيم العمل الخيرى 
+    status_3: طلب إذن لتنظيم عمل خيرى تم رفضه
+    status_4: تهانينا! تم إنهاء ونشر العمل التطوعى بنجاح
+    status_5: قام مدير العمل الخيرى بطلب إنهائه ونشره
+    status_6: قام مدير العمل الخيرى بطلب إلغائه
+    status_7: تمت الموافقة على طلبكم بإلغاء العمل التطوعى
+    status_8: تمت رفض طلبكم بإنهاء ونشر العمل التطوعى
+    status_9: تمت رفض طلبكم بإلغاء العمل التطوعى
+    volunteer_accepted: تم قبول طلب الأنضمام للعمل التطوعى
+    volunteer_rejected: نعتذر عن قبول طلب الأنضمام للعمل التطوعى
+    volunteer_joined: لقد اشتركت فى العمل التطوعى
+    status_name_1: جديد
+    status_name_2: تم نشره (مفتوح)
+    status_name_3: تم رفضه
+    status_name_4: تم إنهاؤه بنجاح
+    status_name_5: مطلوب إنهاؤه ونشره
+    status_name_6: مطلوب إلغاؤه
+    status_name_7: تم إلغاؤه
+    status_name_8: تم رفض إنهائه
+    
+  datetime:
+    distance_in_words:
+      half_a_minute: 'نصف دقيقة'
+      less_than_x_seconds:
+        one: 'أقل من ثانية'
+        other: '%{count} ثوان'
+      x_seconds:
+        one: 'ثانية واحدة'
+        other: '%{count} ثوان'
+      less_than_x_minutes:
+        one: 'أقل من دقيقة'
+        other: '%{count} دقائق'
+      x_minutes:
+        one: 'دقيقة واحدة'
+        other: '%{count} دقائق'
+      about_x_hours:
+        one: 'حوالي ساعة واحدة'
+        other: '%{count} ساعات'
+      x_days:
+        one: 'يوم واحد'
+        other: '%{count} أيام'
+      about_x_months:
+        one: 'حوالي شهر واحد'
+        other: '%{count} أشهر'
+      x_months:
+        one: 'شهر واحد'
+        other: '%{count} أشهر'
+      about_x_years:
+        one: 'حوالي سنة'
+        other: '%{count} سنوات'
+      over_x_years:
+        one: 'أكثر من سنة'
+        other: '%{count} سنوات'
+    prompts:
+      year: سنة
+      month: شهر
+      day: يوم
+  date:
+    formats:
+      default: "%Y-%m-%d" 
+      short: "%b %d" 
+      long: "%d %B, %Y" 
+      
+    day_names: [الأحد, الإثنين, الثلاثاء, الأربعاء, الخميس, الجمعة, السبت]
+    abbr_day_names: [الأحد, الإثنين, الثلاثاء, الأربعاء, الخميس, الجمعة, السبت]
+    month_names: [~ , يناير, فبراير, مارس, أبريل, مايو, يونيو, يوليو, أغسطس, سبتمبر, أكتوبر, نوفمبر, ديسمبر]
+    abbr_month_names: [~, يناير, فبراير, مارس, ابريل, مايو, يونيو, يوليو, اغسطس, سبتمبر, اكتوبر, نوفمبر, ديسمبر]
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%a %b %d %H:%M:%S %Z %Y"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+      only_second: "%S"
+      styled: "<span class=\"day\">%a، %d</span> <span class=\"month\">%B</span> <span class=\"year\">%Y</span>"
+      
+      datetime:
+        formats:
+          default: "%Y-%m-%dT%H:%M:%S%Z"
+          
+    am: 'صباحا'
+    pm: 'مساءا'
+    time_ago: "منذ %{duration}"
+    
+  support:
+    array:
+      sentence_connector: "و"
+      skip_last_comma: false
+      
+  number:
+    format:
+      separator: '.'
+      delimiter: ','
+      precision: 3
+    human:
+      format:
+        delimiter: ','
+        precision: 1
+    currency:
+      format:
+        separator: '.'
+        delimiter: ','
+        precision: 2
+        format: '%u %n'
+        unit: '$'
+    percentage:
+      format:
+        delimiter: ','
+    precision:
+      format:
+        delimiter: ','
+  helpers:
+    submit:
+      create: "إضافة %{model}"
+      update: "تحديث %{model}"
+  attributes:       
+    lng: خطوط الطول
+    lat: دوائر العرض
+  actions:
+    edit: تعديل %{name}
+    add: إضافة %{name}
+    delete: حذف %{name}
+    show: عرض %{name}
+  site:
+    name: resala.org
+    slogan: resala.org
+  
+  activemodel:
+    models:
+      feedback: شارك برأيك
+      activities_authority: طلب إذن لتنظيم أعمال تطوعية
+      bulk_email: بريد إلكترونى
+      
+    attributes:
+      feedback: 
+        email: البريد الإلكتروني
+        title: عنوان الرسالة
+        body: التعليق
+      activities_authority:
+        existing_role: دورك كمتطوع بجمعية رسالة
+        request_activities: الأنشطة التي تنوي إضافتها
+      bulk_email:
+        subject: عنوان الرسالة
+        body: الرسالة
+        recipients: المستلمون
+        newsletter: المشتركون فى القائمة البريدية
+        branches: الفروع
+        activity_categories: الأنشطة الخيرية
+        send_to_admins: أرسل إلى المشرفين
+        
+    errors:
+      messages:
+        record_invalid: غير صحيح
+        inclusion: "ليس خيارا مقبولا"
+        exclusion: "محجوز"
+        invalid: "غير معرف أو محدد"
+        confirmation: "لا تتوافق مع التأكيد"
+        accepted: "يجب أن تقبل"
+        empty: "فارغ، يرجى ملء الحقل"
+        blank: "فارغ، يرجى ملء الحقل"
+        too_long: "أطول من اللازم (الحد الأقصى هو %{count})"
+        too_short: "أقصر من اللازم (الحد الأدنى هو %{count})"
+        wrong_length: "بطول غير مناسب (يجب أن يكون %{count})"
+        taken: "غير متوفر (مستخدم)"
+        not_a_number: "ليس رقما"
+        greater_than: "يجب أن يكون أكبر من %{count}"
+        greater_than_or_equal_to: "يجب أن يكون أكبر من أو يساوي %{count}"
+        equal_to: "يجب أن يساوي %{count}"
+        less_than: "يجب أن يكون أصغر من %{count}"
+        less_than_or_equal_to: "يجب أن يكون أصغر من أو يساوي %{count}"
+        odd: "يجب أن يكون فردي"
+        even: "يجب أن يكون زوجي"
+        
+  activerecord:
+    errors:
+      models:
+        activity_category:
+          attributes:
+            terms:
+              accepted: يجب الموافقة عليها
+      template:
+        header:
+          one: "ليس بالامكان حفظ %{model}"
+          other: "ليس بالامكان حفظ %{model} : %{count} أخطاء."
+        body: "يرجى التحقق من الحقول التالية:"
+        
+      messages:
+        record_invalid: غير صحيح
+        inclusion: "ليس خيارا مقبولا"
+        exclusion: "محجوز"
+        invalid: "غير معرف أو محدد"
+        confirmation: "لا تتوافق مع التأكيد"
+        accepted: "يجب أن تقبل"
+        empty: "فارغ، يرجى ملء الحقل"
+        blank: "فارغ، يرجى ملء الحقل"
+        too_long: "أطول من اللازم (الحد الأقصى هو %{count})"
+        too_short: "أقصر من اللازم (الحد الأدنى هو %{count})"
+        wrong_length: "بطول غير مناسب (يجب أن يكون %{count})"
+        taken: "غير متوفر (مستخدم)"
+        not_a_number: "ليس رقما"
+        greater_than: "يجب أن يكون أكبر من %{count}"
+        greater_than_or_equal_to: "يجب أن يكون أكبر من أو يساوي %{count}"
+        equal_to: "يجب أن يساوي %{count}"
+        less_than: "يجب أن يكون أصغر من %{count}"
+        less_than_or_equal_to: "يجب أن يكون أصغر من أو يساوي %{count}"
+        odd: "يجب أن يكون فردي"
+        even: "يجب أن يكون زوجي"
+        not_an_integer: " يجب أن يكون رقما صحيحا"
+        unauthorized_category: غير مصرح لك بتنظيم عمل تطوعى فى هذه الأنشطة الخيرية
+        
+    models:
+      activity_category: النشاط
+      testimonial: قالوا عنا
+      branch: الفرع
+      article: المقالة
+      newsletter_subscriber: مشترك بالنشرة البريدية
+      donation_request: طلب التبرع
+      volunteer: متطوع
+      activity: عمل تطوعى
+      achievements_type: نوع الإنجاز
+      achievement: إنجاز
+      activities_request: طلب الإشتراك فى عمل تطوعى
+
+    attributes:
+      activity_category:
+        name: النشاط
+        description: الوصف
+        short_description: نبذة قصيرة
+        front_photo_id: الصورة الرئيسية
+        donatable: تظهر في استمارة التبرع و التبرع بالفيزا
+
+      media:
+        media_type: نوع الملف 
+      	  
+      branch:
+        name: اسم الفرع
+        description: الوصف
+        latitude: دائرة عرض
+        longitude: خط طول
+        address: عنوان الفرع
+        phones: أرقام الهاتف
+        city_id: المدينة
+        city: المدينة
+        email: البريد الإلكتروني
+        article_category_id: نوع المقالة
+        activity_categories: الأنشطة
+        alternative_branch: الفرع البديل
+        
+      testimonial:
+        title: العنوان
+        description: الوصف
+        source: المصدر
+        url: الرابط
+        disclosure_date: تاريخ النشر
+
+      article:
+        title: العنوان
+        description: الوصف
+        article_category: نوع المقالة
+        article_category_id: نوع المقالة
+        activity_categories: الأنشطة الخيرية
+        branches: الفروع
+        media: ملفات الصور والفيديو
+        front_photo_id: الصورة الرئيسية
+      
+      newsletter_subscriber:
+        email: البريد الإلكتروني
+        name: اﻷسم بالكامل
+        
+      donation_request:
+        name: اﻷسم بالكامل
+        address: العنوان
+        phone: التليفون
+        email: البريد الإلكتروني
+        city: المدينة
+        city_id: المدينة
+        mobile: رقم الهاتف المحمول
+        amount: المبلغ
+        amount_period: مبلغ الدفع كل
+        notes: ملاحظات
+        activity_categories: الأنشطة الخيرية المراد التبرع لها
+        
+      donation:
+        donator_name: الأسم
+        amount: المبلغ
+        phone: التليفون
+        email: البريد الإلكتروني
+        activity_category_id: النشاط الخيرى
+        activity_category: النشاط الخيرى
+        
+      user:
+        email: البريد الإلكترونى
+        mobile: رقم الهاتف المحمول
+        name: الاسم
+        
+      volunteer: 
+        provider: بيانات الدخول
+        uid: رقم حساب الفيسبوك
+        provider_token: بيانات الفيسبوك
+        name: الاسم بالكامل
+        email: البريد الإلكتروني 
+        gender: النوع
+        date_of_birth: تاريخ الميلاد
+        post_updates_to_facebook: أود ابلاغ اصدقائي بقيامي بالإنضمام لمتطوعي رسالة ‫(‬النشر على فيسبوك‫)
+        branch_id: أقرب فرع
+        branch: أقرب فرع
+        mobile: رقم الهاتف المحمول
+        graduated: المؤهل الدراسى
+        profession: المهنة
+        company: الهيئة
+        university: الكلية / المعهد
+        school_year: السنة الدراسية
+        blood_donation: "أود أدراج اسمي بقائمة المتبرعين بالدم"
+        blood_type: فصيلة الدم
+        bio:  تحدث عن نفسك
+        get_activities_updates: إخطاري بالأعمال التطوعية التي تهمني عن طريق البريد الإلكتروني
+        city_id: المدينة
+        activity_categories: أنشطة تود المشاركة فيها أو تعليمها
+        limited_days: متاح فى أيام محددة من الأسبوع
+        available_days: أي ايام الاسبوع يمكنك التطوع بوقتك فيها؟
+        created_at: تاريخ التطوع
+        accepted_activities_requests_count: عدد الأعمال التطوعية المشترك بها 
+        
+      activity:
+        title: عنوان العمل التطوعى
+        description: وصف العمل التطوعى
+        start_date: تاريخ البدء
+        total_volunteers_count: عدد المهتمين
+        volunteers_count: عدد المتطوعين
+        duration: مدة العمل التطوعى
+        location: المكان
+        required_volunteers_count: عدد المتطوعين المطلوبين
+        volunteers_skills: مهارات المتطوعين
+        facebook_announce: انشر على الفيسبوك
+        email_notifications: ارسال التحديثات للأعضاء المشتركين فى الأنشطة ذات الصلة بهذا العمل التطوعى
+        user_id: المتطوع
+        user: المتطوع
+        status: حالة النشر
+        activity_categories: أنشطة ذات صلة
+        branches: فروع ذات صلة
+        disclose_volunteers: أعرض قائمة المتطوعين
+        requires_approval: المشاركة تستلزم موافقة مدير العمل التطوعى
+        rejection_reason: سبب الرفض
+        created_at: تاريخ الإنشاء
+        achievements: الإنجازات
+        volunteers_hours: الوقت المنجز
+        summary: ملخص إنجازات المتطوعين
+        facebook_post_message: النص المرفق على فيسبوك
+      
+      achievements_type:
+        name: الاسم
+        
+      achievement:
+        achievements_type: نوع الإنجاز
+        achievements_type_id: نوع الإنجاز
+        amount: العدد
+        
+      activities_request: 
+        reject_reason: سبب الرفض
+        
+      question:
+        question: س
+        answer: ج
+        position: الترتيب
+        activity_category: النشاط الخيرى
+        activity_category_id: النشاط الخيرى

@@ -1,0 +1,14 @@
+<script type="text/html" id="videos-list-template">
+  <![CDATA[
+    <div class="list_item video">
+      <a class="thumb fancybox" id="<%%= this.vid %>" href="/media/videos/<%%= this.vid %>?layout=false">
+        <img src="<%%= this.thumbnail_link %>" />
+        <span class="play hideText">play</span>
+      </a>
+      <p class="info"><%%= this.title %></p>
+      <%% var crtd = new Date();%>
+      <%% crtd.setTime(this.created_time * 1000);%>
+      <p class="date"><%%= crtd.getDate() + " " + months[crtd.getMonth()] + " " + crtd.getFullYear() %></p>
+    </div>
+  ]]>
+</script>

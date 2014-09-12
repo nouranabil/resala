@@ -1,0 +1,30 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'hideText activitiesDetails_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:dashboard} %>
+<% end %>
+
+<div class="volunteer_container">
+  <h3 class="page_title">أنشطة قادمة</h3>            
+  <div class="users">
+    <div class="users_activityList">
+      <% if @activities.length > 0 %>
+      <ul>
+        <% @activities.each do |activity| %>
+          <%= render :partial=>'/activities/activity', :locals=>{:activity=>activity, :is_owner=>true} %>
+        <% end %>
+      </ul>
+      <% else %>
+      <ul>
+        <li>
+          <div class="section_intro nothing"><h2>لا يوجد أنشطة</h2></div>
+        </li>
+      </ul>
+      <% end %>
+    </div>
+  </div>
+  <%= will_paginate @activities %>
+</div>
+
+<% content_for :sidebar do %>
+	<%= render :partial=>'shared/start_now_activity' %>
+<%end%>

@@ -1,0 +1,15 @@
+development:
+  app_id: 109888865769236
+  wall_photos_id: 198681883511476
+    
+test:
+  app_id: 109888865769236
+  wall_photos_id: 198681883511476
+    
+staging:
+  app_id: 116347165120902
+  wall_photos_id: 198681883511476
+
+production:
+  app_id: 243500399007521
+  wall_photos_id: 149830335042525

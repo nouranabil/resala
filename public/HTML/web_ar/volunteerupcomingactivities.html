@@ -1,0 +1,493 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <meta charset=utf-8>
+    <title>Rdsala</title>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/general.css" media="screen" />
+		<script src="../../javascripts/jquery-1.6.1.min.js"></script>
+				<script src="../../javascripts/jquery-ui.js"></script>
+    <script src="../../javascripts/modernizr-1.7.min.js" ></script><!-- this is the javascript allowing html5 to run in older browsers -->
+
+
+ </head>
+<body>
+	<header id="header">
+		<div class="topmenus">
+			<div class="wrapper">	
+				<div class="social">
+				  <a title="Facebook" class="facebook hideText" href="#">Facebook</a>
+				  <a title="Twitter" class="twitter  hideText" href="#">Twitter</a>
+					<a title="You tube" class="youtube hideText" href="#">You Tube</a>
+				  <a title="RSS" class="rss hideText" href="#">RSS</a>
+				</div>
+				<ul class="info_menu">
+					<li><a href="#" class="contact_us">اتصل بنا</a></li>
+					<li><a href="#"class="branches">الفروع</a></li>
+					<li><a href="#" class="radio">راديو رسالة</a></li>
+				</ul>
+				<ul class="user_menu">
+					<li><span><span>أهلا </span><a href="link to user profile">yaser kamaluddeen</a></span></li>
+					<!-- <li><span>يمكنك التطوع معنار</span></li> -->
+					<li><a href="#" class="register">تطوع</a></li>
+					<li><a href="#" class="login">دخول</a></li>
+					<li><a href="#" class="logout">خروج</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="wrapper">	
+			<div id="logo">
+				<h1>
+					<a href="#" class="hideText">Resala</a>
+				</h1>
+			</div>
+			<nav id="nav">
+				<ul>
+					<!-- <li><a href="javascript:void(0);" class="activities">أنشطة الجمعية</a> </li> -->
+					<li><a href="javascript:void(0);" class="home_page">الرئيسية</a></li>					
+					<li><a href="javascript:void(0);" class="news">أخبار</a></li>
+					<li><a href="javascript:void(0);" class="about_resala">عن رسالة</a></li>
+					<li><a href="javascript:void(0);" class="volunteer_section">بوابة المتطوعين</a></li>
+					<li><a href="javascript:void(0);" class="about_us">قالوا عنا</a></li>
+					<li><a href="javascript:void(0);" class="media">صور و فيديو</a></li>
+					<li><a href="javascript:void(0);" class="testmonials">قالوا عنا</a></li>
+					<!-- <li><a href="javascript:void(0);" class="branchs">الفروع</a></li> -->
+					<li><a href="#" class="donate"> تبرع</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- header Ends-->
+	<section id="section">
+		<div class="content_header">
+			<div class="wrapper">
+				<div class="sections_title">
+					<h2 class="hideText voluntee»section_title">اخبار رسالة</h2>
+					<ul class="sectionMenu">
+						<li class="sectionHome"><a href="#">  الرئيسية </a></li>
+						<li class="upcoming_activities_tab selected"><a href="#">  الأعمال التطوعية </a></li>
+						<li class="volunteerList_tab"><a href="#">  متطوعو رسالة </a></li>
+						<li class="dashboard_tab"><a href="#">  أنشطتي </a></li>
+					</ul>
+				</div>
+				<a href="#" class="volunteer_req">طلب إذن لانشاء أنشطة</a>
+			</div><!-- wrapper Ends-->
+		</div><!-- content_header Ends-->
+		<div class="wrapper">
+				<div class="main_content">
+					<div class="loading">
+						<img src="../../images/ajax-loader.gif">
+					</div>
+					<div class="volunteer_container">
+						<!-- <div class="tabs">
+							<h3 class="hideText volunteerSection">بوابة المتطوعين</h3>
+							<ul class="tab_nav">
+								<li><a href="#tabs-1" ><span>بوابة المتطوعين</span></a></li>
+								<li class="selected"><a href="#tabs-2" ><span>الأعمال التطوعية</span></a></li>
+								<li><a href="#"><span>متطوعي رسالة</span></a></li>
+								<li><a href="#tabs-3"><span>أنشطتي</span></a></li>
+							</ul>
+							</div> --><!--tabs Ends -->							
+							<div class="users">
+								<div class="users_activityList">
+									<div class="section_intro login">
+										<h2>الآشتراك و التواصل مع المتطوعين الرجاء تسجيل دخول </h2>
+										 <a href="#" class="login_req">تسجيل الدخول</a>
+									</div>
+									<div class="section_intro">
+										<a class="hide_btn">إخفاء</a>										
+										<h2>أحدث الانشطة التطوعية،</h2>
+										<p>تصفح الانشطة التي تود الاشتراك بها، و انقر “أود المشاركة” لإبداء رغبتك في الاشتراك أو المساهمة بوقتك في النشاط.</p>
+									</div>
+									<div class="filter_block">
+										<form>
+											<fieldset>	
+										    	<legend class="hideText section_search">بحث</legend>
+															<div class="collExp_block">
+																<a href="#" class="collapse">Collapse </a>
+																<a href="#" class="expand" >Expand</a>
+															</div>
+															<div class="search-keyword">
+															    <label>كلمة بحث</label>
+															    <input type="text" class="input_text">
+															</div>
+															<div class="search-specific">
+																<ul>
+																<li>
+																	<label for="activity_category_id_نوع&nbsp;النشاط&nbsp;الخيرى">نوع&nbsp;النشاط&nbsp;الخيرى</label>
+																	<select name="activity_category_id" id="activity_category_id"><option value="">اختر&nbsp;نوع&nbsp;النشاط</option><option value="21">تزويج فتيات</option>
+																		<option value="12">رعاية الصم و ضعاف السمع</option>
+																		<option value="16">معارض الملابس المستعملة</option>
+																		<option value="13">مجموعات التقوية</option>
+																		<option value="14">محو الأمية</option>
+																		<option value="15">مراكز رسالة التدريبية</option>
+																		<option value="17">التبرع بالدم</option>
+																		<option value="18">زيارات الخير</option>
+																		<option value="19">أطفال أد الحياة</option>
+																		<option value="20">إعادة التصنيع</option>
+																		<option value="11">رعاية ذوي الاحتياجات الخاصة</option>
+																		<option value="8">رعاية الأيتام</option>
+																		<option value="9">مساعدات المحتاجين</option>
+																		<option value="23">رعاية المكفوفين</option>
+																	</select>
+																</li>
+																<li>
+							                		<label for="branch_id_الفروع">الفروع</label>
+							                		<select name="branch_id" id="branch_id">
+																		<option value="">اختر&nbsp;الفرع</option>
+																		<option value="2">المندرة</option>
+																		<option value="3">سيدى جابر</option>
+																		<option value="7">كفر عبده</option>
+																		<option value="10">أسوان</option>
+																		<option value="8">المهندسين</option>
+																		<option value="9">قنا</option>
+																		<option value="4">فيصل</option>
+																		<option value="11">6 أكتوبر</option>
+																	</select>
+																</li>
+																<li>
+																	<dl class="options-sort">
+																	    <dt><label class="hideText sort_label">رتب بــ</label></dt>
+																	     <dd>
+																	       <select name="sort" id="sort" class="small">
+																						<option value="created_at">تاريخ الإنشاء</option>
+																						<option value="title">عنوان النشاط</option>
+																						<option value="start_date">تاريخ&nbsp;البدء</option>
+																					</select>
+																       		<select name="direction" id="direction" class="small">
+																						<option value="desc">تنازليا</option>
+																						<option value="asc">تصاعديا</option>
+																					</select>
+																    	</dd>
+																		</dl>
+																</li>
+															</ul>
+														</div>
+						                <p class="search-submit">
+						                  <input type="button" value="بحث" class="input_button button-search">
+						                </p>
+											</fieldset>	
+										</form>
+										<div class="page_sort">
+											<dl class="options-sort">
+											    <dt><label class="hideText sort_label">رتب بــ</label></dt>
+											     <dd>
+											       <select name="sort" id="sort" class="small">
+																<option value="created_at">تاريخ الإنشاء</option>
+																<option value="title">عنوان النشاط</option>
+																<option value="start_date">تاريخ&nbsp;البدء</option>
+															</select>
+										       		<select name="direction" id="direction" class="small">
+																<option value="desc">تنازليا</option>
+																<option value="asc">تصاعديا</option>
+															</select>
+										    	</dd>
+												</dl>
+										</div>
+									</div>
+									<div class="block_title">
+										<h3 class="hideText nextActivities_title">التعليقات</h3>
+									</div>
+									<ul>
+										<li>
+											<div class="section_intro nothing">
+												<h2>لا يوجد أنشطة</h2>
+											</div>
+										</li>
+										<li>
+											<div class="activity_desc">
+												<h4><a href="#">فافلة لتوزيع شنط رمضان و الأغذية بقرية دندرة</a></h4>
+												<p>ستقوم قافلة يوم الثلاثاء الثالث من رمضان إن شاء اللة  بزيارة قرية دندرة بالصعيد لتوزيع شنط رمضان.. <a href="javascript:void(0);" class="more">المزيد ...</a></p>
+											</div>
+											<div class="user_action">
+												<a href="#" class="unjoin">أود المشاركة</a>
+												<a href="#" class="edit">أود المشاركة</a>
+											</div>
+												<div class="actvity_info">
+													<dl>
+														<dt>الانشطة:</dt>
+														<dd><a  href="#"> مساعدات المحتاجين , </a><a  href="#">رعاية الأيتام </a></dd>
+													</dl>
+													<dl>
+														<dt>الفروع:</dt>
+														<dd><a  href="#"> فرع الأسكندرية , </a><a  href="#">الحوامدية </a></dd>
+													</dl>
+													<dl>
+														<dt>مكان العمل:</dt>
+														<dd><a  href="#">قرية دندرة-قنا</a></dd>
+													</dl>
+													<dl>
+														<dt>عدد المتطوعين:</dt>
+														<dd>مطلوب  50- اشترك35 </dd>
+													</dl>
+												</div>
+
+											<div class="article_activities">
+													<div class="date">
+														<span>كتبت في</span>
+								       			<span class="day">السبت، ١٢</span>
+								       			<span class="month">سبتمبر</span>
+								       			<span class="year">٢٠٠١١</span>
+								   				</div>	
+													<div class="comments">
+														<span class="joins_no">15 عدد المشتركين</span>
+														<span class="views_no">مشاهدة </span>
+														<span class="comment_no">12 تعليقات</span>
+														<a href="#" class="comment">أضف تعليق</a>
+													</div>
+											</div>
+										</li>
+										<li>
+											<div class="activity_desc">
+												<h4><a href="#">فافلة لتوزيع شنط رمضان و الأغذية بقرية دندرة</a></h4>
+												<p>ستقوم قافلة يوم الثلاثاء زيارة قرية دندرة بالصعيد لتوزيع شنط رمضان.. <a href="javascript:void(0);" class="more">المزيد ...</a></p>
+											</div>
+											<div class="user_action">
+												<a href="#" class="join">أود المشاركة</a>
+
+											</div>
+												<div class="actvity_info">
+													<dl>
+														<dt>الانشطة:</dt>
+														<dd><a  href="#"> مساعدات المحتاجين , </a><a  href="#">رعاية الأيتام </a></dd>
+													</dl>
+													<dl>
+														<dt>الفروع:</dt>
+														<dd><a  href="#"> فرع الأسكندرية , </a><a  href="#">الحوامدية </a></dd>
+													</dl>
+													<dl>
+														<dt>مكان العمل:</dt>
+														<dd><a  href="#">قرية دندرة-قنا</a></dd>
+													</dl>
+													<dl>
+														<dt>عدد المتطوعين:</dt>
+														<dd>مطلوب  50- اشترك35 </dd>
+													</dl>
+												</div>
+
+											<div class="article_activities">
+													<div class="date">
+														<span>كتبت في</span>
+								       			<span class="day">السبت، ١٢</span>
+								       			<span class="month">سبتمبر</span>
+								       			<span class="year">٢٠٠١١</span>
+								   				</div>	
+													<div class="comments">
+														<span class="joins_no">15 عدد المشتركين</span>
+														<span class="views_no">مشاهدة </span>
+														<span class="comment_no">12 تعليقات</span>
+														<a href="#" class="comment">أضف تعليق</a>
+													</div>
+											</div>
+										</li>
+										<li>
+											<div class="activity_desc">
+												<h4><a href="#">فافلة لتوزيع شنط رمضان و الأغذية بقرية دندرة</a></h4>
+												<p>ستقوم قافلة يوم الثلاثاء الثالث من رمضان إن شاء اللة  بزيارة قرية دندرة بالصعيد لتوزيع شنط رمضان.. <a href="javascript:void(0);" class="more">المزيد ...</a></p>
+											</div>
+											<div class="user_action">
+												<a href="#" class="join">أود المشاركة</a>
+											</div>
+												<div class="actvity_info">
+													<dl>
+														<dt>الانشطة:</dt>
+														<dd><a  href="#"> مساعدات المحتاجين , </a><a  href="#">رعاية الأيتام </a></dd>
+													</dl>
+													<dl>
+														<dt>الفروع:</dt>
+														<dd><a  href="#"> فرع الأسكندرية , </a><a  href="#">الحوامدية </a></dd>
+													</dl>
+													<dl>
+														<dt>مكان العمل:</dt>
+														<dd><a  href="#">قرية دندرة-قنا</a></dd>
+													</dl>
+													<dl>
+														<dt>عدد المتطوعين:</dt>
+														<dd>مطلوب  50- اشترك35 </dd>
+													</dl>
+												</div>
+
+											<div class="article_activities">
+													<div class="date">
+														<span>كتبت في</span>
+								       			<span class="day">السبت، ١٢</span>
+								       			<span class="month">سبتمبر</span>
+								       			<span class="year">٢٠٠١١</span>
+								   				</div>	
+													<div class="comments">
+														<span class="joins_no">15 عدد المشتركين</span>
+														<span class="views_no">مشاهدة </span>
+														<span class="comment_no">12 تعليقات</span>
+														<a href="#" class="comment">أضف تعليق</a>
+													</div>
+											</div>
+										</li>
+										<li>
+											<div class="activity_desc">
+												<h4><a href="#">فافلة لتوزيع شنط رمضان و الأغذية بقرية دندرة</a></h4>
+												<p>ستقوم قافلة يوم الثلاثاء الثالث من  بالصعيد لتوزيع شنط رمضان.. <a href="javascript:void(0);" class="more">المزيد ...</a></p>
+											</div>
+											<div class="user_action">
+												<a href="#" class="join">أود المشاركة</a>
+											</div>
+												<div class="actvity_info">
+													<dl>
+														<dt>الانشطة:</dt>
+														<dd><a  href="#"> مساعدات المحتاجين , </a><a  href="#">رعاية الأيتام </a></dd>
+													</dl>
+													<dl>
+														<dt>الفروع:</dt>
+														<dd><a  href="#"> فرع الأسكندرية , </a><a  href="#">الحوامدية </a></dd>
+													</dl>
+													<dl>
+														<dt>مكان العمل:</dt>
+														<dd><a  href="#">قرية دندرة-قنا</a></dd>
+													</dl>
+													<dl>
+														<dt>عدد المتطوعين:</dt>
+														<dd>مطلوب  50- اشترك35 </dd>
+													</dl>
+												</div>
+
+												<div class="article_activities">
+													<div class="date">
+														<span>كتبت في</span>
+								       			<span class="day">السبت، ١٢</span>
+								       			<span class="month">سبتمبر</span>
+								       			<span class="year">٢٠٠١١</span>
+								   				</div>	
+													<div class="comments">
+														<span class="joins_no">15 عدد المشتركين</span>
+														<span class="views_no">مشاهدة </span>
+														<span class="comment_no">12 تعليقات</span>
+														<a href="#" class="comment">أضف تعليق</a>
+													</div>
+											</div>
+										</li>
+									</ul>
+									<div class="block_title">
+										<h3 class="hideText prevActivities_title">التعليقات</h3>
+									</div>
+									<div class="pagination"><span class="previous_page disabled">السابق</span> <em>1-</em> <a href="#" rel="next">2</a> <a href="#" rel="next">2</a> <a href="#" rel="next">2</a><a href="#" rel="next" class="next_page">التالي</a></div>
+								</div><!-- users_activityList Ends -->
+							</div><!--volunteers Ends -->
+					</div><!--volunteer_container Ends -->
+					<div class="side_col">
+						<div class="side_element ads">
+							<a href="javascript:void(0);"><img src="../../images/graphics_ar/donate.png"></img></a>
+						</div>
+						<div class="side_element ads">
+							<img src="../../images/dummy/ad.png">
+						</div>
+						<div class="side_element">
+							<h2 class="hideText strat_now">إبدأ الآن :</h2>
+							<a href="#" class="browse_activities ">إنشاء حساب متطوع</a>
+							<a href="#" class="registration_req">إنشاء حساب متطوع</a>
+							<a href="#" class="login_req">تسجيل الدخول</a>
+						</div>
+						<div class="side_element">
+							<div class="section_intro">
+								<p>لقد تم طلب إذن إنشاء أنشطة جديدة، الطلب قيد المراجعة من الإدارة.</p>
+							</div>
+						</div>
+						<div class="side_element">
+							<h2>اخبار متعلقة</h2>
+							<ul class="recent">
+								<li>
+									<a title="" href="#">معلومات عن رعاية الايتام </a>
+									<div class="article_activities">
+										<div class="date">
+											<span>كتبت في</span>
+											<span class="day">السبت، ١٢</span>
+											<span class="month">سبتمبر</span>
+											<span class="year">٢٠٠١١</span>
+										</div>	
+										<div class="comments">
+											<span class="comment_no">12 تعليقات</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a title="" href="#">معلومات عن رعاية الايتام </a>
+									<div class="article_activities">
+										<div class="date">
+											<span>كتبت في</span>
+											<span class="day">السبت، ١٢</span>
+											<span class="month">سبتمبر</span>
+											<span class="year">٢٠٠١١</span>
+										</div>	
+										<div class="comments">
+											<span class="comment_no">12 تعليقات</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a title="" href="#">معلومات عن رعاية الايتام </a>
+									<div class="article_activities">
+										<div class="date">
+											<span>كتبت في</span>
+											<span class="day">السبت، ١٢</span>
+											<span class="month">سبتمبر</span>
+											<span class="year">٢٠٠١١</span>
+										</div>	
+										<div class="comments">
+											<span class="comment_no">12 تعليقات</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a title="" href="#">معلومات عن رعاية الايتام </a>
+									<div class="article_activities">
+										<div class="date">
+											<span>كتبت في</span>
+											<span class="day">السبت، ١٢</span>
+											<span class="month">سبتمبر</span>
+											<span class="year">٢٠٠١١</span>
+										</div>	
+										<div class="comments">
+											<span class="comment_no">12 تعليقات</span>
+										</div>
+									</div>
+								</li>
+							</ul>	
+	          </div>	<!-- side_element ends -->					
+					</div>
+				</div>
+		</div><!-- wrapper Ends-->
+	</section><!-- section Ends-->	
+	
+
+	<footer id="footer">
+		<div class="wrapper">
+				<div class="footer_logo">
+					<h1>
+						<a href="javascript:void(0);" class="hideText">Resala</a>
+					</h1>
+				</div>
+				<div class="navigation">
+					<ul>
+						<li><a href="javascript:void(0);">أنشطة الجمعية</a> </li>
+						<li><a href="javascript:void(0);">أخبار</a></li>
+						<li><a href="javascript:void(0);">عن رسالة</a></li>
+						<li><a href="javascript:void(0);">صور و فيديو</a></li>
+						<li><a href="javascript:void(0);">قالوا عنا</a></li>
+						<li><a href="javascript:void(0);">الفروع</a></li>						
+						<li><a href="javascript:void(0);">طلب التبرع</a></li>
+						<li><a href="javascript:void(0);">شارك برأيك</a></li>
+						<li><a href="javascript:void(0);">قصص مؤثرة</a></li>
+						<li><a href="javascript:void(0);">قصصنا</a></li>
+						<li><a href="javascript:void(0);">قالوا عنا</a></li>
+					</ul>
+		</div>
+		<p class="footerLogo">
+
+			<span><label>إهداء من</label><a href="#" class="hideText nabadatLogo">nabadat</a></span>				
+			<span><label>تطوير</label><a href="#" class="hideText espaceLogo">eSpace</a></span>
+		</p>
+		
+		<p>© 2011 جميع الحقوق محفوظة لجمعية رسالة.</p>
+		<p>استخدام هذا الموقع يعني موافقتك علي شروط الاستخدام والخصوصية.</p>
+		
+	</div>
+	</footer>
+</body>
+</html>

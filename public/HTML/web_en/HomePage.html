@@ -1,0 +1,493 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>Rdsala</title>
+		<link rel="shortcut icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/general_en.css" media="screen" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+    <script src="../../javascripts/modernizr-1.7.min.js" ></script><!-- this is the javascript allowing html5 to run in older browsers -->
+		<script language="javascript">
+      $(document).ready(function() {
+      
+        var interval = 5000 //interval in milliseconds
+        var slideActive = true;
+        var nextSlide = function(){
+          if(slideActive){
+            $("#feature_tabs").accordion( "activate" , ($("#feature_tabs").accordion( "option",'active') + 1) % ($("#feature_tabs").children().length) );
+          }
+          slideTimer = window.setTimeout(nextSlide, interval);
+        }
+        $("#feature_tabs").accordion({  active: 0,
+                                event: 'click', 
+                                header: 'a.head',
+                                change: function(event, ui) {
+                                          $('#output li').hide();
+                                          $($('#output li')[$("#feature_tabs").accordion( "option",'active')]).show();
+																					//add class 'current'
+                                          $("#feature_tabs").children().removeClass('current');
+                                          $($('#feature_tabs li')[$("#feature_tabs").accordion( "option",'active')]).addClass('current');
+                                        }
+                             });
+        // var slideTimer = window.setTimeout(nextSlide, interval);
+        // $("#tabs").children().click(function(){
+        //   clearTimeout ( slideTimer );
+        //   slideTimer = window.setTimeout(nextSlide, 50000);
+        // });
+        // $("#tabs").children().mouseover(function(){
+        //   slideActive = false;
+        // })
+        // $("#tabs").children().mouseout(function(){
+        //   slideActive = true;
+        // })
+                                
+				//$.featureList(
+				//	$("#tabs li a"),
+				//	$("#output li"), {
+				//		start_item	:	1,
+				//		transition_interval : 1000
+				//	}
+				//);
+
+				//$('#tabs li a').featureList({
+				  //start_item  : 1,
+				  //output			:	'#output li',
+				//});
+
+
+			});
+			
+			// jQuery(document).ready(function(){
+			// 	$('#tabs .head').click(function() {
+			// 		$( "#tabs .head" ).accordion();
+			// 		$(this).next().toggle('5000');
+			// 		return false;
+			// 	}).next().hide();
+			// });
+			
+		</script>
+
+		<script>
+			$(function() {
+				$( ".tabs" ).tabs();
+			});
+			</script>
+			
+			
+</head>
+<body>
+	<header id="header">
+		<div class="wrapper">	
+			<div class="social">
+			  <a title="Facebook" class="facebook hideText" href="javascript:void(0);">Facebook</a>
+			  <a title="Twitter" class="twitter  hideText" href="javascript:void(0);">Twitter</a>
+				<a title="You tube" class="youtube hideText" href="javascript:void(0);">You Tube</a>
+			  <a title="RSS" class="rss hideText" href="javascript:void(0);">RSS</a>
+			</div>
+			<div id="logo">
+				<h1>
+					<a href="javascript:void(0);" class="hideText">Resala</a>
+				</h1>
+			</div>
+			<nav id="nav">
+				<ul>
+					<li><a href="javascript:void(0);" class="activities">Charitable Activities</a></li>
+					<li><a href="javascript:void(0);" class="news">News</a></li>
+					<li><a href="javascript:void(0);" class="about_resala">About</a></li>
+					<li><a href="javascript:void(0);" class="about_us">Donate</a></li>
+					<li><a href="javascript:void(0);" class="media">Testimonials</a></li>
+					<li><a href="javascript:void(0);" class="testmonials">Branches</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- header Ends-->
+	<section id="homePage">
+		<div class="content_header">
+			<div class="wrapper">
+					<div id="feature_list">
+						<ul id="feature_tabs">
+							<li class="current">
+								<a href="javascript:void(0);" class="head">
+									<h3>Orphan care</h3>
+								</a>
+								<p>M, music and other activities molar activity and other activities and entertainment activity trips the young people a message ...</p>
+							</li>
+							<li>
+								<a href="javascript:void(0);" class="head">
+									<h3>Welfare of the Blind</h3>
+								</a>
+								<p>M, music and other activities molar activity and other activities and entertainment activity trips the young people a message ...</p>
+							</li>
+							<li>
+								<a href="javascript:void(0);" class="head">
+									<h3>Welfare of the Blind</h3>
+								</a>
+								<p>M, music and other activities molar activity and other activities and entertainment activity trips the young people a message ...</p>
+							</li>
+							<li>
+								<a href="javascript:void(0);" class="head">
+									<h3>Welfare of the Blind</h3>
+								</a>
+								<p>M, music and other activities molar activity and other activities and entertainment activity trips the young people a message ...</p>
+							</li>
+							<li>
+								<a href="javascript:void(0);" class="head">
+									<h3>Welfare of the Blind</h3>
+								</a>
+								<p>M, music and other activities molar activity and other activities and entertainment activity trips the young people a message ...</p>
+							</li>
+						</ul>
+						<!-- <p class="more_btn"><a class="btn" href="javascript:void(0);">المزيد من انشطة رسالة...</a></p> -->
+						<p class="action_btn">
+							<a href="javascript:void(0);" class="hideText home_more"> لمزيد من انشطة رسالة...</a>
+						</p>
+						
+						<ul id="output">
+							<li>
+								<img src="../../images/dummy/activity1.JPG" />
+							</li>
+							<li>
+								<img src="../../images/dummy/activity2.JPG" />
+							</li>
+							<li>
+								<img src="../../images/dummy/activity3.JPG" />
+							</li>
+							<li>
+								<img src="../../images/dummy/activity2.JPG" />
+							</li>
+							<li>
+								<img src="../../images/dummy/activity3.JPG" />
+							</li>
+						</ul>
+						
+
+					</div>
+				</div>
+			</div><!-- wrapper Ends-->
+		</div><!-- content_header Ends-->
+		<div class="wrapper">
+				<div class="main_content">
+					<div class="article_detail">
+							<article id="article">
+								<div class="tabs">
+									<h3>Resala News</h3>
+									<ul>
+										<li><a href="#latest" ><span>Latest News</span></a></li>
+										<li><a href="#most_viewed"><span>Most read</span></a></li>
+										<li><a href="#tabs-3"><span>Most commented</span></a></li>
+									</ul>
+
+									<div class="tab_content">	
+											<div id="latest">
+												<ul>
+														<li class="list_item">
+																<div class="thumbnail">
+																	<img src="../../images/dummy/resala_70x70.gif" />
+																</div>
+																<div class="article_desc">
+																	<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+																 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+																</div>
+																<div class="article_activities">
+																		<div class="date">
+																			<span>Written in</span>
+														      			<span class="day">Saturday, 12</span>
+														      			<span class="month">September</span>
+														      			<span class="year">2011</span>
+														  				</div>	
+																		<div class="comments">
+																			<span class="views_no">20 Views </span>
+																			<span class="comment_no">12 Comments</span>
+																			<a href="javascript:void(0);" class="comment">Add comment</a>
+																		</div>
+																</div>
+														</li>
+														<li class="list_item">
+																<div class="thumbnail">
+																	<img src="../../images/dummy/resala_70x70.gif" />
+																</div>
+																<div class="article_desc">
+																	<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+																 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+
+																</div>
+																<div class="article_activities">
+																		<div class="date">
+																			<span>Written in</span>
+														      			<span class="day">Saturday, 12</span>
+														      			<span class="month">September</span>
+														      			<span class="year">2011</span>
+														  				</div>	
+																		<div class="comments">
+																			<span class="views_no">20 Views </span>
+																			<span class="comment_no">12 Comments</span>
+																			<a href="javascript:void(0);" class="comment">Add comment</a>
+																		</div>
+																</div>
+														</li>
+														<li class="list_item">
+																<div class="thumbnail">
+																	<img src="../../images/dummy/resala_70x70.gif" />
+																</div>
+																<div class="article_desc">
+																	<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+																 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+
+																</div>
+																<div class="article_activities">
+																		<div class="date">
+																			<span>Written in</span>
+														      			<span class="day">Saturday, 12</span>
+														      			<span class="month">September</span>
+														      			<span class="year">2011</span>
+														  				</div>	
+																		<div class="comments">
+																			<span class="views_no">20 Views </span>
+																			<span class="comment_no">12 Comments</span>
+																			<a href="javascript:void(0);" class="comment">Add comment</a>
+																		</div>
+																</div>
+														</li>
+											  	</ul>
+													<p class="more_btn"><a href="javascript:void(0);" class="btn">More ...</a></p>											
+											</div><!-- tab 1, latest Ends -->
+											<div id="most_viewed">
+2
+											</div><!-- tab 2 Ends -->
+											<div id="tabs-3">
+3
+											</div><!-- tab 3 Ends -->
+									</div><!-- tab_content Ends -->									
+								</div><!-- tab Ends -->
+								
+								<article id="article">
+									<h2 class="page_title">Resala News</h2>
+									<ul>
+										<li class="list_item">
+												<div class="thumbnail">
+													<img src="../../images/dummy/resala_70x70.gif" />
+												</div>
+												<div class="article_desc">
+													<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+													 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+												</div>
+												<div class="article_activities">
+														<div class="date">
+															<span>Written in</span>
+										      			<span class="day">Saturday, 12</span>
+										      			<span class="month">September</span>
+										      			<span class="year">2011</span>
+										  				</div>	
+														<div class="comments">
+															<span class="views_no">20 Views </span>
+															<span class="comment_no">12 Comments</span>
+															<a href="javascript:void(0);" class="comment">Add comment</a>
+														</div>
+												</div>
+										</li>
+										<li class="list_item">
+												<div class="thumbnail">
+													<img src="../../images/dummy/resala_70x70.gif" />
+												</div>
+												<div class="article_desc">
+													<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+													 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+
+												</div>
+												<div class="article_activities">
+														<div class="date">
+															<span>Written in</span>
+										      			<span class="day">Saturday, 12</span>
+										      			<span class="month">September</span>
+										      			<span class="year">2011</span>
+										  				</div>	
+														<div class="comments">
+															<span class="views_no">20 Views </span>
+															<span class="comment_no">12 Comments</span>
+															<a href="javascript:void(0);" class="comment">Add comment</a>
+														</div>
+												</div>
+										</li>
+										<li class="list_item">
+												<div class="thumbnail">
+													<img src="../../images/dummy/resala_70x70.gif" />
+												</div>
+												<div class="article_desc">
+													<a href="javascript:void(0);"><h4>The Latest for the care of orphans</h4></a>
+													 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae ipsum quis lacus pulvinar in aliquam nibh consequat id.  <a class="more" href="javascript:void(0);">More ...</a></p>
+
+												</div>
+												<div class="article_activities">
+														<div class="date">
+															<span>Written in</span>
+										      			<span class="day">Saturday, 12</span>
+										      			<span class="month">September</span>
+										      			<span class="year">2011</span>
+										  				</div>	
+														<div class="comments">
+															<span class="views_no">20 Views </span>
+															<span class="comment_no">12 Comments</span>
+															<a href="javascript:void(0);" class="comment">Add comment</a>
+														</div>
+												</div>
+										</li>
+							  	</ul>
+									<p class="more_btn"><a href="javascript:void(0);" class="btn">More ...</a></p>		
+							</article>
+								
+									<div class="tabs">
+										<h3>Photos and Video</h3>
+										<ul>
+											<li><a href="#photos" ><span>الأحدث</span></a></li>
+											<li><a href="#vedios"><span>الأكثر تعليق</span></a></li>
+										</ul>
+										<div class="tab_content">	
+												<div id="photos">
+													<div class="media_listing">
+															<div class=" list_item photo">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item album">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />												
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item video">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy3.jpg" />
+																	<span class="play hideText">play</span>
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item photo">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class=" list_item video">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy3.jpg" />
+																	<span class="play hideText">play</span>
+																</a>	
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>											
+															</div>
+													</div>
+														<p class="more_btn"><a href="javascript:void(0);" class="btn">More ...</a></p>
+												</div><!-- Tab 1 Ends -->
+
+												<div id="vedios">
+													<div class="media_listing">
+															<div class=" list_item photo">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item photo">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item video">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy2.jpg" />
+																	<span class="play hideText">play</span>
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class="list_item photo">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy1.jpg" />
+																</a>
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>
+															</div>
+															<div class=" list_item video">
+																<a href="javascript:void(0);" class="thumb">
+																	<img src="../../images/dummy/dummy2.jpg" />
+																	<span class="play hideText">play</span>
+																</a>	
+																<p class="info">Internal convoy - Letter Nasr City</p>
+																<p class="date">19 September 2011</p>											
+															</div>
+													</div>
+												</div>
+										</div>
+									</div>							
+							</article>
+						</div>
+					<div class="side_col">
+						<div class="side_element ads">
+									<a href="javascript:void(0);"><img src="../../images/graphics_ar/donate.png"></img></a>
+						</div>
+						<div class="side_element ads">
+									<img src="../../images/dummy/ad.png">
+						</div>						
+						<div class="side_element subscribe">
+						   <h2>Newsletter</h2>
+								<p>Subscribe to the newsletter to receive the latest news and achievements, in addition to volunteering to the next message, put you in touch on your mailbox</p>
+								<form>
+									<fieldset>	
+								    	<legend class="hideText">Newsletter</legend>
+								        <div class="sub_input_bg">
+								        	<label for="name">Full Name</label>
+								            <input type="name" required="required" id="name">
+								        </div>
+								        <div  class="sub_input_bg">
+								        	<label for="email">E-mail</label>
+								          <input required="required" id="email">
+								        </div>
+								      	<p class="controls">
+													<a href="javascript:void(0);">Unsubscribe!</a>
+													<input type="submit" value="subscribe"class="btn">
+												</p>
+								    </fieldset>
+								</form>
+						</div>
+
+					</div>
+				</div>
+		</div><!-- wrapper Ends-->
+	</section><!-- section Ends-->	
+	
+
+	<footer>
+		<div class="wrapper">
+				<div class="footer_logo">
+					<h1>
+						<a href="javascript:void(0);" class="hideText">Resala</a>
+					</h1>
+				</div>
+				<div class="navigation">
+					<ul>
+						<li><a href="javascript:void(0);">Charitable Activities</a></li>
+						<li><a href="javascript:void(0);">News</a></li>
+						<li><a href="javascript:void(0);">About</a></li>
+						<li><a href="javascript:void(0);">Donate</a></li>
+						<li><a href="javascript:void(0);">Testimonials</a></li>
+						<li><a href="javascript:void(0);">Branches</a></li>						
+					</ul>
+		</div>
+		<p><img src="../../images/espace-logo.png" /></p>
+		<p>© 2011 All rights reserved to the Assembly a message.</p>
+		<p>Use of this site signifies your agreement to the Terms of Use and Privacy Statement.</p>
+	</div>
+	</footer>
+</body>
+</html>

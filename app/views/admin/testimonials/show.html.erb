@@ -1,0 +1,37 @@
+<div class="grid_16">
+<h2 id="page-heading">قالوا عنا</h2>
+</div>
+      
+<div class="grid_16">
+  <div class="box">
+  <h2><%= @testimonial.title%></h2>
+  <div class="block list_show">
+    <dl>
+      <dt>المصدر</dt>
+      <dd>
+        <%= @testimonial.source %>
+      </dd>
+      
+      <% unless @testimonial.url.blank? %>
+      <dt>الرابط</dt>
+      <dd><%= @testimonial.url %></dd>
+      <% end %>
+      
+      <% unless @testimonial.disclosure_date.blank? %>
+      <dt>تاريخ النشر</dt>
+      <dd><%= l(@testimonial.disclosure_date) %></dd>
+      <% end %>
+      
+      <% unless @testimonial.description.blank? %>
+      <dt>الوصف</dt>
+      <dd><%= @testimonial.description.html_safe %></dd>
+      <% end %>
+    </dl>
+  </div>  
+  </div>
+  <div class="controls">
+    <%= link_to 'تعديل', edit_admin_testimonial_path(@testimonial, :page=>params[:page] || 1) %> |
+    <%= link_to 'عودة', admin_testimonials_path(:page=>params[:page] || 1) %>
+  </div>
+</div>
+

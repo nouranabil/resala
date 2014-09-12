@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <meta charset=utf-8>
+    <title><%= @title %> - Resala</title>
+    <%= include_stylesheets :common %>
+    <%= javascript_include_tag 'modernizr-1.7.min' %>
+    <%= csrf_meta_tag %>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <%= yield :og_meta_tags %>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-19604270-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    <!-- Start of Woopra Code -->
+    <script>
+    (function(){
+        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+    })("woopra");
+
+    woopra.config({
+        domain: 'resala.org'
+    });
+    woopra.track();
+    </script>
+    <!-- End of Woopra Code -->
+ </head>
+<body dir="rtl">
+  <header id="header">
+    <div class="topmenus">
+      <div class="wrapper" id="info_menu_container">
+        <div class="social">
+          <%= link_to "فيسبوك", "http://www.facebook.com/Resala.org", :target=>"_blank", :class=>"facebook hideText", :title=>"تابعنا على فيسبوك"%>
+          <%= link_to "يوتيوب", "http://www.youtube.com/resala", :target=>"_blank", :class=>"youtube hideText", :title=>"تابعنا على يوتيوب"%>
+          <%= link_to "تويتر", "https://twitter.com/ResalaCharity", :target=>"_blank", :class=>"twitter hideText", :title=>"تابعنا على تويتر"%>
+        </div>
+        <ul class="info_menu">
+        <li><%= link_to "وظائف رسالة", "https://www.facebook.com/RCareers", :class=>'jobs', :target=> '_blank' %></li>
+  			<li><%= link_to "أتصل بنا", new_feedback_path, :class=>'contact_us' %></li>
+			  <li><%= link_to "الفروع", branches_path, :class=>'branches' %></li>
+			  <li><%= link_to "راديو رسالة", "http://radio-resala.com/", :class=>'radio', :target=>"_blank" %></li>
+		</ul>
+      </div> 
+    </div>
+
+    <div class="wrapper">
+      
+      <div id="logo">
+        <h1><%= link_to "رسالة", root_path, :class=>"hideText" %></h1>
+      </div>
+      <nav id="nav">
+        <ul>
+          <li><%= link_to "الرئيسية", root_path, :class=>"home_page" %> </li>
+          <li><%= link_to "عن رسالة", page_path("about"), :class=>"about_resala" %> </li>
+          <li><%= link_to "أخبار", "/news", :class=>"news" %> </li>
+          <li><%= link_to "تبرع", page_path(:how_to_donate), :class=>"donate" %></li>
+          <li><%= link_to "بوابة المتطوعين", activities_path, :class=>'volunteer_section' %></li>
+          <li><%= link_to "قصصنا", stories_path, :class=>'about_us' %></li>
+          <li><%= link_to "صور و فيديو", media_path(:albums), :class=>"media" %></li>
+          <li><%= link_to "قالوا عنا", testimonials_path, :class=>"testmonials" %></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- header Ends-->
+  
+  <section id="<%= homepage?(params) ? 'homePage' : 'section' %>">
+    <div class="content_header">
+      <div class="wrapper">
+      <% if homepage?(params) %>
+        <%= yield :slider %>
+      <% else %>
+        <div class="sections_title">
+          <h2 <%= @show_title_text ?  "" : "class=\"hideText #{@title_class}\"".html_safe %> ><%= @section_title || @title %> </h2>
+          <%= yield :custom_section_header_content %>
+        </div>
+        <%= yield :top_search %>
+      <% end %>
+      </div><!-- wrapper Ends-->
+    </div><!-- content_header Ends-->
+    <div class="wrapper">
+      <div class="main_content">
+        <div id="loader" class="loading" style="display: none;">
+          <img src="/images/ajax-loader.gif" />
+        </div>
+      <%= render :partial => 'shared/facebook_api'%>
+      <%= render :partial => 'shared/cookies_messages'%>
+      <%= yield %>
+      
+      <div class="side_col">
+        <%= yield :sidebar %>
+        <%= render :partial=>'shared/side_ads' %>
+        <%= render :partial => 'newsletter_subscribers/form' %>
+        <%= render :partial=>'shared/facebook_like_box' %>
+      </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- section Ends-->
+
+  <footer id="footer">
+    <div class="wrapper">
+      <div class="footer_logo">
+        <h1>
+          <%= link_to 'Resala', root_url, :class=>'hideText'%>
+        </h1>
+      </div>
+      <div class="navigation">
+        <ul>
+          <li><%= link_to "أنشطة الجمعية", activity_categories_path %> </li>
+          <li><%= link_to "أخبار", "/news" %> </li>
+          <li><%= link_to "عن رسالة", page_path("about") %> </li>
+          <li><%= link_to "قصصنا", stories_path, :class=>'about_us' %></li>
+          <li><%= link_to "صور و فيديو", media_path(:albums) %></li>
+          <li><%= link_to "قالوا عنا", testimonials_path %></li>
+          <li><%= link_to "الفروع", branches_path %></li>
+          <li><%= link_to "كيف تتبرع", page_path(:how_to_donate) %></li>
+          <li><%= link_to "شارك برأيك", new_feedback_path %></li>
+          <li><%= link_to "أسئلة شائعة", questions_path %></li>
+        </ul>
+      </div>
+      <p class="footerLogo">
+        <span><label>إهداء من</label><a href="http://nabadat.org" target="_blank" class="hideText nabadatLogo">nabadat</a></span>        
+        <span><label>تطوير</label><a href="http://espace.com.eg" target="_blank" class="hideText espaceLogo">eSpace</a></span>
+      </p>
+      <p>© <%=Date.today.year%> جميع الحقوق محفوظة لجمعية رسالة.</p>
+      <p>استخدام هذا الموقع يعني موافقتك علي شروط الاستخدام والخصوصية.</p>
+    </div>
+  </footer>
+  <div style="display: none;">
+    <div id="login_section" class="section_intro login">
+      <h2>للاشتراك و التواصل مع المتطوعين الرجاء تسجيل دخول </h2>
+       <%= link_to "تسجيل الدخول", login_path(:facebook), :class=>"login_req login_button"%>
+    </div>
+  </div>
+  
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" %>
+  <%= include_javascripts :common %>
+  <%= yield :javascripts %>
+</body>
+</html>

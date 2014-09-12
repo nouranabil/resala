@@ -1,0 +1,11 @@
+<p style="color:#000;font-size:normal;font-size:1.1em;padding:0;margin:0 0 10px;">عزيزي المستخدم <%= @subscriber.name %> ،</p>
+<p style="color:#222;padding:0;margin:5px 0;">لقد قمت بالاشتراك في خدمة النشرة البريدية لموقع رسالة، يُرجى الضغط على الرابط التالي لتأكيد اشتراكك</p>
+<p style="color:#222;padding:0;margin:5px 0;"><%= link_to "تأكيد الاشتراك بخدمة النشرة البريدية", SITE_URL + "/subscribe_confirmation/#{@subscriber.token}?email=#{@subscriber.email}"%></p>
+<p style="color:#222;padding:0;margin:5px 0;">إذا لم تقم بطلب الاشتراك فى خدمة النشرة البريدية ، فضلا تجاهل هذه الرسالة</p>
+
+
+<div style="color:#999;padding-top:15px;" align="left" >
+  <p style="margin:5px 0;color:#777;">شكراً لكم ،</p>
+  <p style="margin:5px 0;color:#777;">فريق رساله</p>
+  <p style="margin:5px 0;"><a href="<%= SITE_URL %>" style="outline: none;color: #2F72A9;text-decoration: none;">www.resala.org</a></p>
+</div>

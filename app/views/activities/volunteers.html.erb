@@ -1,0 +1,43 @@
+<% @title = 'بوابة المتطوعين'; @title_class = 'hideText activitiesDetails_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<%= render :partial=>'/volunteers/volunteers_section_menu', :locals=>{:selected_item=>:dashboard} %>
+<% end %>
+
+<div class="volunteer_container">
+  <%= render :partial=>'activities/activity_tabs', :locals=>{:the_activity_path=>request.url.gsub(/(\/volunteers)(\?.+)?$/, '\2'), :selected_tab=>:volunteers, :back_to_link => nil } %>
+  
+  <div class="users">
+    <div class="activity_status">
+      <%= link_to "عودة الي الأعمال التطوعية", !params[:back_to].blank? ? params[:back_to] : @is_owner ? activities_volunteer_path(@activity.user) : activities_path, :class=>"back_link" %>
+    </div>
+    
+    <div class="users_activityList">
+    <% if @activities_requests.length == 0 %>
+      <ul ><li><div class="section_intro nothing"><h2>لا يوجد متطوعون حتى الآن</h2></div></li></ul>
+    <% end %>  
+    </div>
+    
+    <div class="users_list">
+      <ul>
+        <% @activities_requests.each do |activities_request| %>
+        <%= render :partial=>'/volunteers/volunteer', :locals=>{:volunteer=>activities_request.volunteer, :is_owner=>@is_owner, :activities_request=>activities_request} %>
+        <% end %>
+      </ul>
+    </div>
+    <%= will_paginate @activities_requests %>
+  </div>
+</div>
+
+<% content_for :sidebar do %>
+  <div class="activity_owner">
+    <h4 class="hideText activity_owner_title">مدير العمل التطوعى</h4>
+    <div class="thumbnail">
+      <%= image_tag(@activity.user.image.blank? ? "/images/dummy/resala_70x70.gif" : @activity.user.image)%>
+    </div>
+    <h3><%= @activity.user.name%></h3>
+    <div class="activity_details">
+      <span class="activitys_no">مشترك في <%= @activity.user.accepted_activities_requests_count %> عمل تطوعى </span>
+    </div>
+  </div>
+  <%= render :partial=>'shared/start_now_activity' %>
+<%end%>

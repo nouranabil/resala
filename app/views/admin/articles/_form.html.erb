@@ -1,0 +1,97 @@
+<%= form_for(@article, :url=>@article.id ? admin_article_path(@article, :page=>params[:page] || 1) : admin_articles_path(:page=>params[:page] || 1), :html => { :multipart => true} ) do |f| %>
+  <div class="grid_16">
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@article} %>
+    <div class="box">
+      <h2><%= form_title%></h2>
+      <div class="block">
+        <div class="page_actions">
+          <p>
+            <%= f.label :article_category_id %>
+            <%= f.select :article_category_id, options_for_select([[t("messages.select_article_category"), ""]]) + options_from_collection_for_select(@article_categories, "id", "name", @article.article_category_id.to_s) %> <span class="mandatory">*</span>
+          </p>
+          <p>
+            <%= f.label :title %>
+            <%= f.text_field :title, :class=>"text" %> <span class="mandatory">*</span>
+          </p>
+          <div class="block">
+            <%= f.label :description %>
+            <%= f.text_area :description, :class=>"tinymce" %>
+          </div>
+          <div class="uploader_block">
+            <label for="article_media">ملفات الصور</label>
+            <div id="uploader_items" class="uploader">
+              <span class="uploader_item">
+                <span class="file-wrapper">
+                  <%= f.file_field :media, :name=>"article_media[][media]", :value=>"" %>
+                </span>
+                <a id="add_new_upload" class=" hideText add">إضافة</a>
+                <a id="remove_upload" class=" hideText remove" style="display:none;">حذف</a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <%= render :partial=> 'admin/shared/media_picker', :locals=>{:association => :media, :parent=>@article, :f=> f } %>
+        
+        <div class="block"> 
+          <strong>الأنشطة الخيرية</strong>
+          <ul class="check_list" style="width: 95%;">
+            <% article_activity_categories = @article.activity_categories.collect{|ac| ac.id} %>
+              <% @activity_categories.each_with_index do |activity_category, index| %>
+              <li>
+                <%= check_box_tag "activity_categories[]", activity_category.id, article_activity_categories.include?(activity_category.id), {:class => "input_check ag_selectors", :id=>"activity_categories_#{activity_category.id}"} %>
+                <%= label_tag "activity_categories[]", activity_category.name, :class => "checkLabel", :for=>"activity_categories_#{activity_category.id}" %>
+              </li>
+              <% end %>
+              <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors'} %>
+          </ul>
+        </div>
+        
+        <div class="block"> 
+          <strong>الفروع</strong>
+          <ul class="check_list" style="width: 95%;">
+            <% article_activity_categories = @article.activity_categories.collect{|ac| ac.id} %>
+              <% article_branches = @article.branches.collect{|b| b.id} %>
+              <% @branches.each_with_index do |branch, index| %>
+              <li>
+                <%= check_box_tag "branches[]", branch.id, article_branches.include?(branch.id), {:class => "input_check br_selectors", :id=>"branches_#{branch.id}"} %>
+                <%= label_tag "branches[]", branch.name, :class => "checkLabel", :for=>"branches_#{branch.id}" %>
+              </li>
+              <% end %>
+              <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_branches', :inputs_to_check => 'br_selectors'} %>
+          </ul>
+        </div>
+        
+        <p class="controls">
+          <%= f.submit "حفظ المقالة", :class=>"button" %>
+          <% unless @article.id %>
+          <%= check_box_tag "share_to_facebook", "true", true, {:class => "input_check"} %>
+          <%= label_tag "share_to_facebook", "انشر على الفيسبوك", :class => "checkLabel" %> ،
+          <% end %>
+          <%= link_to "إلغاء", admin_articles_path(:page=>params[:page] || 1) %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= render 'shared/tinymce' %>
+
+<%= content_for :javascripts do %>
+  <script>
+    $('#add_new_upload').live('click',function(){
+      $(this).closest(".uploader_item").find("#add_new_upload").hide();
+      new_upload = $(this).closest(".uploader_item").clone();
+      new_upload.find("input").val("");
+      new_upload.find("#add_new_upload").show();
+      new_upload.find("#remove_upload").show();
+      $("#uploader_items").append (new_upload);
+      return false;
+    });
+    
+    $('#remove_upload').live('click',function(){
+      $(this).closest(".uploader_item").remove();
+      $("#uploader_items .uploader_item:last").find("#add_new_upload").show();
+      return false;
+    });
+    
+  </script>
+<% end %>

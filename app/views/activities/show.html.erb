@@ -1,0 +1,8 @@
+<%= render :partial=>'activities/show', :locals=>{:activity=>@activity, :is_owner=>false} %>
+
+<% content_for :og_meta_tags do %>
+<meta property="og:title" content="<%= @activity.title %>"/>
+<meta property="og:url" content="<%= activity_url(@activity) %>"/>
+<meta property="og:image" content="<%= @activity.image_url %>"/>
+<meta property="og:description" content="<%= strip_tags @activity.description %>"/>
+<% end %>

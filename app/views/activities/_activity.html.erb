@@ -1,0 +1,84 @@
+<li> 
+  <div class="activity_desc">
+    <% if is_owner == true %>
+    <h4><%= link_to activity.title, volunteer_activity_path(current_user, activity, :back_to => request.url) %></h4>
+    <p><%= truncate(strip_tags(activity.description), :length=>200, :omission=> link_to("  المزيد ...", volunteer_activity_path(current_user, activity, :back_to => request.url), :class=>"more")).html_safe %></p>
+    <% else %>
+    <h4><%= link_to activity.title, activity_path(activity, :back_to => request.url) %></h4>
+    <%= truncate(strip_tags(activity.description), :length=>200, :omission=> link_to("  المزيد ...", activity_path(activity, :back_to => request.url), :class=>"more")).html_safe %>
+    <% end  %>
+  </div>
+  
+  <div class="user_action">
+    <% if is_owner == false %>
+      <% if current_user %>
+        <% if can? :join_activity, activity %>
+        <%= link_to 'أود المشاركة', join_activity_activity_path(activity), :class=>"join", :method => :get%>
+        <% end %>
+      <% else %>
+        <%= link_to 'أود المشاركة', login_path(:facebook), :class=>"join login login_button", :action_after_login=> join_activity_activity_path(activity) %>
+      <% end %>
+      
+      <% if can? :quit, activity %>
+        <%= link_to 'انسحب', quit_activity_path(activity), :class=>"unjoin", :method => :post %>
+      <% end %>
+    <% else %>
+      <% if can? :edit, activity %>
+        <span class="<%= activity_status_class(activity) %>" title="حالة العمل التطوعى">حالة العمل التطوعى</span>
+        <%= link_to "تعديل", edit_volunteer_activity_path(activity.user, activity), :class=>"edit"%>
+      <% end %>
+    <% end  %>
+  </div>
+  
+  <div class="actvity_info">
+    <dl>
+      <dt>الأنشطة الخيرية:</dt>
+      <dd><%= activity.activity_categories.collect{|ac| link_to ac.name, activity_category_path(ac)}.join(', ').html_safe %></dd>
+    </dl>
+    
+    <% if !activity.branches.blank? %>
+    <dl>
+      <dt>الفروع:</dt>
+      <dd><%= activity.branches.collect{|br| link_to br.name, branch_path(br)}.join(', ').html_safe %></dd>
+    </dl>
+    <% end %>
+    
+    <% if !activity.location.blank? %>
+    <dl>
+      <dt>مكان العمل:</dt>
+      <dd><%= activity.location%></dd>
+    </dl>
+    <% end %>
+    
+    <% if activity.start_date %>
+    <dl>
+      <dt>التاريخ والوقت:</dt>
+      <dd><%= l( activity.start_date.to_datetime, :format=>:long) %></dd>
+    </dl>
+    <% end %>
+    
+    <dl>
+      <dt>عدد المتطوعين:</dt>
+      <dd>مطلوب <%= activity.required_volunteers_count %> - اشترك <%=  activity.volunteers_count %> </dd>
+    </dl>
+    
+    <dl>
+      <dt>عدد المهتمين:</dt>
+      <dd><%=activity.activities_requests.count %> </dd>
+    </dl>
+  </div>
+
+  
+  <div class="article_activities">
+      <div class="date">
+        <span>أنشئ فى</span>
+        <%= l( activity.created_at.to_datetime, :format=>:styled).html_safe %>
+      </div>
+      <div class="comments">
+        
+        <!-- <span class="views_no">مشاهدة </span> -->
+        <span class="comment_no"><%= render :partial=> 'shared/facebook_comments_count', :locals=>{:url=>activity_url(activity,:only_path=> false)}%></span>
+        <%= link_to "أضف تعليقا", "#{activity_path(activity, :back_to => request.url)}#facebook_comments", :class=>"comment"%>
+      </div>
+  </div>
+</li>

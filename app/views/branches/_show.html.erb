@@ -1,0 +1,26 @@
+<div class="branch_details_top">
+  <div class="branch_title">                
+    <h2><%= branch.name %></h2>
+  </div>
+  <div class="branchDescreption">
+    <p><%= branch.description.html_safe unless branch.description.blank? %></p>
+    <% if branch_activity_categories.size > 0 %>
+      <h3>أنشطة متعلقة بالفرع : </h3>
+      <p>
+        <% branch_activity_categories.each do |activity_category|%>
+          <span><%= link_to activity_category.name, activity_category %></span>
+        <% end %>
+      </p>                 
+    <% end %>
+    <ul class="branch_contact">
+      <% unless @branch.phones.blank? %>
+        <li><label class="hideText contact_tel">تليفونات</label> <span><%= @branch.phones %></span></li>
+      <% end %>
+      <% unless @branch.email.blank? %>
+      <li><label class="hideText contact_email">البريد الإلكتروني</label><strong><%= @branch.email %></strong></li>
+      <% end %>
+      <li><label class="hideText contact_add">العنوان</label><span><%= @branch.address %></span></li>                                                      
+    </ul>
+  </div>
+</div>
+<div class="branch_details_footer"></div>

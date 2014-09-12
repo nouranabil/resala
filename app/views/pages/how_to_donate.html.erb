@@ -1,0 +1,51 @@
+<% @title = "كيف تتبرع"%>
+<% @title_class = 'donate_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+يمكنك التبرع لجمعية رسالة بطرق مختلفة
+<% end %>
+<div class="donate_page"> 
+  <div class="visa_link">
+    <label class="hideText">إضغط هنا٬ للتبرع عبر</label>
+    <%= link_to '', new_donation_path %>
+  </div>
+  <div class="donate_info">
+    <ul>
+      <li class="donate_info">
+        <label class="hideText direct_donation">للتبرع العيني:</label>
+        <p><span>اتصل بنا علي  <strong>19450 </strong> يصلك مندوبنا أينما كنت.</span></p>
+      </li>
+      <li class="donate_info">
+        <label class="hideText regular_donation">لتصبح متبرعا منظما:</label>
+        <p> <strong><a href="<%= new_donation_request_path %>">اضغط هنا</a></strong>  لملإ استمارة التبرع.</p>
+      </li>
+      <li id="from_egypt" class="donate_info">
+        <label class="hideText egypt_donation">للتبرع من داخل مصر:</label>
+        <p><strong>(1) على حساب 19450 في كل البنوك المصرية.</strong></p>
+        <br>
+        <p><strong>(2) البنك التجاري الدولي CIB  - فرع عباس العقاد</strong></p>
+        <p><strong>سويفت كود :  CIBEEGCX014</strong></p>
+        <p><strong>أرقام الحساب :</strong></p>
+
+        <p>1490105978  - دار أيتام رسالة</p>
+        <p>1490105986  - مساعدات رسالة</p>
+        <p>1490105994 - مستشفي رسالة</p>
+        <br>
+        <p><strong>(3) أو يمكنك التبرع من خلال خدمة فوري: </strong><%= link_to image_tag("/images/fawry.png", :style => "vertical-align:middle;"), "http://www.fawry-eg.com/ar/common/default.aspx", :target => "_blank" %></p>
+      </li>
+      <li id="from_abroad" class="donate_info">
+        <label class="hideText world_donation">للتبرع من خارج مصر:</label>
+        <p> بنك مصر : Banque Misr -  فرع أحمد فؤاد</p>
+        <p>سويفت كود :  BMISEGCX140</p>
+        <p><strong>رقم الحساب :</strong></p>
+        <p>39200100011214   - دار أيتام رسالة</p>
+        <p><strong>أو علي حسابنا الآتي :-</strong></p>
+        <p>البنك التجاري الدولي CIB  - فرع عباس العقاد</p>
+        <p>سويفت كود :  CIBEEGCX014</p>
+        <p><strong>علي أرقام الحساب التالية  :-</strong></p>
+        <p>1490105978  - دار أيتام رسالة</p>
+        <p>1490105986  - مساعدات رسالة</p>
+        <p>1490105994  - مستشفي رسالة</p>
+      </li>
+    </ul>
+  </div>
+</div>

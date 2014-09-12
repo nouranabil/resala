@@ -1,0 +1,5 @@
+en:
+  messages:
+    incorrect_email: is invalid
+    email_exists: already exists
+    volunteers_report: Volunteers Reports

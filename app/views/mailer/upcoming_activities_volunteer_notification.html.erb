@@ -1,0 +1,37 @@
+<p style="color:#000;font-size:normal;font-size:1.1em;padding:0;margin:0 0 10px;">عزيزى المتطوع <%= @volunteer.name %> ،</p>
+<p style="color:#222;padding:0;margin:5px 0;">نود إعلامكم ببدء الأعمال الخيرية التطوعية التالية والتى قد ترغب بالاشتراك بها لارتباطها بالنشاط الخيرى المفضل لديك أو فرع رسالة الأقرب إليك :</p>
+
+<ul style="list-style-type:none; margin:0; padding:0;">
+  <% @activities.each do |ac|%>
+  <li style=" overflow:auto; padding:10px; border:1px solid #999; margin-bottom:10px;">
+    <h2 style=" margin:0;"><%= link_to ac.title,  "#{SITE_URL}/activities/#{ac.id}" %></h2>
+    <p style="margin:0; font-size:17px; margin-top:5px;"><%= ac.description.html_safe %></p>
+    <p style="margin:0; font-size:17px; margin-top:5px;">العمل التطوعى يبدأ في: <%= l ac.start_date, :format=>:short %></p>
+    <% unless ac.duration.blank? && ac.duration_type.blank? %>
+    <p style="margin:0; font-size:17px; margin-top:5px;">مدة العمل التطوعى: <%= ac.duration %> <%= ac.duration_type %></p>
+    <% end %>
+    <% unless ac.location.blank? %>
+    <p style="margin:0; font-size:17px; margin-top:5px;">المكان:  <%= ac.location %> </p>
+    <% end %>
+    <p style="margin:0; font-size:17px; margin-top:5px;">عدد المتطوعين:  مطلوب <%= ac.required_volunteers_count %> - اشترك <%=  ac.volunteers_count %>  </p>
+    
+    <% unless ac.volunteers_skills.blank? %>
+    <p style="margin:0; font-size:17px; margin-top:5px;">مهارات المتطوعين: <%= ac.volunteers_skills %> </p>
+    <% end %>
+    <% if ac.branches.size > 0 %>
+    <p style="margin:0; font-size:17px; margin-top:5px;">الفروع:  <%= ac.branches.select('name').collect(&:name).join(", ").html_safe %> </p>
+    <% end %>
+    <%= link_to "اشترك", "#{SITE_URL}/activities/#{ac.id}?attempt_to_join=true", :style=>"margin-top: 5px; border: 0 none; cursor: pointer; display: inline;  float: left;font-size:18px; padding:5px 10px; background-color:#c70808; color:#ffffff; text-decoration:none;" %>
+  </li>
+  <% end %>
+</ul>
+
+<div style="color:#999;padding-top:15px;" align="left" >
+  <p style="margin:5px 0;color:#777;">شكراً لكم ،</p>
+  <p style="margin:5px 0;color:#777;">فريق رساله</p>
+  <p style="margin:5px 0;"><a href="<%= SITE_URL %>" style="outline: none;color: #2F72A9;text-decoration: none;">www.resala.org</a></p>
+</div>
+
+<% content_for :unsubscription_message  do %>
+لقد وصلتك هذه الرسالة لأنك قمت بطلب إخطارك بريدياً بتحديثات و تنبيهات الأعمال التطوعية بجمعية رسالة. لإلغاء التنبيهات بالبريد الإلكترونى أو تعديل الأنشطة الخيرية التى تهتم بها يرجى النقر <%= link_to 'هنا', "#{SITE_URL}/volunteers/#{@volunteer.id}/edit" %>.
+<% end %>

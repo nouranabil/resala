@@ -1,0 +1,72 @@
+<% @title = 'طلب التبرع لرسالة'; @title_class = 'donateformRequest_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+أرسل طلبا للتبرع وسيوافيك مندوبنا لاستلام تبرعك
+<% end %>
+<div class="form_block">
+  <%= form_for(@donation_request) do |f| %>
+    <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@donation_request} %>
+    <fieldset>
+      <div class="form_item">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :mobile %>
+        <%= f.text_field :mobile %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :phone %>
+        <%= f.text_field :phone %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <span class="mandatory">*</span>
+      </div> 
+      <div class="form_item">
+        <%= f.label :amount %>
+        <%= f.text_field :amount %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :amount_period %>
+        <%= f.select :amount_period, options_for_select([["أختر المدة", ""], ["شهر", "شهر"], ["3 شهور", "3 شهور"],["6 شهور", "6 شهور"],["سنة", "سنة"]]) %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :city_id %>
+        <%= f.select :city_id, options_for_select([[t("messages.select_city"), ""]]) + options_from_collection_for_select(@cities, "id", "name", @donation_request.city_id.to_s) %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :address %>
+        <%= f.text_area :address, :rows=>3 %>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="form_item">
+        <%= f.label :notes %>
+        <%= f.text_area :notes, :rows=>3 %>
+      </div>
+      <div class="form_item checkLists">
+        <%= f.label :activity_categories %>
+        <span class="listsfields">
+          <% donation_request_activity_categories = @donation_request.activity_categories.collect{|ac| ac.id} %>
+          <% @activity_categories.each_with_index do |activity_category, index| %>
+            <span class="min_set">
+              <%= check_box_tag "activity_categories[]", activity_category.id, donation_request_activity_categories.include?(activity_category.id), {:class => "lang_check ag_selectors", :id=>"activity_categories_#{activity_category.id}"} %>
+              <%= label_tag "activity_categories[]", activity_category.name, :class => "sec_lbl", :for=>"activity_categories_#{activity_category.id}" %>
+            </span>
+          <% end %>
+          <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors'} %>
+        </span>
+      </div>
+      <p class="form-buttons">
+        <%= link_to "إلغاء", page_path(:how_to_donate)%>
+        <%= submit_tag "إرسال الطلب", :class=>"input_button button-send" %>
+      </p>
+    </fieldset>
+  <% end %>
+</div>

@@ -1,0 +1,130 @@
+<div class="container_16" >
+<script type="text/html" id="photos-list-template">
+  <![CDATA[
+    <%% var selected = (selectedMedia[this.object_id] == undefined) ? '' : "class='selected'" ;%>
+    <li id="item_<%%= this.object_id %>" fbId="<%%= this.object_id %>" thumbnail="<%%=this.src_small%>" url="<%%=this.src_big%>" mediaType="photo" <%%= selected %>>
+      <%% var more = (this.caption.length > 20) ? "..." : ""; %>
+      <strong><%%= this.caption.substr(0,20) + more %></strong>
+      
+      <img fbId="<%%= this.object_id %>" class='toggleSelected facebook_thumb' src="<%%= this.src_big %>" <%%=(this.caption ? "title='"+this.caption+"'" : "")%> />
+      
+      <%% var checked = (selectedMedia[this.object_id] == undefined) ? '' : 'checked' ;%>
+      <input fbId="<%%= this.object_id %>" class='toggleSelected' type="checkbox" class="input_check" <%%= checked %> >
+      <%% if(this.caption){ %>
+      <span class="hint" style="display:none"><%%= this.caption %></span>
+      <%% } %>
+    </li>
+  ]]>
+</script>
+
+<script type="text/html" id="albums-list-template">
+  <![CDATA[
+    <li>
+      <strong><%%= this.name %>  </strong> <%%= this.size %> صورة
+      <a id="<%%= this.object_id %>" class="fancybox" href="/media/albums/<%%=this.aid%>/photos?media_picker=true<%= params[:order] ? ('&order='+params[:order]):''%>">
+        <img src="http://graph.facebook.com/<%%= this.object_id %>/picture" />
+      </a>
+    </li>
+  ]]>
+</script>
+
+<script type="text/html" id="videos-list-template">
+  <![CDATA[
+    <%% var selected = (selectedMedia[this.vid] == undefined) ? '' : "class='selected'" ;%>
+    <li id="item_<%%= this.vid %>" fbId="<%%= this.vid %>" thumbnail="<%%=this.thumbnail_link%>" url="<%%=this.src%>" mediaType='video' <%%= selected %>>
+      <strong><%%= this.title %></strong>
+      <img fbId="<%%= this.vid %>" class='toggleSelected' src="<%%= this.thumbnail_link %>" />
+      <%% var checked = (selectedMedia[this.vid] == undefined) ? '' : 'checked' ;%>
+      <input fbId="<%%= this.vid %>" class='toggleSelected' type="checkbox" class="input_check" <%%= checked %> >
+    </li>
+  ]]>
+</script>
+
+<script type="text/html" id="pagination-template-picker">
+  <![CDATA[
+      <%% if(this.next != undefined || this.prev != undefined){%>
+      <div class="next_prev" id="pagination_links">
+        <%% if(this.next != undefined ){%>
+        <a href="<%%= this.next %>" class="fancybox next" > Next &raquo;</a>
+        <%% }%>
+        <%% if(this.prev != undefined ){%>
+        <a href="<%%= this.prev %>" class="fancybox prev" >&laquo; Previous </a>
+        <%% }%>
+      </div>
+      <%% }%>
+  ]]>
+</script>
+
+<div class="grid_16">
+  <div class="box">
+    <h2><%= t('media.picker.choose_media') %></h2>
+    <div class="block">
+      <div class="page_actions">
+        <div class="listSorter">
+           <dl>
+               <dd><a class='fancybox' href="<%= media_path(:albums, :media_picker=>'true', :order=>params[:order]) %>#photos"><%= t('media.albums') %></a></dd>
+               <dd><a class='fancybox' href="<%= media_path(:videos, :media_picker=>'true', :order=>params[:order]) %>#videos"><%= t('media.videos') %></a></dd>
+               <dt>رتب</dt>
+               <dd<%= (params[:order]||'').downcase=='asc' ? '' : ' class="selected"'.html_safe %>><a class='fancybox' href="<%= (params[:order]||'').downcase=='asc' ? request.url.downcase.sub("order=asc","order=desc") : request.url %>">تنازليا</a></dd>
+               <dd<%= (params[:order]||'').downcase=='asc' ? ' class="selected"'.html_safe : '' %>><a class='fancybox' href="<%= (params[:order]||'').downcase=='desc' ? request.url.downcase.sub("order=desc","order=asc") : "#{request.url}&order=asc" %>">تصاعديا</a></dd>
+           </dl>
+        </div>
+        <ul id="photos-list" class="img_picker">
+        </ul>
+        <div id="photos-pag"></div>
+        <div class="clear"></div>
+        
+        
+        <ul id="albums-list" class="img_picker">
+        </ul>
+        <div id="albums-pag"></div>
+        <div class="clear"></div>
+        
+        
+        <ul id="videos-list" class="img_picker">
+        </ul>
+        <div id="videos-pag"></div>
+        <div class="clear"></div>
+        
+        
+        <button id="add_selected"><%= t('media.picker.add_selected') %></button>
+        <button id="cancel_button"><%= t('media.picker.cancel') %></button>
+        
+      </div>
+    </div>
+  </div>
+</div><!-- Search and filter Ends -->
+<script type="text/javascript">
+  if(typeof selectedMedia === 'undefined'){
+    selectedMedia = {};
+  }
+  
+  $(document).ready(function(){
+  months = <%= js_months %>;
+  getData("<%=@query%>",
+          function(response){
+            $('#albums-list').html("");
+            $('#photos-list').html("");
+            $('#videos-list').html("");
+            renderResponse(response,{
+                             template : "#<%= @media_type %>-list-template",
+                             container: "#<%= @media_type %>-list",
+                             paginated: true,
+                             next:'<%= params[:album_id] ? album_photos_path(params[:album_id],@media_type, @page + 1, :media_picker=>'true', :order=>params[:order]) : media_path(@media_type, @page + 1, :media_picker=>'true', :order=>params[:order]) %>',
+                             prev: <%= @page == 1 ? 'undefined' : ("'" + (params[:album_id] ? album_photos_path(params[:album_id],@media_type, @page - 1, :media_picker=>'true', :order=>params[:order]) : media_path(@media_type, @page - 1, :media_picker=>'true', :order=>params[:order])) + "'") %>,
+                             pagContainer: "#<%= @media_type %>-pag",
+                             pgTemplate: "#pagination-template-picker",
+                             perPage: <%= Media::PER_PAGE %>
+                           });
+            trigger_fancybox();
+          }
+    );
+    
+    $("img.facebook_thumb").live('mouseover', function(){
+      $(this).siblings('span.hint').show();
+    }).live('mouseout', function(){
+      $(this).siblings('span.hint').hide();
+    });
+  });
+</script>
+</div>

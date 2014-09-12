@@ -1,0 +1,13 @@
+<div class="article_listing"> 
+  <% articles.each do |article| %>
+    <article> 
+      <%= render :partial=>'articles/article', :locals=>{:article=>article, :type=>type} %>   
+    </article>
+  <% end %>
+  <% if articles.size == 0 %>
+  <article>
+    <div class="no-data">لا توجد مقالات</div>
+  </article>
+  <% end %>
+  <%= will_paginate articles %>
+</div>

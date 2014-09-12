@@ -1,0 +1,78 @@
+<div class="grid_16">
+  <h2 id="page-heading">الأنشطة الخيرية</h2>
+</div>
+
+<div class="grid_16">
+  <%= link_to "إضافة نشاط خيرى جديد", new_admin_activity_category_path, :class=>"add_btn"%> 
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="3">قائمة الأنشطة</th>
+      </tr>
+      <tr>
+        <th>النشاط الخيرى</th>
+        <th>الوصف</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @activity_categories.each do |activity_category| %>
+      <tr class="<%= cycle('odd', 'even')%>" ac_id="<%= activity_category.id %>" id="activity_category_<%= activity_category.id %>">
+        <th class="list_item_name" >
+          <h5><%= activity_category.name %></h5>
+        </th>
+        <td class="list_item_descreption">
+          <p><%= activity_category.description ? activity_category.description.html_safe : ""%></p>
+        </td>                 
+        <td  class="list-item-actions"> 
+          <%= link_to 'تعديل', edit_admin_activity_category_path(activity_category), :class=>"edit", :title=> "تعديل"%>
+          <% if can? :destroy, activity_category %>
+          <%= link_to 'حذف', admin_activity_category_path(activity_category), :class=>"delete", :confirm => 'هل انت متأكد من حذف هذا النشاط الخيرى ?', :method => :delete , :title=>"حذف"%>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>   
+
+<% content_for :javascripts do %>
+<script>
+  $("tbody").sortable({
+    axis: 'y',
+    cursor: 'crosshair',
+    distance: 20,
+    zIndex: 5,
+    revert: true,
+    stop: function(event, ui){
+      var moved_id = ui.item.attr("ac_id")
+      if ($("#activity_category_" + moved_id).prev().attr("ac_id")) {
+        var prev_id = $("#activity_category_" + moved_id).prev().attr("ac_id")
+      }else{
+        var prev_id = -1
+      } 
+      
+      $.ajax({
+        url: "/admin/activity_categories/update_order/" + moved_id + "/" + prev_id,
+        type: "POST",
+        statusCode: {
+          200: function(){
+          },
+          404: function(){
+             $("tbody").sortable('cancel');
+          },
+          500: function(){
+             $("tbody").sortable('cancel');
+          },
+        }
+      });
+    }
+  });
+</script>
+<% end %>

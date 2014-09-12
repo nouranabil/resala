@@ -1,0 +1,47 @@
+<% @title = @activity_category.name %>
+<% @show_title_text = true ;@title_class = 'activities_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+<ul class="header_menu">
+  <li><%= link_to "نبذة عن #{@title}", "#about_activity" %></li>
+  <li><%= link_to "صور وفيديو", "#media_list" %></li>
+  <li class="last_item"><%= link_to "أخبار ذات صلة", "/news?activity_category_id=#{@activity_category.id}" %></li>
+  <li><%= link_to "أسئلة شائعة", activity_category_questions_path(@activity_category)   %></li>
+</ul>
+<% end %>
+
+<div id="about_activity" class="article_detail">
+  <h2 class="page_title">نبذة عن <%=@activity_category.name%></h2>
+  <article>
+    <div class="article_detail">
+      <%  if(front_photo = @activity_category.front_photo) %>
+      <div class="article_img">
+        <%= image_tag fb_picture(front_photo.fb_id), :alt=> @activity_category.name %>
+      </div>
+      <% end %>
+      <%= @activity_category.description.html_safe unless @activity_category.description.blank? %>
+    </div>
+    <%= render :partial=> 'media/index' ,:locals=>{:media_type=> 'photos',
+                                             :query=>@query,
+                                             :owner_type=> 'activity',
+                                             :owner_id=> @activity_category,
+                                             :page=>1, 
+                                             :per_page=> Media::PER_PAGE} %>
+  </article>
+</div><!-- article_detail Ends-->
+
+<% content_for :sidebar  do %>
+
+<div class="side_element" id="side_nav">
+<h2>أنشطة رسالة</h2>
+  <ul>
+    <% @activity_categories.each do |activity|%>
+      <li<%= @activity_category == activity ? " id='selected'" : ''%>><%= link_to activity.name, activity %></li>
+    <% end %>
+  </ul>
+</div>
+
+<% if !@news.empty? %>
+<%= render :partial=>'shared/related_articles' ,:locals=>{ :block_title => "أخبار ذات صلة",:block_title_class=>'related_news_block', :related_articles => @news, :type=>'news', :show_more=>true, :activity_category_id=>@activity_category.id} %>
+<% end %>
+
+<% end %>

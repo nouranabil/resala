@@ -1,0 +1,19 @@
+<script type="text/html" id="pagination-template">
+  <![CDATA[
+      <%% if(this.next != undefined || this.prev != undefined){%>
+      <div id="pagination_links" class="pagination">
+        <%% if(this.prev != undefined ){%>
+        <a href="<%%= this.prev %>" rel="previous" class="previous_page" data-remote="true"><%=t('messages.prev')%></a>
+        <%% }else{%>
+        <span class="previous_page disabled"><%=t('messages.prev')%></span>
+        <%% }%>
+        
+        <%% if(this.next != undefined ){%>
+        <a href="<%%= this.next %>" rel="next" class="next_page" data-remote="true"><%=t('messages.next')%></a>
+        <%% }else{%>
+        <span class="next_page disabled"><%=t('messages.next')%></span>
+        <%% }%>
+      </div>
+      <%% }%>
+  ]]>
+</script>

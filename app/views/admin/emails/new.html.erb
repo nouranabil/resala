@@ -1,0 +1,172 @@
+<div class="grid_16">
+  <h2 id="page-heading">إرسال بريد إلكترونى لمتطوعى رسالة</h2>
+</div>
+
+<div id="explanation" class="admin_options draggable">  <!-- admin_options start -->
+  <% @recipients_count = 0 %>
+  <%= render :partial => "email_counts" %>
+</div>  <!-- admin_options end --> 
+
+<div class="grid_16">
+  <div class="box">
+    <h2>تحديد المرسل إليهم</h2>
+    <div class="block">
+    
+    
+    <%= form_for(@email, :url=> admin_send_bulk_email_path, :html => { :multipart => true}) do |f| %>
+      <%= render :partial=>'shared/form_errors', :locals=>{:obj=>@email} %>
+      <div class="page_actions">
+      
+        <p>
+        <%= f.label :subject %>
+        <%= f.text_field :subject, :class=>"text email_data_selector"%>
+        </p>
+        
+        <p>
+        <%= f.label :body %>
+        <%= f.text_area :body, :class=>"text email_data_selector"%>
+        </p>
+        
+        <p>
+        <%= f.label :newsletter %>
+        <%= f.check_box :newsletter, :class=>"input_check recipients_selector" %>
+        </p>
+        
+        <p>
+        <%= f.label :send_to_admins %>
+        <%= f.check_box :send_to_admins, :class=>"input_check recipients_selector" %>
+        </p>
+        
+        <div class="form_item checkLists">
+          <%= f.label :activity_categories %>
+          <% @email.activity_categories ||= [] %>
+          <span class="listsfields">
+          <% @activity_categories.each_with_index do |activity_category, index| %>
+            <span class="min_set">
+            <%= check_box_tag "activity_categories[]", activity_category.id, @email.activity_categories.include?(activity_category.id.to_s), {:class => "recipients_selector lang_check ag_selectors", :id=>"activity_categories_#{activity_category.id}"} %>
+            <%= label_tag "activity_categories[]", activity_category.name, :class => "checkLabel sec_lbl", :for=>"activity_categories_#{activity_category.id}" %>
+            </span>
+          <% end %>
+          <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors', :recount=> true} %>
+          </span>
+        </div>
+        
+        <p>
+        <%= f.label :branches %>
+        <%= f.select :branches, options_for_select([["أختر الفرع . . . ", ""]]) + options_for_select(@branches, @email.branches), {}, :style=> "height: 150px", :multiple=>true, :name=>"branches[]",:class=>"recipients_selector" %>
+        </p>
+        
+        <div class="uploader_block">
+          <label for="article_media">ملفات الصور</label>
+          <div id="uploader_items" class="uploader">
+            <span class="uploader_item">
+              <span class="file-wrapper">
+                <%= f.file_field :media, :name=>"email_media[][datafile]", :value=>"" %>
+              </span>
+              <a id="add_new_upload" class=" hideText add">إضافة</a>
+              <a id="remove_upload" class=" hideText remove" style=
+              "display:none;">حذف</a>
+            </span>
+          </div>
+        </div>
+        
+      </div>
+      <p class="controls">
+        <%= f.submit "حفظ", :class=>"button" %>
+        <%= link_to "معاينة", "javascript:void();", :class=>'preview_button' %>
+      </p>
+    
+    <% end %>
+                              
+    </div>
+  </div>
+</div><!-- Search and filter Ends -->
+
+<div style="display:none">
+  <%= form_for(@email, :url=> admin_email_preview_path, :html => { :multipart => true, :id=>"parallel_form", :target=>"preview_iframe"}) do |f| %>
+    <%= f.text_area :body, :id=>"parallel_email_body", :class=>"text email_data_selector"%>
+  <% end %>
+</div>
+
+<div class="grid_16" id="preview_container" style="display:none;height:500px">
+  <iframe style="width:100%;height:100%" name="preview_iframe"></iframe>
+</div>
+
+<%= content_for :javascripts do %>
+  <script>
+    var emails_count_url = "<%= admin_email_counts_url %>" ;
+    var email_preview_url = "<%= admin_email_preview_url %>" ;
+    
+    $('#add_new_upload').live('click',function(){
+      $(this).closest(".uploader_item").find("#add_new_upload").hide();
+      new_upload = $(this).closest(".uploader_item").clone();
+      new_upload.find("input").val("");
+      new_upload.find("#add_new_upload").show();
+      new_upload.find("#remove_upload").show();
+      $("#uploader_items").append (new_upload);
+      return false;
+    });
+    
+    $('#remove_upload').live('click',function(){
+      $(this).closest(".uploader_item").remove();
+      $("#uploader_items .uploader_item:last").find("#add_new_upload").show();
+      return false;
+    });
+    
+    // Triggers an event on an element and returns the event result
+    function fire(obj, name, data) {
+      var event = $.Event(name);
+      obj.trigger(event, data);
+      return event.result !== false;
+    }
+    
+    update_email_counts = function(){
+      $.post( emails_count_url , $('.recipients_selector').serialize());
+    };
+    $(".recipients_selector").change(function(){
+      update_email_counts();
+    });
+    
+    
+    $(".preview_button").click(function(){
+      $("#parallel_email_body").val($("#bulk_email_body").val());
+      $("#parallel_form").submit();
+      $("#preview_container").show();
+      //$(this).attr("href",email_preview_url + "?" + $(".email_data_selector").serialize());
+      //$(this).attr("target","preview_iframe");
+      //$("#preview_container").show();
+      
+      //$("#preview_iframe").attr('src',email_preview_url)
+      //document.getElementById(FrameID).contentDocument.location.reload(true);
+      
+      //var element = $("form#new_bulk_email");
+      //$.post( email_preview_url, 
+      //        $(".email_data_selector").serialize(),
+      //        function(data, textStatus, jqXHR){
+      //          alert(data);
+      //          $("#preview_container").html(data);
+      //          $("#preview_container").show();
+      //        },
+      //        'html');
+              
+      //return false;
+    });
+    
+    
+    $(".hide_btn").live("click",function() {
+      $(this).hide();
+      $(".show_btn").show();
+      $("#recipients_data").hide('slow');
+    });
+    $(".show_btn").live("click",function() {
+      $(this).hide();
+      $(".hide_btn").show();
+      $("#recipients_data").show('slow');
+    });
+    
+    
+    $(function() {
+      $( ".draggable" ).draggable();
+    });
+  </script>
+<% end %>

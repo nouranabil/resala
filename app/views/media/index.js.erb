@@ -1,0 +1,54 @@
+<% per_page = params[:per_page] || Media::PER_PAGE %>
+var selector = '#<%= @media_type %>-list'
+$(selector).html("<%= escape_javascript(render :partial => "#{@media_type}") %>");
+$(document).ready(function()  {
+  months = <%= js_months %>;
+  var query = "<%= @query %>";
+  getData(query,
+          function(response){
+            <% if @media_type=='photos' && params[:owner_id].nil? %>
+            $('#photos-header').show();
+            <% elsif @media_type == 'albums' || 'videos' %>
+            $('#photos-header').hide();
+            $('.album-link').live('click', function(){
+              $('#album_name').html(this.name);
+            });
+            <% else %>
+            $('#album_name').html("");
+            $('#photos-header').show();
+            <% end %>
+            if(response.error_code){
+                //alert("No <%= @media_type%> found")
+            }else{
+              if(response.length > 0){
+                renderResponse(response,{ 
+                                 template : "#<%= @media_type %>-list-template",
+                                 container: "#<%= @media_type %>-list",
+                                 <% if !params[:no_pagination] %>
+                                 paginated: true,
+                                 next:'<%= params[:album_id] ? album_photos_path(params[:album_id],@media_type, @page + 1 ,:no_pagination=>params[:no_pagination],:per_page => per_page) : media_path(@media_type, @page + 1,:no_pagination=>params[:no_pagination],:per_page => per_page ,:owner_id=> params[:owner_id], :owner_type=> params[:owner_type]) %>',
+                                 prev:<%= @page == 1 ? 'undefined' : ("'" + (params[:album_id] ? album_photos_path(params[:album_id],@media_type, @page - 1 ,:no_pagination=>params[:no_pagination],:per_page => per_page) : media_path(@media_type, @page - 1,:no_pagination=>params[:no_pagination],:per_page => per_page ,:owner_id=> params[:owner_id], :owner_type=> params[:owner_type])) + "'") %>,
+                                 pagContainer: "#<%= @media_type %>-pag",
+                                 <% end %>
+                                 perPage: <%= per_page %>
+                               });
+                               
+              }else{
+                var message = $("#empty-list-template").jqote({
+                  message: 'لا توجد <%= t("media.#{@media_type}")%>'
+                });
+                $("#<%= @media_type %>-list").html(message);
+              }
+            <% if @media_type == 'photos' || 'videos' %>
+              trigger_fancybox();
+            <% end %>
+            }
+          });
+});
+<% if @media_type =='albums' %>
+    $('#albums-list,#albums-pag').show();
+    $('#photos-list,#photos-pag').hide();
+<% elsif @media_type == 'photos' %>
+    $('#albums-list,#albums-pag').hide();
+    $('#photos-list,#photos-pag').show();
+<% end %>

@@ -1,0 +1,188 @@
+<div class="grid_16">
+  <div class="box">
+    <h2><%= form_title %></h2>
+    <div class="block">
+      <%= form_for(volunteer, :url=>volunteer.id ? admin_volunteer_path(volunteer, :page=>params[:page] || 1) : admin_volunteers_path(:page=>params[:page] || 1)) do |f| %>
+          <div class="page_actions">
+            <%= render :partial=>'shared/form_errors', :locals=>{:obj=>volunteer} %>
+            
+            <div class="form_item">
+              <%= f.label :name %>
+              <%= f.text_field :name, :class=>"text", :required=>"required" %>
+              <span class="mandatory">*</span>
+            </div>
+            
+            <div class="form_item">
+              <%= f.label :email %>
+              <%= f.text_field :email, :class=>"text", :required=>"required" %>
+              <span class="mandatory">*</span>
+            </div>
+    
+            <div class="form_item">
+              <%= f.label :gender %>
+              <%= f.select :gender, options_for_select([["اختر النوع", ""], ["ذكر", "M"], ["انثى", "F"]], volunteer.gender), {}, {:class=>"small text"} %>
+              <span class="mandatory">*</span>
+            </div>
+
+            <div class="form_item">
+              <%= f.label :date_of_birth %>
+              <%= f.date_select :date_of_birth, {:start_year=>7.years.ago.year, :end_year=>100.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر', :year => 'أختر السنة' }}, :class=>"medium text" %>
+            </div>
+    
+            <div class="form_item">
+              <%= f.label :city_id %>
+              <%= f.select :city_id, options_for_select([["أختر المدينة", ""]]) + options_from_collection_for_select(@cities, "id", "name", volunteer.city_id), {}, {:class=>"text"} %>
+              <span class="mandatory">*</span>
+            </div>
+            
+            <div class="form_item">
+              <%= f.label :branch_id %>
+              <span id="select_field_branch_id">
+                <%= f.select :branch_id, options_for_select([["أختر الفرع", ""]]) + options_from_collection_for_select(@branches, "id", "name", volunteer.branch_id), {}, {:class=>"text"} %>
+                <span class="mandatory">*</span>
+              </span>
+            </div>
+            
+            <div class="form_item">
+              <%= f.label :mobile %>
+              <%= f.text_field :mobile, :class=>"text", :required=>"required" %>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="form_item">
+              <label for="Education">المؤهل الدراسى</label>
+              <span class="radio_block">
+                <%= label_tag :graduated, "حامل شهادة", :for=>"volunteer_is_graduated" %>
+                <%= radio_button_tag :graduated, "true", volunteer.graduated, :id=>"volunteer_is_graduated", :name=>"volunteer[graduated]", :class=>"text" %>
+                <%= label_tag :graduated, "طالب", :for=>"volunteer_is_not_graduated" %>
+                <%= radio_button_tag :graduated, "false", volunteer.graduated == false, :id=>"volunteer_is_not_graduated", :name=>"volunteer[graduated]", :class=>"text" %>
+                <span class="mandatory">*</span>
+              </span>
+            </div>
+            <div id="graduated_container" style="<%= 'display: none;' unless volunteer.graduated %>">
+              <div class="form_item">
+                <%= f.label :profession %>
+                <%= f.text_field :profession, :class=>"text" %>
+                <span class="mandatory">*</span>
+              </div>
+              
+               <div class="form_item">
+                <%= f.label :company %>
+                <%= f.text_field :company, :class=>"text" %>        
+              </div>
+            </div>
+            <div id="not_graduated_container" style="<%= 'display: none;' unless volunteer.graduated == false %>" >
+              <div class="form_item">
+                <%= f.label :university, "الكلية او المعهد / السنة الدراسية" %>
+                <%= f.text_field :university , :class=>"text medium" %>
+                <span class="mandatory">*</span>
+                <%= f.text_field :school_year , :class=>"text medium"%>
+              </div>
+            </div>  
+            <div class="form_item">
+              <%= f.label :bio %>
+              <%= f.text_area :bio , :rows=> 3, :class=>"text" %>
+            </div>
+            <div class="form_item">
+              <%= f.label :limited_days %>
+              <%= f.check_box :limited_days, :class=>"type_check" %>
+            </div> 
+            
+            <div class="form_item post_ckeck">
+              <%= f.label :blood_donation %>
+              <%= f.check_box :blood_donation, :class=>"type_check" %>
+              <div id="blood_type_container" style="<%= 'display: none;' unless volunteer.blood_donation %>" >
+                <label for="Blood type." class="small">فصيلة الدم.</label>
+                <%= f.text_field :blood_type , :class=>"text medium" %>
+              </div>
+            </div>  
+            <div class="form_item checkLists ">
+              <%= f.label :available_days %>                                                              
+              <ul class="check_list">
+                <% Day.days.each do |en_day, ar_day| %>
+                  <li>
+                    <%= check_box_tag "volunteer[#{en_day}]", "true", volunteer.send(en_day) , {:class => "lang_check", :id=>"volunteer_available_days_#{en_day}"} %>
+                    <%= label_tag "volunteer[#{en_day}]", ar_day, :for=>"volunteer_available_days_#{en_day}", :class => "checkLabel" %>
+                  </li>
+                <% end %>
+              </ul>                                                       
+            </div>
+            <div class="form_item checkLists">
+              <%= f.label :activity_categories %>                                                             
+              <ul class="check_list">
+                <% volunteer_activity_categories = volunteer.activity_categories.collect{|ac| ac.id} %>
+                <% @activity_categories.each_with_index do |activity_category, index| %>
+                <li>
+                  <%= check_box_tag "activity_categories[]", activity_category.id, volunteer_activity_categories.include?(activity_category.id), {:class => "checked ag_selectors"} %>
+                  <%= label_tag "activity_categories[]", activity_category.name, :class => "checkLabel" %>
+                </li>
+                <% end %>
+                <%= render :partial =>'shared/select_all', :locals=>{:select_all_class => 'select_all_activity_categories', :inputs_to_check => 'ag_selectors'} %>
+              </ul>                                                       
+            </div>
+            <div class="form_item email post_ckeck">
+              <%= f.check_box :post_updates_to_facebook, :class=>"type_check" %>
+              <%= f.label :post_updates_to_facebook %>
+            </div>
+            <div class="form_item email post_ckeck">
+              <%= f.check_box :get_activities_updates, :class=>"type_check" %>
+              <%= f.label :get_activities_updates %>
+            </div>
+            
+          </div>
+          <p class="controls">
+            <%= link_to "إلغاء", admin_volunteers_path(:page=>params[:page] || 1) %>
+            <%= f.submit "تحديث بيانات المتطوع", :class=>"button" %>
+          </p>
+      <% end %>                     
+    </div>
+  </div>
+</div>
+
+<%= content_for :javascripts do %>
+  <script>
+    $(document).ready(function(){
+      $("#volunteer_blood_donation").change(function(){
+        if($(this).attr("checked") == true){
+          $("#blood_type_container").show("slow");
+        }else{
+          $("#volunteer_blood_type").val("");
+          $("#blood_type_container").hide("slow");
+        }
+      });
+      
+      $("#volunteer_is_graduated").change(function(){
+        if($(this).attr("checked") == true){
+          $("#graduated_container").show("slow");
+          $("#not_graduated_container").hide("slow");
+        }else{
+          $("#graduated_container").hide("slow");
+          $("#not_graduated_container").show("slow");
+          $("#volunteer_profession").val("");
+          $("#volunteer_company").val("");
+        }
+      });
+      
+      $("#volunteer_is_not_graduated").change(function(){
+        if($(this).attr("checked") == true){
+          $("#not_graduated_container").show("slow");
+          $("#graduated_container").hide("slow");
+        }else{
+          $("#not_graduated_container").hide("slow");
+          $("#graduated_container").show("slow");
+          $("#volunteer_university").val("");
+          $("#volunteer_school_year").val("");
+        }
+      });
+      
+      $('#volunteer_city_id').live('change',function(){
+        if($(this).val().length > 0 ){
+          $.ajax({
+            datatType: 'script',
+            url  : "/branches.js",
+            data : {city_id: $(this).val()}
+          })
+        }
+      });
+    });
+  </script>
+<% end %>

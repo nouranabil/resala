@@ -1,0 +1,64 @@
+<% @title = "فروع  رسالة"; @title_class = 'branch_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+فروع رسالة مقسمة حسب المحافظات، وأهم أخبار وأنشطة كل منها.
+<% end %>
+
+
+<div class="branches">
+  <div class="section_intro">
+    <p>
+      لعرض فروع احد المدن، يرجى اختبار المدينة عن طريق نقرها على الخريطة‫.
+    </p>
+  </div>
+  <div class="mapBox" id="map_canvas" style="width: 500px; height: 500px; display: none;"></div>
+  
+  <div class="filtering">
+    <%= form_tag branches_path, :method => 'get' do |f| %>
+      <fieldset>
+        <div class="form_filed">
+          <label>اختر الفرع</label> 
+          <style>.select_wrap .mandatory: display: none;</style>                          
+          <div class="select_wrap">
+            <div id="select_field_branch_id" class="select_field">                            
+              <%= select_tag :branch_id, options_for_select([["أختر الفرع", ""]]) + options_for_select(@city_branches, @branch.id) %>
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+  <div id="branch_show_container" style="<%= 'display: none;' if @branch.id.blank? %>" >
+    <% unless @branch.id.blank? %>
+    <%= render :partial => "show", :locals=>{:branch => @branch, :branch_activity_categories=>@branch_activity_categories, :query=>@query} %>
+    <% end %>
+  </div>
+  <div id="branch_show_media_container" style="<%= 'display: none;' if @branch.id.blank? %>" >
+    <% unless @branch.id.blank? %>
+    <%= render :partial=> 'media/index' ,:locals=>{:media_type=> 'photos', :query=>@query, :owner_type=> 'branch', :owner_id=> @branch.id, :page=>1,  :per_page=> Media::PER_PAGE}  %>
+    <% end %>
+  </div>
+</div>
+  
+<% content_for :javascripts do %>
+  <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false&language=ar", "map", "cust_select_plugin", "branches" %>
+  <script>
+    initialize_map("", "");
+    $("#map_canvas").show();
+    <% @branches.each do |branch| %>
+      <% if branch.longitude && branch.latitude %>
+        addMarker("<%= branch.longitude %>", "<%= branch.latitude %>", "<%= escape_javascript (info_summary(branch)) %>", "pointer.png");
+      <% end %>
+    <% end %>
+    <% unless @branch.id.blank? %>
+      <% if @branch.longitude && @branch.latitude %>
+        if(map){
+          loc = new google.maps.LatLng(<%= @branch.latitude %>, <%= @branch.longitude %>);
+          map.setCenter(loc);
+          map.setZoom(16);
+        }
+      <% end %>
+    <% end %>
+  </script>
+<% end %>

@@ -1,0 +1,23 @@
+<% if current_user %>
+<ul class="user_menu">
+  <% if can? :show, Volunteer %>
+  <li>
+    <span>
+      <span>أهلا &nbsp;</span><%= link_to current_user.name, volunteer_path(current_user), :title=>"اضغط لمشاهدة بياناتك" %>
+      <% if can? :edit, current_user %>
+      <%= link_to "- تعديل بياناتى", edit_volunteer_path(current_user), :title=>"تعديل بياناتى الشخصية" %>
+      <% end %>
+    </span>
+  </li>
+  <% else %>
+  <li><span>أهلا <%= current_user.name %></span></li>
+  <% end %>
+  <li><%= link_to "خروج", logout_path, :class=>"logout" %></li>
+</ul>
+<% else %>
+<ul class="user_menu">
+  <li><span>يمكنك التطوع معنا</span></li>
+  <li><%= link_to "تطوع", volunteering_path(:facebook), :class=>"register register_button" %></li>
+  <li><%= link_to "دخول", login_path(:facebook), :class=>"login login_button" %></li>
+</ul>
+<% end %>

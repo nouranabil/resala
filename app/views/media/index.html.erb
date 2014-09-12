@@ -1,0 +1,6 @@
+<% @title = t('page_titles.media')%>
+<% @title_class = 'media_title' ;@section_title = @title %>
+<% content_for :custom_section_header_content do %>
+شاهد رسالة عبر الصور والفيديو
+<% end %>
+<%= render :partial=> 'index' ,:locals=>{:media_type=> @media_type, :query=>@query, :page=>@page, :per_page=> Media::PER_PAGE, :no_pagination=>params[:no_pagination], :no_header=>true, :owner_id=> params[:owner_id], :owner_type=> params[:owner_type]} %>

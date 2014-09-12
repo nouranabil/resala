@@ -1,0 +1,15 @@
+<div class="form_item email post_ckeck">
+  <%= f.check_box :email_notifications, :id=> "email_notifications_"+activity.id.to_s, :class=>"type_check email_selector" , :value=>activity.email_notifications, :activity_id=>activity.id.to_s%>
+  <label id="email_notifications_label_<%= activity.id %>" for="email_notifications_<%= activity.id %>" class="email">
+  إرسال التحديثات للأعضاء المشتركين فى الأنشطة ذات الصلة بهذا العمل التطوعى
+  </label>
+</div>
+<div class="form_item email post_ckeck">
+  <%= check_box_tag :branch_only, "true", false, :class=>"type_check email_selector", :id=>"branch_only_#{activity.id}", :activity_id=>activity.id.to_s %>
+  <label class="email" for="branch_only_<%= activity.id %>">
+  إخطار المتطوعين الأقرب إلى فرع رسالة الخاص بهذا العمل الخيرى فقط
+  </label>
+</div>
+<div class="form_item email post_ckeck" id="activity_emails_count_<%= activity.id %>">
+  <%= render :partial=>"shared/email_counts", :locals=>{:count=> activity.email_counts(true,false)} %>
+</div>

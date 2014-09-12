@@ -1,0 +1,81 @@
+<div class="grid_16">
+  <h2 id="page-heading">مشتركو النشرة البريدية</h2>
+</div>
+
+
+<div class="grid_16">
+  <div class="box">
+    <h2><%= link_to "خيارات", "#", :id=>"volunteer_search_display"%></h2>
+    <div class="block" id="volunteer_search_container" style="<%= 'display: none;' if params[:commit].blank? %>" >
+      <%= form_tag admin_newsletter_subscribers_path, :method => 'get' do |f| %>
+        <div class="page_actions">
+          <p>
+            <label>تأكيد الاشتراك</label>
+            <%= select_tag :confirmed, options_for_select([["الكل", ""], ["الاشتراك مؤكد", "1"], ["الاشتراك غير مؤكد", "2"]], params[:confirmed]), :class=>"text" %>
+          </p> 
+          <p class="controls">
+            <input type="submit" value="عرض" name="commit" class="button">
+          </p>
+        </div>
+      <% end %>                     
+    </div>
+  </div>
+</div>
+
+<div class="grid_16">
+  <% if @newsletter_subscribers.size > 0 %>
+  <table>
+    <caption></caption>
+    <colgroup>
+      <col class="colA">
+      <col class="colB">
+      <col class="colC">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="table-head" colspan="5">قائمة المشتركين</th>
+      </tr>
+      <tr>
+        <th>الاسم بالكامل</th>
+        <th>البريد الإلكتروني</th>
+        <th>تأكيد الاشتراك</th>
+        <th class="currency"></th>
+      </tr>
+    </thead>                      
+    <tbody>
+      <% @newsletter_subscribers.each do |newsletter_subscriber| %>
+      <tr class="<%= cycle('odd', 'even')%>">
+        <th class="list_item_name" >
+          <h5><%= newsletter_subscriber.name %></h5>
+        </th>
+        <th class="list_item_name" >
+          <h5><%= newsletter_subscriber.email %></h5>
+        </th>
+        <th class="list_item_name" >
+          <h5><%= newsletter_subscriber.confirmed ? "الاشتراك مؤكد" : "الاشتراك غير مؤكد" %></h5>
+        </th>
+        <td  class="list-item-actions"> 
+          <%= link_to 'حذف', admin_newsletter_subscriber_path(newsletter_subscriber.id, :page=>params[:page] || 1), :class=>"delete", :confirm => 'هل انت متأكد من حذف هذا المشترك ؟', :method => :delete %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @articles %>
+  <% else %>
+  <div class="grid_16">
+    <div class="no-data">لا يوجد مشتركون</div>
+  </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    $("#volunteer_search_display").live('click' , function(){
+      $("#volunteer_search_container").slideToggle();
+      return false;
+    });
+  });
+</script>
+<% end %>

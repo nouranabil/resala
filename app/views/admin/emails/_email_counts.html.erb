@@ -1,0 +1,49 @@
+<div class="options_list_container">
+  <div class="options_content">
+    <div class="hide_btn"><a href="javascript:void();" ></a></div>
+    <div class="show_btn"><a href="javascript:void();" ></a></div>
+    <h2>سيتم إرسال البريد الإلكترونى إلى :</h2>
+    
+    <div id="recipients_data">
+    <% if @recipients_count == 0 %>
+    لا أحد
+    <% else %>
+      <ul class="options_list">
+        <% unless params[:activity_categories].blank? %>
+          <li class="list_itm clearfix">
+            <label>كل متطوع مهتم بواحد أو أكثر من الأنشطة الآتية:</label>
+            <ul class="value_list clearfix">
+              <span><%= @ag_names.collect{|agn| "#{agn}" }.join(" ،") %></span>
+            </ul>
+          </li>
+        <% end %>
+        
+        <% unless params[:branches].blank? %>
+          <li class="list_itm clearfix">
+            <label>بشرط أن يكون قريباً من أحد الفروع الآتية:</label>
+            <ul class="value_list clearfix">
+              <span><%= @br_names.join(" ،") %></span>
+            </ul>
+          </li>
+        <% end %>
+        
+        <% unless params[:bulk_email].blank? || params[:bulk_email][:send_to_admins].blank? || params[:bulk_email][:send_to_admins] == '0' %>
+          <li class="list_itm clearfix">
+            <label>مشرفى موقع رسالة</label>
+          </li>
+        <% end %>
+        
+        <% unless params[:bulk_email].blank? || params[:bulk_email][:newsletter].blank? || params[:bulk_email][:newsletter] == '0' %>
+          <li class="list_itm clearfix">
+            <label>المشتركون فى القائمة البريدية</label>
+          </li>
+        <% end %>
+        
+        <li class="list_itm clearfix">
+          <label>والعدد الكلى للمرسل إليهم: <%= @recipients_count %> متطوعا</label>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+  </div>
+</div>

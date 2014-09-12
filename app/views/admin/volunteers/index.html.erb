@@ -1,0 +1,56 @@
+<div class="grid_16">
+  <h2 id="page-heading">المتطوعون</h2>
+</div>
+<div class="grid_16">
+  <div class="box">
+    <h2><%= link_to "البحث عن متطوعين", "#", :id=>"volunteer_search_display"%></h2>
+    <div class="block" id="volunteer_search_container" style="<%= 'display: none;' if params[:commit].blank? %>" >
+      <%= form_tag admin_volunteers_path, :method => 'get' do |f| %>
+        <div class="page_actions">
+          <p>
+            <label>كلمات البحث</label>
+            <%= text_field_tag :keyword, params[:keyword] %>  
+          </p>
+          <p class="page_actions">
+            <label>النشاط الخيرى</label>
+            <%= select_tag :volunteer_activity_category_id, options_for_select([["كل الأنشطة الخيرية", ""]]) + options_from_collection_for_select(@activity_categories, "id", "name", params[:volunteer_activity_category_id].to_i), :class=>"text" %>
+          </p>
+          <p>
+            <label>الفروع</label>
+             <%= select_tag :volunteer_branch_id, options_for_select([["كل الفروع", ""]]) + options_from_collection_for_select(@branches, "id", "name", params[:volunteer_branch_id].to_i), :class=>"text" %>
+          </p>
+          <p>
+            <label>طلب تنظيم أعمال تطوعية</label>
+            <%= select_tag :activities_authority_status, options_for_select([["الكل", ""], ["الطلبات الجديدة", "1"], ["الموافق عليها", "2"], ["المرفوضة", "3"]], params[:activities_authority_status]), :class=>"text" %>
+          </p>
+          <p>
+            <label>تاريخ التطوع بدءا من</label>
+            <%= select_date @from_date, {:prefix => 'from_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@from_date %>
+          </p>
+          <p>
+            <label>حتى</label>
+            <%= select_date @to_date, {:prefix => 'to_date', :start_year=>2010, :end_year=>0.years.ago.year, :prompt => { :day => 'أختر اليوم', :month => 'أختر الشهر',
+                                               :year => 'أختر السنة' }}, :class=>"medium text", :default=>@to_date %>
+          </p>
+          <p class="controls">
+            <input type="submit" value="بحث" name="commit" id="volunteer_submit" class="button">
+          </p>
+        </div>
+      <% end %>                     
+    </div>
+  </div>
+</div>
+      
+<%= render :partial=>'volunteers', :locals=> {:volunteers=>@volunteers} %>
+
+<% content_for :javascripts do %>
+<script>
+  $(document).ready(function(){
+    $("#volunteer_search_display").live('click' , function(){
+      $("#volunteer_search_container").slideToggle();
+      return false;
+    });
+  });
+</script>
+<% end %>
